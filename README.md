@@ -1,4 +1,4 @@
-﻿# Atti-Android [![Build Status](https://travis-ci.org/Atti-kmu/Android.svg?branch=develop)](https://travis-ci.org/Atti-kmu/Android)
+﻿# Atti-Android [![Build Status](https://travis-ci.org/Atti-kmu/Atti-Android.svg?branch=develop)](https://travis-ci.org/Atti-kmu/Atti-Android)
 
 # 환경설정
 ```
