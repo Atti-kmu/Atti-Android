@@ -1,6 +1,8 @@
 package com.atti.atti_android;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.graphics.Point;
 import android.os.Bundle;
 import android.os.Environment;
@@ -34,6 +36,8 @@ public class MainActivity extends Activity {
     private PlayRTCMedia localMedia, remoteMedia;
     private RelativeLayout videoViewGroup;
     private PlayRTCAudioManager pAudioManager = null;
+
+    private AlertDialog closeAlertDialog;
 
     private boolean isCloseActivity = false;
     private boolean isChannelConnected = false;
@@ -329,5 +333,66 @@ public class MainActivity extends Activity {
 
         // PlayRTCAudioManager run
         pAudioManager.init();
+    }
+
+    @Override
+    protected void onDestroy() {
+        // The sdk 2.2.0 version is set in PlayRTCConfig.
+        // So do not use. pAudioManager is null value
+        if (pAudioManager != null) {
+            pAudioManager.close();
+            pAudioManager = null;
+        }
+        // instance release
+        if(playrtc != null) {
+            // If you does not call playrtc.close(), playrtc instence is remaining every new call.
+            playrtc.close();
+            playrtc = null;
+        }
+        playrtcObserver = null;
+        android.os.Process.killProcess(android.os.Process.myPid());
+        super.onDestroy();
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (isCloseActivity) {
+            super.onBackPressed();
+        } else {
+            createCloseAlertDialog();
+            closeAlertDialog.show();
+        }
+    }
+
+    private void createCloseAlertDialog() {
+        // Create the Alert Builder.
+        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
+
+        // Set a Alert.
+        alertDialogBuilder.setTitle(R.string.alert_title);
+        alertDialogBuilder.setMessage(R.string.alert_message);
+        alertDialogBuilder.setPositiveButton(R.string.alert_positive, new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialogInterface, int id) {
+                dialogInterface.dismiss();
+                if (isChannelConnected) {
+                    isCloseActivity = false;
+
+                    // null means my user id.
+                    playrtc.disconnectChannel(null);
+                } else {
+                    isCloseActivity = true;
+                    onBackPressed();
+                }
+            }
+        });
+        alertDialogBuilder.setNegativeButton(R.string.alert_negative, new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialogInterface, int id) {
+                dialogInterface.dismiss();
+                isCloseActivity = false;
+            }
+        });
+
+        // Create the Alert.
+        closeAlertDialog = alertDialogBuilder.create();
     }
 }
