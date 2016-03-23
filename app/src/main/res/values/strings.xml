@@ -1,3 +1,8 @@
 <resources>
     <string name="app_name">Atti-Android</string>
+
+    <string name="developer_key">9f081460-6001-4dfc-a4cd-60282bbcd701</string>
+    <string name="create_channel">CREATE CHANNEL</string>
+    <string name="connect">CONNECT</string>
+    <string name="exit_text">EXIT</string>
 </resources>
