@@ -11,4 +11,6 @@
     <string name="alert_message">Would like to exit?</string>
     <string name="alert_positive">OK</string>
     <string name="alert_negative">Cancle</string>
+    
+    <string name="videotelephony">화상통화</string>
 </resources>

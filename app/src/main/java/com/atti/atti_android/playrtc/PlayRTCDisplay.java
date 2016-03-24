@@ -1,4 +1,4 @@
-package com.atti.atti_android;
+package com.atti.atti_android.playrtc;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -11,6 +11,7 @@ import android.widget.Button;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.atti.atti_android.R;
 import com.sktelecom.playrtc.PlayRTC;
 import com.sktelecom.playrtc.PlayRTCFactory;
 import com.sktelecom.playrtc.config.PlayRTCConfig;
@@ -28,7 +29,10 @@ import org.json.JSONObject;
 
 import java.io.File;
 
-public class MainActivity extends Activity {
+/**
+ * Created by 보운 on 2016-03-24.
+ */
+public class PlayRTCDisplay extends Activity {
     private final String T_DEVELOPERS_PROJECT_KEY = "9f081460-6001-4dfc-a4cd-60282bbcd701";
     private PlayRTC playrtc;
     private PlayRTCObserver playrtcObserver;
@@ -47,7 +51,7 @@ public class MainActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.video_view);
 
         createPlayRTCObserverInstance();
         createPlayRTCInstance();
@@ -344,7 +348,7 @@ public class MainActivity extends Activity {
             pAudioManager = null;
         }
         // instance release
-        if(playrtc != null) {
+        if (playrtc != null) {
             // If you does not call playrtc.close(), playrtc instence is remaining every new call.
             playrtc.close();
             playrtc = null;
