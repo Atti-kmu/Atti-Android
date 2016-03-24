@@ -7,11 +7,19 @@ android:
     # use the latest revision of Android SDK Tools
 
     # The BuildTools version used by your project
-    - build-tools-23.0.2
+    - build-tools-23.0.1
 
     # The SDK version used to compile your project
     - android-19
 
+env:
+  - GRADLE_HOME=gradle-2.12/bin
+
+before_script:
+  - sudo add-apt-repository ppa:cwchien/gradle -y
+  - sudo apt-get update -y
+  - sudo apt-get install gradle -y
+  - sudo gradle -version
+
 script:
-  - sudo apt-get install gradle
   - sudo gradle build
