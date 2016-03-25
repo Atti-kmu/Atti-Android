@@ -1,54 +1,46 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.atti.atti_android.MainActivity">
+    android:gravity="center"
+    android:orientation="horizontal"
+    tools:context=".mainactivity.MainActivity">
 
-    <TextView
-        android:id="@+id/channel_id"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
-
-    <LinearLayout
-        android:layout_width="match_parent"
+    <com.beardedhen.androidbootstrap.BootstrapButton
+        android:id="@+id/btn_family"
+        android:layout_width="0dp"
         android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:layout_weight="1"
+        android:text="@string/family"
+        app:bootstrapBrand="success"
+        app:bootstrapSize="lg"
+        app:buttonMode="regular"
+        app:roundedCorners="true"
+        app:showOutline="false" />
 
-        <TextView
-            android:id="@+id/connect_channel_id"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+    <com.beardedhen.androidbootstrap.BootstrapButton
+        android:id="@+id/btn_friend"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:text="@string/friend"
+        app:bootstrapBrand="primary"
+        app:bootstrapSize="lg"
+        app:buttonMode="regular"
+        app:roundedCorners="true"
+        app:showOutline="false" />
 
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
-            <Button
-                android:id="@+id/create_button"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/create_channel" />
-
-            <Button
-                android:id="@+id/connect_button"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/connect" />
-
-            <Button
-                android:id="@+id/exit_button"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/exit_text" />
-        </LinearLayout>
-
-        <RelativeLayout
-            android:id="@+id/video_view_group"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
-        </RelativeLayout>
-    </LinearLayout>
-</RelativeLayout>
+    <com.beardedhen.androidbootstrap.BootstrapButton
+        android:id="@+id/btn_social_worker"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:text="@string/social_worker"
+        app:bootstrapBrand="info"
+        app:bootstrapSize="lg"
+        app:buttonMode="regular"
+        app:roundedCorners="true"
+        app:showOutline="false" />
+</LinearLayout>

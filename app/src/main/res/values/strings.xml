@@ -11,4 +11,10 @@
     <string name="alert_message">Would like to exit?</string>
     <string name="alert_positive">OK</string>
     <string name="alert_negative">Cancle</string>
+    
+    <string name="videotelephony">화상통화</string>
+
+    <string name="family">가족</string>
+    <string name="friend">친구</string>
+    <string name="social_worker">사회복지사</string>
 </resources>
