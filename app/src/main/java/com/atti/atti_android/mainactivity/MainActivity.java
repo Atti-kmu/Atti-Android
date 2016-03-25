@@ -8,7 +8,6 @@ import android.widget.Button;
 
 import com.atti.atti_android.R;
 import com.atti.atti_android.playrtc.PlayRTCDisplay;
-import com.beardedhen.androidbootstrap.TypefaceProvider;
 
 public class MainActivity extends Activity {
     @Override
