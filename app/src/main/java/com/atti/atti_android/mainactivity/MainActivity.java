@@ -16,8 +16,6 @@ public class MainActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        TypefaceProvider.registerDefaultIconSets();
-
         findViewById(R.id.btn_family).setOnClickListener(listener);
         findViewById(R.id.btn_friend).setOnClickListener(listener);
         findViewById(R.id.btn_social_worker).setOnClickListener(listener);
