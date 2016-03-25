@@ -18,6 +18,9 @@
         <activity
             android:name=".playrtc.PlayRTCDisplay"
             android:label="@string/videotelephony" />
+        <activity
+            android:name=".list.ListViewMain"
+            android:label="@string/list" />
     </application>
 
     <!-- PlayRTC SDK permission START -->

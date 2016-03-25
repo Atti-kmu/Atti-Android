@@ -7,6 +7,7 @@ import android.view.View;
 import android.widget.Button;
 
 import com.atti.atti_android.R;
+import com.atti.atti_android.list.ListViewMain;
 import com.atti.atti_android.playrtc.PlayRTCDisplay;
 
 public class MainActivity extends Activity {
@@ -25,15 +26,15 @@ public class MainActivity extends Activity {
         public void onClick(View v) {
             switch (v.getId()) {
                 case R.id.btn_family:
-                    Intent familyList = new Intent(MainActivity.this, PlayRTCDisplay.class);
+                    Intent familyList = new Intent(MainActivity.this, ListViewMain.class);
                     startActivity(familyList);
                     break;
                 case R.id.btn_friend:
-                    Intent friendList = new Intent(MainActivity.this, PlayRTCDisplay.class);
+                    Intent friendList = new Intent(MainActivity.this, ListViewMain.class);
                     startActivity(friendList);
                     break;
                 case R.id.btn_social_worker:
-                    Intent socialWorkerList = new Intent(MainActivity.this, PlayRTCDisplay.class);
+                    Intent socialWorkerList = new Intent(MainActivity.this, ListViewMain.class);
                     startActivity(socialWorkerList);
                     break;
                 default:
