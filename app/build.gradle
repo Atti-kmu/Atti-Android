@@ -24,8 +24,8 @@ dependencies {
     testCompile 'junit:junit:4.12'
     compile 'com.beardedhen:androidbootstrap:2.1.0'
     compile 'com.android.support:appcompat-v7:19.1.0'
-    compile 'com.android.support:support-annotations:23.2.0'
-    compile 'com.android.support:support-v4:23.2.0'
+    compile 'com.android.support:support-annotations:19.1.0'
+    compile 'com.android.support:support-v4:19.1.0'
     compile files('libs/libjingle_peerconnection.r9720.3.jar')
     compile files('libs/sktplayrtc-client.2.2.4.jar')
 }
