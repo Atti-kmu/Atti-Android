@@ -50,7 +50,9 @@ public class UserListAdapter extends BaseAdapter {
         if (v == null)
             v = ((LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE)).inflate(R.layout.list_view_item, null);
 
-        u = (User) getItem(position);
+        if (u instanceof User)
+            u = (User) getItem(position);
+
         img = (ImageView) v.findViewById(R.id.profile_img);
         text = (TextView) v.findViewById(R.id.name);
         text.setText(u.getName());
