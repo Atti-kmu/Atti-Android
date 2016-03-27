@@ -1,6 +1,7 @@
 package com.atti.atti_android.list;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
@@ -9,6 +10,7 @@ import android.widget.Toast;
 
 import com.atti.atti_android.R;
 import com.atti.atti_android.person.User;
+import com.atti.atti_android.playrtc.PlayRTCDisplay;
 
 /**
  * Created by 보운 on 2016-03-25.
@@ -46,6 +48,8 @@ public class ListViewMain extends Activity {
         @Override
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
             Toast.makeText(ListViewMain.this, "Click Item : " + position, Toast.LENGTH_SHORT).show();
+            Intent playRTC = new Intent(ListViewMain.this, PlayRTCDisplay.class);
+            startActivity(playRTC);
         }
     };
 }
