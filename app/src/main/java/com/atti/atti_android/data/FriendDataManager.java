@@ -1,6 +1,6 @@
 package com.atti.atti_android.data;
 
-import com.atti.atti_android.person.User;
+import com.atti.atti_android.person.ElderlyPerson;
 
 import java.util.ArrayList;
 
@@ -8,9 +8,9 @@ import java.util.ArrayList;
  * Created by BoWoon on 2016-03-28.
  */
 public class FriendDataManager {
-    private ArrayList<User> users;
+    private ArrayList<ElderlyPerson> users;
 
     public FriendDataManager() {
-        users = new ArrayList<User>();
+        users = new ArrayList<ElderlyPerson>();
     }
 }

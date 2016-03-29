@@ -9,10 +9,15 @@ public class CommonPerson {
     private String nickName;
     //photo
 
+    public CommonPerson() {
+
+    }
+
     public CommonPerson(String name, String phoneNumber) {
         this.name = name;
         this.phoneNumber=phoneNumber;
     }
+
     public CommonPerson(String name, String phoneNumber, String nickName) {
         this.name = name;
         this.phoneNumber=phoneNumber;
