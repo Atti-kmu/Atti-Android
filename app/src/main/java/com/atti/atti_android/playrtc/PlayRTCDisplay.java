@@ -267,7 +267,7 @@ public class PlayRTCDisplay extends Activity {
             // Create the video size variable.
             Point myVideoSize = new Point();
             myVideoSize.x = (int) (parentViewDimensions.x * 0.3);
-            myVideoSize.y = (int) (parentViewDimensions.y * 0.3);
+            myVideoSize.y = (int) (parentViewDimensions.y * 0.7);
 
             // Create the view parameter.
             RelativeLayout.LayoutParams param = new RelativeLayout.LayoutParams(myVideoSize.x, myVideoSize.y);

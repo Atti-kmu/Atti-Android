@@ -13,4 +13,8 @@ public class FriendDataManager {
     public FriendDataManager() {
         users = new ArrayList<ElderlyPerson>();
     }
+
+    public ArrayList<ElderlyPerson> getUsers() {
+        return users;
+    }
 }

@@ -13,4 +13,8 @@ public class SocialWorkerDataManager {
     public SocialWorkerDataManager() {
         users = new ArrayList<SocialWorker>();
     }
+
+    public ArrayList<SocialWorker> getUsers() {
+        return users;
+    }
 }

@@ -13,4 +13,8 @@ public class FamilyDataManager {
     public FamilyDataManager() {
         users = new ArrayList<Family>();
     }
+
+    public ArrayList<Family> getUsers() {
+        return users;
+    }
 }
