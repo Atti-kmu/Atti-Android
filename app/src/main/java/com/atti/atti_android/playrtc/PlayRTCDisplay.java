@@ -354,19 +354,19 @@ public class PlayRTCDisplay extends Activity {
             playrtc = null;
         }
         playrtcObserver = null;
-        android.os.Process.killProcess(android.os.Process.myPid());
+        //android.os.Process.killProcess(android.os.Process.myPid());
         super.onDestroy();
     }
 
-    @Override
-    public void onBackPressed() {
-        if (isCloseActivity) {
-            super.onBackPressed();
-        } else {
-            createCloseAlertDialog();
-            closeAlertDialog.show();
-        }
-    }
+//    @Override
+//    public void onBackPressed() {
+//        if (isCloseActivity) {
+//            super.onBackPressed();
+//        } else {
+//            createCloseAlertDialog();
+//            closeAlertDialog.show();
+//        }
+//    }
 
     private void createCloseAlertDialog() {
         // Create the Alert Builder.
