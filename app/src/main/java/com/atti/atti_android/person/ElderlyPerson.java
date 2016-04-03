@@ -8,5 +8,7 @@ public class ElderlyPerson extends CommonPerson {
 
     }
 
-    public ElderlyPerson(String name, String phoneNumber, String nickName) { super(name, phoneNumber, nickName); }
+    public ElderlyPerson(String name, String phoneNumber, String nickName) {
+        super(name, phoneNumber, nickName);
+    }
 }

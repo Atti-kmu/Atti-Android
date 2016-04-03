@@ -8,5 +8,7 @@ public class SocialWorker extends CommonPerson {
 
     }
 
-    public SocialWorker(String name, String phoneNumber) { super(name, phoneNumber); }
+    public SocialWorker(String name, String phoneNumber) {
+        super(name, phoneNumber);
+    }
 }
