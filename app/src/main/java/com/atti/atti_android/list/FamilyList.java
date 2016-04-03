@@ -9,13 +9,13 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import com.atti.atti_android.R;
-import com.atti.atti_android.person.User;
+import com.atti.atti_android.data.UsersDataManager;
 import com.atti.atti_android.playrtc.PlayRTCDisplay;
 
 /**
- * Created by 보운 on 2016-03-25.
+ * Created by 보운 on 2016-04-03.
  */
-public class ListViewMain extends Activity {
+public class FamilyList extends Activity {
     private ListView userList;
     private UserListAdapter adapter;
 
@@ -25,20 +25,10 @@ public class ListViewMain extends Activity {
         setContentView(R.layout.list_view_layout);
 
         // Adapter 생성
-        adapter = new UserListAdapter(getApplicationContext());
+        adapter = new UserListAdapter(getApplicationContext(), UsersDataManager.getUsersInstance().getFamilies());
         // 리스트뷰 참조 및 Adapter달기
         userList = (ListView) findViewById(R.id.list_view_display);
         userList.setAdapter(adapter);
-
-        // Data 추가
-        User u1 = new User();
-        adapter.add(u1);
-
-        User u2 = new User("김씨");
-        adapter.add(u2);
-
-        User u3 = new User("이씨");
-        adapter.add(u3);
 
         adapter.notifyDataSetChanged();
         userList.setOnItemClickListener(itemClickListener);
@@ -47,9 +37,10 @@ public class ListViewMain extends Activity {
     AdapterView.OnItemClickListener itemClickListener = new AdapterView.OnItemClickListener() {
         @Override
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-            Toast.makeText(ListViewMain.this, "Click Item : " + position, Toast.LENGTH_SHORT).show();
-            Intent playRTC = new Intent(ListViewMain.this, PlayRTCDisplay.class);
+            Toast.makeText(FamilyList.this, "Click Item : " + position, Toast.LENGTH_SHORT).show();
+            Intent playRTC = new Intent(FamilyList.this, PlayRTCDisplay.class);
             startActivity(playRTC);
         }
     };
 }
+

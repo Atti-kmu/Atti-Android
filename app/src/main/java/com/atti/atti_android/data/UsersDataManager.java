@@ -14,11 +14,18 @@ public class UsersDataManager {
     private ArrayList<ElderlyPerson> elderly;
     private ArrayList<Family> families;
     private ArrayList<SocialWorker> socialWorkers;
+    private static UsersDataManager users = new UsersDataManager();
 
     public UsersDataManager() {
         elderly = new ArrayList<ElderlyPerson>();
         families = new ArrayList<Family>();
         socialWorkers = new ArrayList<SocialWorker>();
+    }
+
+    public static UsersDataManager getUsersInstance() {
+        if (users != null)
+            return users;
+        return new UsersDataManager();
     }
 
     public ArrayList<ElderlyPerson> getElderly() {

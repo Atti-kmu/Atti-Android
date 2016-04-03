@@ -24,7 +24,17 @@
             android:label="@string/videotelephony"
             android:screenOrientation="landscape" />
         <activity
-            android:name=".list.ListViewMain"
+            android:name=".list.ElderlyList"
+            android:configChanges="orientation|keyboardHidden"
+            android:label="@string/list"
+            android:screenOrientation="landscape" />
+        <activity
+            android:name=".list.FamilyList"
+            android:configChanges="orientation|keyboardHidden"
+            android:label="@string/list"
+            android:screenOrientation="landscape" />
+        <activity
+            android:name=".list.SocialWorkerList"
             android:configChanges="orientation|keyboardHidden"
             android:label="@string/list"
             android:screenOrientation="landscape" />
