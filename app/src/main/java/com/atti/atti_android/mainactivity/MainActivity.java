@@ -37,13 +37,13 @@ public class MainActivity extends Activity {
         users.addData(new ElderlyPerson("이씨", "010-1234-5678", "이씨"));
         users.addData(new ElderlyPerson("박씨", "010-1234-5678", "박씨"));
 
-        users.addData(new Family("최씨", "010-1234-5678", "최씨"));
-        users.addData(new Family("강씨", "010-1234-5678", "강씨"));
-        users.addData(new Family("조씨", "010-1234-5678", "조씨"));
+        users.addData(new Family("최씨", "010-4321-8765", "최씨"));
+        users.addData(new Family("강씨", "010-4321-8765", "강씨"));
+        users.addData(new Family("조씨", "010-4321-8765", "조씨"));
 
-        users.addData(new SocialWorker("송씨", "010-1234-5678"));
-        users.addData(new SocialWorker("남씨", "010-1234-5678"));
-        users.addData(new SocialWorker("진씨", "010-1234-5678"));
+        users.addData(new SocialWorker("송씨", "010-8765-4321"));
+        users.addData(new SocialWorker("남씨", "010-8765-4321"));
+        users.addData(new SocialWorker("진씨", "010-8765-4321"));
     }
 
     Button.OnClickListener listener = new View.OnClickListener() {
