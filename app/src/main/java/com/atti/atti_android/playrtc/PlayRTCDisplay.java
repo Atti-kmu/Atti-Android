@@ -267,7 +267,7 @@ public class PlayRTCDisplay extends Activity {
             // Create the video size variable.
             Point myVideoSize = new Point();
             myVideoSize.x = (int) (parentViewDimensions.x * 0.3);
-            myVideoSize.y = (int) (parentViewDimensions.y * 0.3);
+            myVideoSize.y = (int) (parentViewDimensions.y * 0.7);
 
             // Create the view parameter.
             RelativeLayout.LayoutParams param = new RelativeLayout.LayoutParams(myVideoSize.x, myVideoSize.y);
@@ -354,19 +354,19 @@ public class PlayRTCDisplay extends Activity {
             playrtc = null;
         }
         playrtcObserver = null;
-        android.os.Process.killProcess(android.os.Process.myPid());
+        //android.os.Process.killProcess(android.os.Process.myPid());
         super.onDestroy();
     }
 
-    @Override
-    public void onBackPressed() {
-        if (isCloseActivity) {
-            super.onBackPressed();
-        } else {
-            createCloseAlertDialog();
-            closeAlertDialog.show();
-        }
-    }
+//    @Override
+//    public void onBackPressed() {
+//        if (isCloseActivity) {
+//            super.onBackPressed();
+//        } else {
+//            createCloseAlertDialog();
+//            closeAlertDialog.show();
+//        }
+//    }
 
     private void createCloseAlertDialog() {
         // Create the Alert Builder.

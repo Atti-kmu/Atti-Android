@@ -9,7 +9,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.atti.atti_android.R;
-import com.atti.atti_android.person.User;
+import com.atti.atti_android.person.CommonPerson;
 
 import java.util.ArrayList;
 
@@ -17,15 +17,14 @@ import java.util.ArrayList;
  * Created by 보운 on 2016-03-25.
  */
 public class UserListAdapter extends BaseAdapter {
-    private User u;
     private Context context;
     private ImageView img;
     private TextView text;
-    private ArrayList<User> user;
+    private ArrayList<? extends CommonPerson> user;
 
-    public UserListAdapter(Context context) {
+    public UserListAdapter(Context context, ArrayList<? extends CommonPerson> com) {
         this.context = context;
-        user = new ArrayList<User>();
+        this.user = com;
     }
 
     @Override
@@ -50,16 +49,10 @@ public class UserListAdapter extends BaseAdapter {
         if (v == null)
             v = ((LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE)).inflate(R.layout.list_view_item, null);
 
-        u = (User) getItem(position);
-
         img = (ImageView) v.findViewById(R.id.profile_img);
         text = (TextView) v.findViewById(R.id.name);
-        text.setText(u.getName());
+        text.setText(user.get(position).getName());
 
         return v;
-    }
-
-    public void add(User user){
-        this.user.add(user);
     }
 }
