@@ -30,7 +30,6 @@ public class ElderlyList extends Activity {
         userList = (ListView) findViewById(R.id.list_view_display);
         userList.setAdapter(adapter);
 
-        adapter.notifyDataSetChanged();
         userList.setOnItemClickListener(itemClickListener);
     }
 

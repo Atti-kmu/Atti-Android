@@ -19,7 +19,7 @@ import java.util.ArrayList;
 public class UserListAdapter extends BaseAdapter {
     private Context context;
     private ImageView img;
-    private TextView text;
+    private TextView name, phone;
     private ArrayList<? extends CommonPerson> user;
 
     public UserListAdapter(Context context, ArrayList<? extends CommonPerson> com) {
@@ -50,8 +50,10 @@ public class UserListAdapter extends BaseAdapter {
             v = ((LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE)).inflate(R.layout.list_view_item, null);
 
         img = (ImageView) v.findViewById(R.id.profile_img);
-        text = (TextView) v.findViewById(R.id.name);
-        text.setText(user.get(position).getName());
+        name = (TextView) v.findViewById(R.id.name);
+        phone = (TextView) v.findViewById(R.id.phone);
+        name.setText(user.get(position).getName());
+        phone.setText(user.get(position).getPhoneNumber());
 
         return v;
     }
