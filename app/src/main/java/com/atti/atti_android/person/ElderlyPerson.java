@@ -5,6 +5,7 @@ package com.atti.atti_android.person;
  */
 public class ElderlyPerson extends CommonPerson {
     private String nickName;
+
     public ElderlyPerson() {
 
     }
@@ -13,6 +14,7 @@ public class ElderlyPerson extends CommonPerson {
         super(name, phoneNumber);
         this.nickName = nickName;
     }
+
     public String getNickName() {
         return nickName;
     }
