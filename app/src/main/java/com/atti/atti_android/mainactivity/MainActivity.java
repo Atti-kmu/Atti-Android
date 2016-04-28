@@ -14,6 +14,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.atti.atti_android.R;
+import com.atti.atti_android.data.HttpConnect;
 import com.atti.atti_android.data.UsersDataManager;
 import com.atti.atti_android.gcm.QuickstartPreferences;
 import com.atti.atti_android.gcm.RegistrationIntentService;
@@ -42,6 +43,9 @@ public class MainActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        HttpConnect http = new HttpConnect();
+        http.getData();
+
         init();
     }
 
@@ -52,11 +56,11 @@ public class MainActivity extends Activity {
 
         users = UsersDataManager.getUsersInstance();
 
-        if (users.getElderly().size() == 0) {
-            users.addData(new ElderlyPerson("김씨", "010-1234-5678", "김씨"));
-            users.addData(new ElderlyPerson("이씨", "010-1234-5678", "이씨"));
-            users.addData(new ElderlyPerson("박씨", "010-1234-5678", "박씨"));
-        }
+//        if (users.getElderly().size() == 0) {
+//            users.addData(new ElderlyPerson("김씨", "010-1234-5678", "김씨"));
+//            users.addData(new ElderlyPerson("이씨", "010-1234-5678", "이씨"));
+//            users.addData(new ElderlyPerson("박씨", "010-1234-5678", "박씨"));
+//        }
 
         if (users.getFamilies().size() == 0) {
             users.addData(new Family("최씨", "010-4321-8765", "최씨"));
@@ -64,11 +68,11 @@ public class MainActivity extends Activity {
             users.addData(new Family("조씨", "010-4321-8765", "조씨"));
         }
 
-        if (users.getSocialWorkers().size() == 0) {
-            users.addData(new SocialWorker("송씨", "010-8765-4321"));
-            users.addData(new SocialWorker("남씨", "010-8765-4321"));
-            users.addData(new SocialWorker("진씨", "010-8765-4321"));
-        }
+//        if (users.getSocialWorkers().size() == 0) {
+//            users.addData(new SocialWorker("송씨", "010-8765-4321"));
+//            users.addData(new SocialWorker("남씨", "010-8765-4321"));
+//            users.addData(new SocialWorker("진씨", "010-8765-4321"));
+//        }
 
         registBroadcastReceiver();
 
