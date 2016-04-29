@@ -34,11 +34,27 @@ public class DataGetThread extends AsyncTask<Void, Integer, String> {
             responseString = EntityUtils.toString(response.getEntity(), HTTP.UTF_8);
 
             Log.d("TAG", responseString);
+
+            JSONObject object = new JSONObject(responseString);
+            JSONArray jarray = new JSONArray(object.getString("results"));
+
+            for (int i = 0; i < jarray.length(); i++) {
+                JSONObject jObject = jarray.getJSONObject(i);
+
+                String name = jObject.getString("name");
+                String nickname = jObject.getString("nickname");
+                String img = jObject.getString("profile_url");
+
+                UsersDataManager.getUsersInstance().addData(new Family(name, nickname, img));
+            }
         } catch (ClientProtocolException e) {
-            Log.e("TAG", e.getLocalizedMessage());
+            Log.e("ClientProtocolException", e.getLocalizedMessage());
             e.printStackTrace();
         } catch (IOException e) {
-            Log.e("TAG", e.getLocalizedMessage());
+            Log.e("IOException", e.getLocalizedMessage());
+            e.printStackTrace();
+        } catch (JSONException e) {
+            Log.e("JSONException", e.getLocalizedMessage());
             e.printStackTrace();
         }
 
@@ -57,27 +73,6 @@ public class DataGetThread extends AsyncTask<Void, Integer, String> {
     @Override
     protected void onPostExecute(String s) {
         super.onPostExecute(s);
-        try {
-            JSONObject object = new JSONObject(s);
-            JSONArray jarray = new JSONArray(object.getString("results"));
-
-            for (int i = 0; i < jarray.length(); i++) {
-                JSONObject jObject = jarray.getJSONObject(i);
-                Log.i("data", "" + jObject);
-
-                String name = jObject.getString("name");
-                String nickname = jObject.getString("nickname");
-                String img = jObject.getString("profile_url");
-
-                Log.i("name", name);
-                Log.i("nickname", nickname);
-                Log.i("img", img);
-
-                UsersDataManager.getUsersInstance().addData(new Family(name, img, nickname));
-            }
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
     }
 
     @Override

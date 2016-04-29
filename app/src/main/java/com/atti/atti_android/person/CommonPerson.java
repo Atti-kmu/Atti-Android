@@ -5,16 +5,19 @@ package com.atti.atti_android.person;
  */
 public class CommonPerson {
     private String name;
-    private String phoneNumber;
-    //photo
+    private String profileImg;
 
     public CommonPerson() {
 
     }
 
-    public CommonPerson(String name, String phoneNumber) {
+    public CommonPerson(String name) {
         this.name = name;
-        this.phoneNumber = phoneNumber;
+    }
+
+    public CommonPerson(String name, String profileImg) {
+        this.name = name;
+        this.profileImg = profileImg;
     }
 
     public String getName() {
@@ -25,11 +28,11 @@ public class CommonPerson {
         this.name = name;
     }
 
-    public String getPhoneNumber() {
-        return phoneNumber;
+    public String getProfileImg() {
+        return profileImg;
     }
 
-    public void setPhoneNumber(String phoneNumber) {
-        this.phoneNumber = phoneNumber;
+    public void setProfileImg(String profileImg) {
+        this.profileImg = profileImg;
     }
 }

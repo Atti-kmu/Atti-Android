@@ -123,6 +123,7 @@
     <orderEntry type="library" exported="" name="support-v4-22.2.0" level="project" />
     <orderEntry type="library" exported="" name="play-services-measurement-8.3.0" level="project" />
     <orderEntry type="library" exported="" name="appcompat-v7-19.1.0" level="project" />
+    <orderEntry type="library" exported="" name="android-query-0.25.9" level="project" />
     <orderEntry type="library" exported="" name="play-services-gcm-8.3.0" level="project" />
   </component>
 </module>

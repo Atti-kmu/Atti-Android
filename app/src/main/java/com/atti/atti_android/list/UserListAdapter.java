@@ -8,6 +8,7 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.androidquery.AQuery;
 import com.atti.atti_android.R;
 import com.atti.atti_android.person.CommonPerson;
 
@@ -19,8 +20,9 @@ import java.util.ArrayList;
 public class UserListAdapter extends BaseAdapter {
     private Context context;
     private ImageView img;
-    private TextView name, phone;
+    private TextView name;
     private ArrayList<? extends CommonPerson> user;
+    private AQuery aq;
 
     public UserListAdapter(Context context, ArrayList<? extends CommonPerson> com) {
         this.context = context;
@@ -49,12 +51,9 @@ public class UserListAdapter extends BaseAdapter {
         if (v == null)
             v = ((LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE)).inflate(R.layout.list_view_item, null);
 
-        img = (ImageView) v.findViewById(R.id.profile_img);
-        name = (TextView) v.findViewById(R.id.name);
-        phone = (TextView) v.findViewById(R.id.phone);
-        name.setText(user.get(position).getName());
-        phone.setText(user.get(position).getPhoneNumber());
-
+        aq = new AQuery(v);
+        aq.id(R.id.name).text(user.get(position).getName());
+        aq.id(R.id.profile_img).image(user.get(position).getProfileImg());
         return v;
     }
 }

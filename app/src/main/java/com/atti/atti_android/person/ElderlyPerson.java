@@ -1,5 +1,7 @@
 package com.atti.atti_android.person;
 
+import android.graphics.Bitmap;
+
 /**
  * Created by LG on 2016-03-28.
  */
@@ -10,8 +12,13 @@ public class ElderlyPerson extends CommonPerson {
 
     }
 
-    public ElderlyPerson(String name, String phoneNumber, String nickName) {
-        super(name, phoneNumber);
+    public ElderlyPerson(String name, String nickName) {
+        super(name);
+        this.nickName = nickName;
+    }
+
+    public ElderlyPerson(String name, String nickName, String profileImg) {
+        super(name, profileImg);
         this.nickName = nickName;
     }
 
