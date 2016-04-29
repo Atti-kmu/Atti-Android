@@ -63,7 +63,7 @@ public class MainActivity extends Activity {
         }
 
         if (users.getSocialWorkers().size() == 0) {
-            users.addData(new SocialWorker("송씨"));
+            users.addData(new SocialWorker("최씨"));
             users.addData(new SocialWorker("남씨"));
             users.addData(new SocialWorker("진씨"));
         }
