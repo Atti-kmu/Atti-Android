@@ -10,10 +10,10 @@ import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-import android.widget.ProgressBar;
-import android.widget.TextView;
 
+import com.androidquery.AQuery;
 import com.atti.atti_android.R;
+import com.atti.atti_android.data.DataGetThread;
 import com.atti.atti_android.data.UsersDataManager;
 import com.atti.atti_android.gcm.QuickstartPreferences;
 import com.atti.atti_android.gcm.RegistrationIntentService;
@@ -21,7 +21,6 @@ import com.atti.atti_android.list.ElderlyList;
 import com.atti.atti_android.list.FamilyList;
 import com.atti.atti_android.list.SocialWorkerList;
 import com.atti.atti_android.person.ElderlyPerson;
-import com.atti.atti_android.person.Family;
 import com.atti.atti_android.person.SocialWorker;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesUtil;
@@ -32,55 +31,51 @@ public class MainActivity extends Activity {
     private static final int PLAY_SERVICES_RESOLUTION_REQUEST = 9000;
     private static final String TAG = "MainActivity";
 
-    private Button mRegistrationButton;
-    private ProgressBar mRegistrationProgressBar;
     private BroadcastReceiver mRegistrationBroadcastReceiver;
-    private TextView mInformationTextView;
+    private AQuery aq;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        UsersDataManager.getUsersInstance().getFamilies().clear();
+        UsersDataManager.getUsersInstance().getElderly().clear();
+        UsersDataManager.getUsersInstance().getSocialWorkers().clear();
+        new DataGetThread().execute();
+
+        aq = new AQuery(this);
+
         init();
     }
 
     public void init() {
-        findViewById(R.id.btn_family).setOnClickListener(listener);
-        findViewById(R.id.btn_friend).setOnClickListener(listener);
-        findViewById(R.id.btn_social_worker).setOnClickListener(listener);
+        aq.id(R.id.btn_family).clicked(listener);
+        aq.id(R.id.btn_friend).clicked(listener);
+        aq.id(R.id.btn_social_worker).clicked(listener);
 
         users = UsersDataManager.getUsersInstance();
 
         if (users.getElderly().size() == 0) {
-            users.addData(new ElderlyPerson("김씨", "010-1234-5678", "김씨"));
-            users.addData(new ElderlyPerson("이씨", "010-1234-5678", "이씨"));
-            users.addData(new ElderlyPerson("박씨", "010-1234-5678", "박씨"));
-        }
-
-        if (users.getFamilies().size() == 0) {
-            users.addData(new Family("최씨", "010-4321-8765", "최씨"));
-            users.addData(new Family("강씨", "010-4321-8765", "강씨"));
-            users.addData(new Family("조씨", "010-4321-8765", "조씨"));
+            users.addData(new ElderlyPerson("김씨", "김씨"));
+            users.addData(new ElderlyPerson("이씨", "이씨"));
+            users.addData(new ElderlyPerson("박씨", "박씨"));
         }
 
         if (users.getSocialWorkers().size() == 0) {
-            users.addData(new SocialWorker("송씨", "010-8765-4321"));
-            users.addData(new SocialWorker("남씨", "010-8765-4321"));
-            users.addData(new SocialWorker("진씨", "010-8765-4321"));
+            users.addData(new SocialWorker("최씨"));
+            users.addData(new SocialWorker("남씨"));
+            users.addData(new SocialWorker("진씨"));
         }
 
         registBroadcastReceiver();
 
         // 토큰을 보여줄 TextView를 정의
-        mInformationTextView = (TextView) findViewById(R.id.gcm_id_text);
-        mInformationTextView.setVisibility(View.GONE);
+        aq.id(R.id.gcm_id_text).gone();
         // 토큰을 가져오는 동안 인디케이터를 보여줄 ProgressBar를 정의
-        mRegistrationProgressBar = (ProgressBar) findViewById(R.id.registrationProgressBar);
-        mRegistrationProgressBar.setVisibility(ProgressBar.GONE);
+        aq.id(R.id.registrationProgressBar).gone();
         // 토큰을 가져오는 Button을 정의
-        mRegistrationButton = (Button) findViewById(R.id.gcm_id_btn);
-        mRegistrationButton.setOnClickListener(new View.OnClickListener() {
+        aq.id(R.id.gcm_id_btn).clicked(new View.OnClickListener() {
             /**
              * 버튼을 클릭하면 토큰을 가져오는 getInstanceIdToken() 메소드를 실행한다.
              * @param view
@@ -114,20 +109,18 @@ public class MainActivity extends Activity {
 
                 if(action.equals(QuickstartPreferences.REGISTRATION_READY)){
                     // 액션이 READY일 경우
-                    mRegistrationProgressBar.setVisibility(ProgressBar.GONE);
-                    mInformationTextView.setVisibility(View.GONE);
+                    aq.id(R.id.registrationProgressBar).gone();
+                    aq.id(R.id.gcm_id_text).gone();
                 } else if(action.equals(QuickstartPreferences.REGISTRATION_GENERATING)){
                     // 액션이 GENERATING일 경우
-                    mRegistrationProgressBar.setVisibility(ProgressBar.VISIBLE);
-                    mInformationTextView.setVisibility(View.VISIBLE);
-                    mInformationTextView.setText(getString(R.string.registering_message_generating));
+                    aq.id(R.id.registrationProgressBar).visible();
+                    aq.id(R.id.gcm_id_text).visible().text(R.string.registering_message_generating);
                 } else if(action.equals(QuickstartPreferences.REGISTRATION_COMPLETE)) {
                     // 액션이 COMPLETE일 경우
-                    mRegistrationProgressBar.setVisibility(ProgressBar.GONE);
-                    mRegistrationButton.setText(getString(R.string.registering_message_complete));
-                    mRegistrationButton.setEnabled(false);
+                    aq.id(R.id.registrationProgressBar).gone();
+                    aq.id(R.id.gcm_id_btn).text(R.string.registering_message_complete).enabled(false);
                     String token = intent.getStringExtra("token");
-                    mInformationTextView.setText(token);
+                    aq.id(R.id.gcm_id_text).text(token);
                 }
             }
         };
