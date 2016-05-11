@@ -10,8 +10,10 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;
+import android.widget.Button;
 import android.widget.TextView;
 
+import com.androidquery.AQuery;
 import com.atti.atti_android.R;
 
 /**
@@ -24,6 +26,7 @@ public class CallingService extends Service {
     private String call_number;
     private WindowManager.LayoutParams params;
     private WindowManager windowManager;
+    private AQuery aq;
 
     @Override
     public IBinder onBind(Intent intent) {
@@ -55,6 +58,9 @@ public class CallingService extends Service {
         rootView = layoutInflater.inflate(R.layout.call_layout, null);
 //        ButterKnife.inject(this, rootView);
         setDraggable();
+        aq = new AQuery(rootView);
+        aq.id(R.id.reject).clicked(listener);
+        aq.id(R.id.receive).clicked(listener);
     }
 
     private void setDraggable() {
@@ -117,4 +123,17 @@ public class CallingService extends Service {
     public void removePopup() {
         if (rootView != null && windowManager != null) windowManager.removeView(rootView);
     }
+
+    Button.OnClickListener listener = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            switch (v.getId()) {
+                case R.id.reject:
+                    removePopup();
+                    break;
+                default:
+                    break;
+            }
+        }
+    };
 }
