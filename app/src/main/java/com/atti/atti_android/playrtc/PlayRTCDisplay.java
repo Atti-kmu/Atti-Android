@@ -56,6 +56,12 @@ public class PlayRTCDisplay extends Activity {
         createPlayRTCObserverInstance();
         createPlayRTCInstance();
         setOnClickEventListenerToButton();
+
+        try {
+            playrtc.createChannel(new JSONObject());
+        } catch (RequiredConfigMissingException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
@@ -143,16 +149,16 @@ public class PlayRTCDisplay extends Activity {
 
     private void setOnClickEventListenerToButton() {
         // Add a create channel event listener.
-        Button createButton = (Button) findViewById(R.id.create_button);
-        createButton.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                try {
-                    playrtc.createChannel(new JSONObject());
-                } catch (RequiredConfigMissingException e) {
-                    e.printStackTrace();
-                }
-            }
-        });
+//        Button createButton = (Button) findViewById(R.id.create_button);
+//        createButton.setOnClickListener(new View.OnClickListener() {
+//            public void onClick(View v) {
+//                try {
+//                    playrtc.createChannel(new JSONObject());
+//                } catch (RequiredConfigMissingException e) {
+//                    e.printStackTrace();
+//                }
+//            }
+//        });
 
         // Add a connect channel event listener.
         Button connectButton = (Button) findViewById(R.id.connect_button);
