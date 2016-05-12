@@ -11,6 +11,8 @@ import org.apache.http.client.HttpClient;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.message.BasicNameValuePair;
+import org.apache.http.protocol.HTTP;
+import org.apache.http.util.EntityUtils;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -34,9 +36,10 @@ public class DataPostThread extends AsyncTask<String, Integer, Void> {
             httpPost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
 
             HttpResponse response = httpClient.execute(httpPost);
-//            responseString = EntityUtils.toString(response.getEntity(), HTTP.UTF_8);
+            responseString = EntityUtils.toString(response.getEntity(), HTTP.UTF_8);
 
             Log.i("DataPostThread", String.valueOf(params[0]));
+            Log.i("response String", responseString);
         } catch (ClientProtocolException e) {
             Log.e("ClientProtocolException", e.getLocalizedMessage());
             e.printStackTrace();
