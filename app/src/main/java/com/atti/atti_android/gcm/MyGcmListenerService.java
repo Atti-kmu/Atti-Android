@@ -65,7 +65,7 @@ public class MyGcmListenerService extends GcmListenerService {
         notificationManager.notify(0 /* ID of notification */, notificationBuilder.build());
 
         Intent serviceIntent = new Intent(getApplicationContext(), CallingService.class);
-//        serviceIntent.putExtra(CallingService.EXTRA_CALL_NUMBER, phone_number);
+        serviceIntent.putExtra(CallingService.EXTRA_CALL_NUMBER, message);
         getApplicationContext().startService(serviceIntent);
     }
 }

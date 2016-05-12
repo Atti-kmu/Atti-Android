@@ -15,6 +15,7 @@ import android.widget.TextView;
 
 import com.androidquery.AQuery;
 import com.atti.atti_android.R;
+import com.atti.atti_android.playrtc.PlayRTCDisplay;
 
 /**
  * Created by BoWoon on 2016-05-10.
@@ -121,13 +122,18 @@ public class CallingService extends Service {
     }
 
     public void removePopup() {
-        if (rootView != null && windowManager != null) windowManager.removeView(rootView);
+        if (rootView != null && windowManager != null)
+            windowManager.removeView(rootView);
     }
 
     Button.OnClickListener listener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
             switch (v.getId()) {
+                case R.id.receive:
+                    Intent playRTC = new Intent(getApplicationContext(), PlayRTCDisplay.class);
+                    startActivity(playRTC);
+                    break;
                 case R.id.reject:
                     removePopup();
                     break;
