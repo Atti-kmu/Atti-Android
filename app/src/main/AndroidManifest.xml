@@ -41,8 +41,6 @@
 
         <service android:name=".call_service.CallingService" />
 
-        <receiver android:name=".call_service.IncomingCallBroadcastReceiver" />
-
         <!-- [START gcm_receiver] -->
         <receiver
             android:name="com.google.android.gms.gcm.GcmReceiver"
