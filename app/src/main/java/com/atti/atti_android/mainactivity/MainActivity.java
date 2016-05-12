@@ -68,6 +68,7 @@ public class MainActivity extends Activity {
             users.addData(new SocialWorker("진씨"));
         }
 
+        getInstanceIdToken();
         registBroadcastReceiver();
 
         // 토큰을 보여줄 TextView를 정의
@@ -75,16 +76,16 @@ public class MainActivity extends Activity {
         // 토큰을 가져오는 동안 인디케이터를 보여줄 ProgressBar를 정의
         aq.id(R.id.registrationProgressBar).gone();
         // 토큰을 가져오는 Button을 정의
-        aq.id(R.id.gcm_id_btn).clicked(new View.OnClickListener() {
-            /**
-             * 버튼을 클릭하면 토큰을 가져오는 getInstanceIdToken() 메소드를 실행한다.
-             * @param view
-             */
-            @Override
-            public void onClick(View view) {
-                getInstanceIdToken();
-            }
-        });
+//        aq.id(R.id.gcm_id_btn).clicked(new View.OnClickListener() {
+//            /**
+//             * 버튼을 클릭하면 토큰을 가져오는 getInstanceIdToken() 메소드를 실행한다.
+//             * @param view
+//             */
+//            @Override
+//            public void onClick(View view) {
+//                getInstanceIdToken();
+//            }
+//        });
     }
 
     /**

@@ -6,12 +6,14 @@ import android.content.DialogInterface;
 import android.graphics.Point;
 import android.os.Bundle;
 import android.os.Environment;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.atti.atti_android.R;
+import com.atti.atti_android.data.DataPostThread;
 import com.sktelecom.playrtc.PlayRTC;
 import com.sktelecom.playrtc.PlayRTCFactory;
 import com.sktelecom.playrtc.config.PlayRTCConfig;
@@ -25,6 +27,7 @@ import com.sktelecom.playrtc.stream.PlayRTCMedia;
 import com.sktelecom.playrtc.util.android.PlayRTCAudioManager;
 import com.sktelecom.playrtc.util.ui.PlayRTCVideoView;
 
+import org.apache.http.client.methods.HttpPost;
 import org.json.JSONObject;
 
 import java.io.File;
@@ -56,6 +59,12 @@ public class PlayRTCDisplay extends Activity {
         createPlayRTCObserverInstance();
         createPlayRTCInstance();
         setOnClickEventListenerToButton();
+
+        try {
+            playrtc.createChannel(new JSONObject());
+        } catch (RequiredConfigMissingException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
@@ -77,6 +86,7 @@ public class PlayRTCDisplay extends Activity {
                 // Fill the channelId to the channel_id TextView.
                 TextView channelIdTextView = (TextView) findViewById(R.id.channel_id);
                 channelIdTextView.setText(channelId);
+                new DataPostThread().execute(channelId);
             }
 
             @Override
@@ -143,16 +153,16 @@ public class PlayRTCDisplay extends Activity {
 
     private void setOnClickEventListenerToButton() {
         // Add a create channel event listener.
-        Button createButton = (Button) findViewById(R.id.create_button);
-        createButton.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                try {
-                    playrtc.createChannel(new JSONObject());
-                } catch (RequiredConfigMissingException e) {
-                    e.printStackTrace();
-                }
-            }
-        });
+//        Button createButton = (Button) findViewById(R.id.create_button);
+//        createButton.setOnClickListener(new View.OnClickListener() {
+//            public void onClick(View v) {
+//                try {
+//                    playrtc.createChannel(new JSONObject());
+//                } catch (RequiredConfigMissingException e) {
+//                    e.printStackTrace();
+//                }
+//            }
+//        });
 
         // Add a connect channel event listener.
         Button connectButton = (Button) findViewById(R.id.connect_button);

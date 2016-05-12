@@ -11,6 +11,7 @@ import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 
 import com.atti.atti_android.R;
+import com.atti.atti_android.call_service.CallingService;
 import com.atti.atti_android.mainactivity.MainActivity;
 import com.google.android.gms.gcm.GcmListenerService;
 
@@ -18,7 +19,6 @@ import com.google.android.gms.gcm.GcmListenerService;
  * Created by BoWoon on 2016-04-07.
  */
 public class MyGcmListenerService extends GcmListenerService {
-
     private static final String TAG = "MyGcmListenerService";
 
     /**
@@ -37,7 +37,6 @@ public class MyGcmListenerService extends GcmListenerService {
         // GCM으로 받은 메세지를 디바이스에 알려주는 sendNotification()을 호출한다.
         sendNotification(title, message);
     }
-
 
     /**
      * 실제 디바에스에 GCM으로부터 받은 메세지를 알려주는 함수이다. 디바이스 Notification Center에 나타난다.
@@ -64,5 +63,9 @@ public class MyGcmListenerService extends GcmListenerService {
                 (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
 
         notificationManager.notify(0 /* ID of notification */, notificationBuilder.build());
+
+        Intent serviceIntent = new Intent(getApplicationContext(), CallingService.class);
+        serviceIntent.putExtra(CallingService.EXTRA_CALL_NUMBER, message);
+        getApplicationContext().startService(serviceIntent);
     }
 }
