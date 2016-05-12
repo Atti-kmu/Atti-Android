@@ -100,9 +100,9 @@ public class CallingService extends Service {
         windowManager.addView(rootView, params);
         setExtra(intent);
 
-        if (!TextUtils.isEmpty(call_number)) {
-            tv_call_number.setText(call_number);
-        }
+        if (!TextUtils.isEmpty(call_number))
+            aq.id(R.id.call_who).text(call_number);
+
         return START_REDELIVER_INTENT;
     }
 
@@ -132,6 +132,7 @@ public class CallingService extends Service {
             switch (v.getId()) {
                 case R.id.receive:
                     Intent playRTC = new Intent(getApplicationContext(), PlayRTCDisplay.class);
+                    playRTC.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                     startActivity(playRTC);
                     break;
                 case R.id.reject:
