@@ -131,6 +131,7 @@ public class CallingService extends Service {
         public void onClick(View v) {
             switch (v.getId()) {
                 case R.id.receive:
+                    removePopup();
                     Intent playRTC = new Intent(getApplicationContext(), PlayRTCDisplay.class);
                     playRTC.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                     startActivity(playRTC);

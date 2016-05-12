@@ -3,14 +3,14 @@ package com.atti.atti_android.data;
 import android.os.AsyncTask;
 import android.util.Log;
 
+import com.atti.atti_android.ssl.ConnectSSLClient;
+
 import org.apache.http.HttpResponse;
 import org.apache.http.client.ClientProtocolException;
+import org.apache.http.client.HttpClient;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpPost;
-import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicNameValuePair;
-import org.apache.http.protocol.HTTP;
-import org.apache.http.util.EntityUtils;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -21,7 +21,7 @@ import java.util.ArrayList;
 public class DataPostThread extends AsyncTask<String, Integer, Void> {
     @Override
     protected Void doInBackground(String... params) {
-        DefaultHttpClient httpClient = new DefaultHttpClient();
+        HttpClient httpClient = ConnectSSLClient.getHttpClient();
         String responseString = null;
 
         String urlString = "http://52.79.147.144/atti/family";
