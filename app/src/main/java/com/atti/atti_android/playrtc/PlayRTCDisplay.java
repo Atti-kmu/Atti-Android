@@ -27,10 +27,14 @@ import com.sktelecom.playrtc.stream.PlayRTCMedia;
 import com.sktelecom.playrtc.util.android.PlayRTCAudioManager;
 import com.sktelecom.playrtc.util.ui.PlayRTCVideoView;
 
+import org.apache.http.NameValuePair;
 import org.apache.http.client.methods.HttpPost;
+import org.apache.http.message.BasicNameValuePair;
 import org.json.JSONObject;
 
 import java.io.File;
+import java.util.ArrayList;
+import java.util.Collection;
 
 /**
  * Created by 보운 on 2016-03-24.
@@ -86,7 +90,10 @@ public class PlayRTCDisplay extends Activity {
                 // Fill the channelId to the channel_id TextView.
                 TextView channelIdTextView = (TextView) findViewById(R.id.channel_id);
                 channelIdTextView.setText(channelId);
-                new DataPostThread().execute(channelId);
+                ArrayList<BasicNameValuePair> channel = new ArrayList<BasicNameValuePair>();
+                channel.add(new BasicNameValuePair("channel", "channel"));
+                channel.add(new BasicNameValuePair("channelid", channelId));
+                new DataPostThread().execute(channel);
             }
 
             @Override

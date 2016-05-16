@@ -43,7 +43,7 @@ public class MainActivity extends Activity {
         UsersDataManager.getUsersInstance().getFamilies().clear();
         UsersDataManager.getUsersInstance().getElderly().clear();
         UsersDataManager.getUsersInstance().getSocialWorkers().clear();
-        new DataGetThread().execute();
+        new DataGetThread().execute("family");
 
         aq = new AQuery(this);
 
@@ -61,7 +61,7 @@ public class MainActivity extends Activity {
         fl = new FamilyList();
         el = new ElderlyList();
         sl = new SocialWorkerList();
-        fm.beginTransaction().add(R.id.list_fragment, fl, "DataInfo").commit();
+        fm.beginTransaction().add(R.id.list_fragment, fl, "Family").commit();
 
         if (users.getElderly().size() == 0) {
             users.addData(new ElderlyPerson("김씨", "김씨"));

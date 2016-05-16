@@ -19,8 +19,6 @@ import java.util.ArrayList;
  */
 public class UserListAdapter extends BaseAdapter {
     private Context context;
-    private ImageView img;
-    private TextView name;
     private ArrayList<? extends CommonPerson> user;
     private AQuery aq;
 

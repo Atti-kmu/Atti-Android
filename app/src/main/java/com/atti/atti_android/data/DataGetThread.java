@@ -20,13 +20,22 @@ import java.io.IOException;
 /**
  * Created by BoWoon on 2016-04-28.
  */
-public class DataGetThread extends AsyncTask<Void, Integer, String> {
+public class DataGetThread extends AsyncTask<String, Integer, String> {
     @Override
-    protected String doInBackground(Void... params) {
+    protected String doInBackground(String... params) {
         DefaultHttpClient httpClient = new DefaultHttpClient();
         String responseString = null;
+        String urlString = "http://52.79.147.144/mobile/family";
 
-        String urlString = "http://52.79.147.144/atti/family";
+        if (params[0].equals("family"))
+            urlString = "http://52.79.147.144/mobile/family";
+        else if (params[0].equals("elderly"))
+            urlString = "http://52.79.147.144/mobile/elderly";
+        else if (params[0].equals("socialworker"))
+            urlString = "http://52.79.147.144/mobile/socialworker";
+        else if (params[0].equals("mypage"))
+            urlString = "http://52.79.147.144/mobile/user/mypage";
+
         try {
             HttpGet httpGet = new HttpGet(urlString);
 

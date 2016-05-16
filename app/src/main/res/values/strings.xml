@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Atti-Android</string>
+    <string name="app_name">벗</string>
 
     <string name="developer_key">9f081460-6001-4dfc-a4cd-60282bbcd701</string>
 
@@ -14,6 +14,8 @@
     <string name="alert_negative">Cancle</string>
     
     <string name="videotelephony">화상통화</string>
+    <string name="join_title">회원가입</string>
+    <string name="login_string">로그인</string>
     <string name="list">목록</string>
 
     <string name="family">가족</string>
@@ -26,4 +28,17 @@
 
     <string name="receive">수신</string>
     <string name="reject">거절</string>
+
+    <string name="join_from_name_string">회원가입</string>
+    <string name="join_id_string">ID : </string>
+    <string name="id_hint">아이디를 입력하세요.</string>
+    <string name="join_password_string">Password : </string>
+    <string name="password_hint">비밀번호를 입력하세요.</string>
+    <string name="join_nickname_string">Nickname : </string>
+    <string name="nickname_hint">별명을 입력하세요.</string>
+
+    <string name="submit_button_text">회원가입</string>
+    <string name="reject_button_text">취소</string>
+
+    <string name="login_from_name_string">로그인</string>
 </resources>
