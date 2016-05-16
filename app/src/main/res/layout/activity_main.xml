@@ -8,47 +8,33 @@
     tools:context=".mainactivity.MainActivity">
 
     <LinearLayout
-        android:layout_width="0dp"
+        android:layout_width="wrap_content"
         android:layout_height="match_parent"
-        android:layout_weight="1"
+        android:gravity="center"
         android:orientation="vertical">
 
         <Button
-            android:id="@+id/gcm_id_btn"
+            android:id="@+id/btn_family"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Get GCM ID" />
+            android:text="@string/family" />
 
-        <TextView
-            android:id="@+id/gcm_id_text"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+        <Button
+            android:id="@+id/btn_friend"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/friend" />
 
-        <ProgressBar
-            android:id="@+id/registrationProgressBar"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+        <Button
+            android:id="@+id/btn_social_worker"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/social_worker" />
 
     </LinearLayout>
 
-    <Button
-        android:id="@+id/btn_family"
-        android:layout_width="0dp"
-        android:layout_height="match_parent"
-        android:layout_weight="1"
-        android:text="@string/family" />
-
-    <Button
-        android:id="@+id/btn_friend"
-        android:layout_width="0dp"
-        android:layout_height="match_parent"
-        android:layout_weight="1"
-        android:text="@string/friend" />
-
-    <Button
-        android:id="@+id/btn_social_worker"
-        android:layout_width="0dp"
-        android:layout_height="match_parent"
-        android:layout_weight="1"
-        android:text="@string/social_worker" />
+    <FrameLayout
+        android:id="@+id/list_fragment"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
 </LinearLayout>

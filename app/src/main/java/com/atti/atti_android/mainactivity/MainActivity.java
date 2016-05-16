@@ -1,6 +1,8 @@
 package com.atti.atti_android.mainactivity;
 
 import android.app.Activity;
+import android.app.FragmentManager;
+import android.app.FragmentTransaction;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -27,12 +29,17 @@ import com.google.android.gms.common.GooglePlayServicesUtil;
 
 public class MainActivity extends Activity {
     private UsersDataManager users;
+    private FragmentManager fm;
 
     private static final int PLAY_SERVICES_RESOLUTION_REQUEST = 9000;
     private static final String TAG = "MainActivity";
 
-    private BroadcastReceiver mRegistrationBroadcastReceiver;
+//    private BroadcastReceiver mRegistrationBroadcastReceiver;
     private AQuery aq;
+
+    FamilyList fl;
+    ElderlyList el;
+    SocialWorkerList sl;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,6 +62,12 @@ public class MainActivity extends Activity {
         aq.id(R.id.btn_social_worker).clicked(listener);
 
         users = UsersDataManager.getUsersInstance();
+        fm = getFragmentManager();
+
+        fl = new FamilyList();
+        el = new ElderlyList();
+        sl = new SocialWorkerList();
+        fm.beginTransaction().add(R.id.list_fragment, fl, "DataInfo").commit();
 
         if (users.getElderly().size() == 0) {
             users.addData(new ElderlyPerson("김씨", "김씨"));
@@ -69,23 +82,7 @@ public class MainActivity extends Activity {
         }
 
         getInstanceIdToken();
-        registBroadcastReceiver();
-
-        // 토큰을 보여줄 TextView를 정의
-        aq.id(R.id.gcm_id_text).gone();
-        // 토큰을 가져오는 동안 인디케이터를 보여줄 ProgressBar를 정의
-        aq.id(R.id.registrationProgressBar).gone();
-        // 토큰을 가져오는 Button을 정의
-//        aq.id(R.id.gcm_id_btn).clicked(new View.OnClickListener() {
-//            /**
-//             * 버튼을 클릭하면 토큰을 가져오는 getInstanceIdToken() 메소드를 실행한다.
-//             * @param view
-//             */
-//            @Override
-//            public void onClick(View view) {
-//                getInstanceIdToken();
-//            }
-//        });
+//        registBroadcastReceiver();
     }
 
     /**
@@ -99,57 +96,57 @@ public class MainActivity extends Activity {
         }
     }
 
-    /**
-     * LocalBroadcast 리시버를 정의한다. 토큰을 획득하기 위한 READY, GENERATING, COMPLETE 액션에 따라 UI에 변화를 준다.
-     */
-    public void registBroadcastReceiver(){
-        mRegistrationBroadcastReceiver = new BroadcastReceiver() {
-            @Override
-            public void onReceive(Context context, Intent intent) {
-                String action = intent.getAction();
+//    /**
+//     * LocalBroadcast 리시버를 정의한다. 토큰을 획득하기 위한 READY, GENERATING, COMPLETE 액션에 따라 UI에 변화를 준다.
+//     */
+//    public void registBroadcastReceiver(){
+//        mRegistrationBroadcastReceiver = new BroadcastReceiver() {
+//            @Override
+//            public void onReceive(Context context, Intent intent) {
+//                String action = intent.getAction();
+//
+//                if(action.equals(QuickstartPreferences.REGISTRATION_READY)){
+//                    // 액션이 READY일 경우
+////                    aq.id(R.id.registrationProgressBar).gone();
+////                    aq.id(R.id.gcm_id_text).gone();
+//                } else if(action.equals(QuickstartPreferences.REGISTRATION_GENERATING)){
+//                    // 액션이 GENERATING일 경우
+////                    aq.id(R.id.registrationProgressBar).visible();
+////                    aq.id(R.id.gcm_id_text).visible().text(R.string.registering_message_generating);
+//                } else if(action.equals(QuickstartPreferences.REGISTRATION_COMPLETE)) {
+//                    // 액션이 COMPLETE일 경우
+////                    aq.id(R.id.registrationProgressBar).gone();
+////                    aq.id(R.id.gcm_id_btn).text(R.string.registering_message_complete).enabled(false);
+//                    String token = intent.getStringExtra("token");
+////                    aq.id(R.id.gcm_id_text).text(token);
+//                }
+//            }
+//        };
+//    }
 
-                if(action.equals(QuickstartPreferences.REGISTRATION_READY)){
-                    // 액션이 READY일 경우
-                    aq.id(R.id.registrationProgressBar).gone();
-                    aq.id(R.id.gcm_id_text).gone();
-                } else if(action.equals(QuickstartPreferences.REGISTRATION_GENERATING)){
-                    // 액션이 GENERATING일 경우
-                    aq.id(R.id.registrationProgressBar).visible();
-                    aq.id(R.id.gcm_id_text).visible().text(R.string.registering_message_generating);
-                } else if(action.equals(QuickstartPreferences.REGISTRATION_COMPLETE)) {
-                    // 액션이 COMPLETE일 경우
-                    aq.id(R.id.registrationProgressBar).gone();
-                    aq.id(R.id.gcm_id_btn).text(R.string.registering_message_complete).enabled(false);
-                    String token = intent.getStringExtra("token");
-                    aq.id(R.id.gcm_id_text).text(token);
-                }
-            }
-        };
-    }
+//    /**
+//     * 앱이 실행되어 화면에 나타날때 LocalBoardcastManager에 액션을 정의하여 등록한다.
+//     */
+//    @Override
+//    protected void onResume() {
+//        super.onResume();
+//        LocalBroadcastManager.getInstance(this).registerReceiver(mRegistrationBroadcastReceiver,
+//                new IntentFilter(QuickstartPreferences.REGISTRATION_READY));
+//        LocalBroadcastManager.getInstance(this).registerReceiver(mRegistrationBroadcastReceiver,
+//                new IntentFilter(QuickstartPreferences.REGISTRATION_GENERATING));
+//        LocalBroadcastManager.getInstance(this).registerReceiver(mRegistrationBroadcastReceiver,
+//                new IntentFilter(QuickstartPreferences.REGISTRATION_COMPLETE));
+//
+//    }
 
-    /**
-     * 앱이 실행되어 화면에 나타날때 LocalBoardcastManager에 액션을 정의하여 등록한다.
-     */
-    @Override
-    protected void onResume() {
-        super.onResume();
-        LocalBroadcastManager.getInstance(this).registerReceiver(mRegistrationBroadcastReceiver,
-                new IntentFilter(QuickstartPreferences.REGISTRATION_READY));
-        LocalBroadcastManager.getInstance(this).registerReceiver(mRegistrationBroadcastReceiver,
-                new IntentFilter(QuickstartPreferences.REGISTRATION_GENERATING));
-        LocalBroadcastManager.getInstance(this).registerReceiver(mRegistrationBroadcastReceiver,
-                new IntentFilter(QuickstartPreferences.REGISTRATION_COMPLETE));
-
-    }
-
-    /**
-     * 앱이 화면에서 사라지면 등록된 LocalBoardcast를 모두 삭제한다.
-     */
-    @Override
-    protected void onPause() {
-        LocalBroadcastManager.getInstance(this).unregisterReceiver(mRegistrationBroadcastReceiver);
-        super.onPause();
-    }
+//    /**
+//     * 앱이 화면에서 사라지면 등록된 LocalBoardcast를 모두 삭제한다.
+//     */
+//    @Override
+//    protected void onPause() {
+//        LocalBroadcastManager.getInstance(this).unregisterReceiver(mRegistrationBroadcastReceiver);
+//        super.onPause();
+//    }
 
 
     /**
@@ -175,16 +172,13 @@ public class MainActivity extends Activity {
         public void onClick(View v) {
             switch (v.getId()) {
                 case R.id.btn_family:
-                    Intent familyList = new Intent(MainActivity.this, FamilyList.class);
-                    startActivity(familyList);
+                    fm.beginTransaction().replace(R.id.list_fragment, fl, "Family").commit();
                     break;
                 case R.id.btn_friend:
-                    Intent friendList = new Intent(MainActivity.this, ElderlyList.class);
-                    startActivity(friendList);
+                    fm.beginTransaction().replace(R.id.list_fragment, el, "Friend").commit();
                     break;
                 case R.id.btn_social_worker:
-                    Intent socialWorkerList = new Intent(MainActivity.this, SocialWorkerList.class);
-                    startActivity(socialWorkerList);
+                    fm.beginTransaction().replace(R.id.list_fragment, sl, "SocialWorker").commit();
                     break;
                 default:
                     break;
