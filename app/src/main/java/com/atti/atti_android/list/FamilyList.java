@@ -1,46 +1,45 @@
 package com.atti.atti_android.list;
 
-import android.app.Activity;
+import android.app.Fragment;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.Toast;
 
 import com.atti.atti_android.R;
-import com.atti.atti_android.data.DataGetThread;
 import com.atti.atti_android.data.UsersDataManager;
 import com.atti.atti_android.playrtc.PlayRTCDisplay;
 
 /**
  * Created by 보운 on 2016-04-03.
  */
-public class FamilyList extends Activity {
+public class FamilyList extends Fragment {
     private ListView userList;
     private UserListAdapter adapter;
 
+    @Nullable
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.list_view_layout);
-
-        // Adapter 생성
-        adapter = new UserListAdapter(getApplicationContext(), UsersDataManager.getUsersInstance().getFamilies());
-        // 리스트뷰 참조 및 Adapter달기
-        userList = (ListView) findViewById(R.id.list_view_display);
+    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        View root = inflater.inflate(R.layout.list_view_layout, container, false);
+        adapter = new UserListAdapter(getActivity(), UsersDataManager.getUsersInstance().getFamilies());
+        userList = (ListView) root.findViewById(R.id.list_view_display);
         userList.setAdapter(adapter);
 
         userList.setOnItemClickListener(itemClickListener);
+        return root;
     }
 
     AdapterView.OnItemClickListener itemClickListener = new AdapterView.OnItemClickListener() {
         @Override
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-            Toast.makeText(FamilyList.this, "Click Item : " + position, Toast.LENGTH_SHORT).show();
-            Intent playRTC = new Intent(FamilyList.this, PlayRTCDisplay.class);
+            Toast.makeText(getActivity(), "Click Item : " + position, Toast.LENGTH_SHORT).show();
+            Intent playRTC = new Intent(getActivity(), PlayRTCDisplay.class);
             startActivity(playRTC);
         }
     };
 }
-
