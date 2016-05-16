@@ -3,6 +3,7 @@ package com.atti.atti_android.join;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
@@ -29,11 +30,12 @@ public class Login extends Activity {
         aq = new AQuery(this);
 
         aq.id(R.id.login_submit).clicked(loginSubmit);
+        aq.id(R.id.login_reject).clicked(loginSubmit);
     }
 
     public boolean loginChecked() {
-        String id = aq.id(R.id.join_id_edit).getText().toString();
-        String password = aq.id(R.id.join_password_edit).getText().toString();
+        String id = aq.id(R.id.login_id_edit).getText().toString();
+        String password = aq.id(R.id.login_password_edit).getText().toString();
 
         if (id.equals("") || password.equals(""))
             return false;
@@ -45,10 +47,10 @@ public class Login extends Activity {
         @Override
         public void onClick(View v) {
             switch (v.getId()) {
-                case R.id.join_submit:
+                case R.id.login_submit:
                     if (loginChecked()) {
-                        String id = aq.id(R.id.join_id_edit).getText().toString();
-                        String password = aq.id(R.id.join_password_edit).getText().toString();
+                        String id = aq.id(R.id.login_id_edit).getText().toString();
+                        String password = aq.id(R.id.login_password_edit).getText().toString();
 
                         ArrayList<BasicNameValuePair> loginPair = new ArrayList<BasicNameValuePair>();
                         loginPair.add(new BasicNameValuePair("login", "login"));
@@ -59,7 +61,7 @@ public class Login extends Activity {
                         Toast.makeText(getApplicationContext(), "정보를 제대로 입력하세요!", Toast.LENGTH_SHORT).show();
                     }
                     break;
-                case R.id.join_reject:
+                case R.id.login_reject:
                     break;
                 default:
                     break;

@@ -30,10 +30,8 @@ public class DataPostThread extends AsyncTask<ArrayList<BasicNameValuePair>, Int
         String responseString = null;
         String urlString = "http://52.79.147.144/mobile/user";
 
-        if (params[0].get(0).getName().equals("login")) {
-            Log.i("LoginPost", params[0].get(0).getName());
+        if (params[0].get(0).getName().equals("login"))
             urlString = "http://52.79.147.144/mobile/user";
-        }
         else if (params[0].get(0).getName().equals("channel"))
             urlString = "http://52.79.147.144/mobile/call";
 
