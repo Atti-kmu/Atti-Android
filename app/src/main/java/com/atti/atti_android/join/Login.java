@@ -3,7 +3,6 @@ package com.atti.atti_android.join;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
@@ -31,6 +30,7 @@ public class Login extends Activity {
 
         aq.id(R.id.login_submit).clicked(loginSubmit);
         aq.id(R.id.login_reject).clicked(loginSubmit);
+        aq.id(R.id.login_join_button).clicked(loginSubmit);
     }
 
     public boolean loginChecked() {
@@ -60,15 +60,18 @@ public class Login extends Activity {
                     } else {
                         Toast.makeText(getApplicationContext(), "정보를 제대로 입력하세요!", Toast.LENGTH_SHORT).show();
                     }
+                    startActivity(new Intent(Login.this, MainActivity.class));
+                    finish();
                     break;
                 case R.id.login_reject:
+//                    startActivity(new Intent(Login.this, MainActivity.class));
+                    finish();
                     break;
+                case R.id.login_join_button:
+                    startActivity(new Intent(Login.this, Join.class));
                 default:
                     break;
             }
-
-            startActivity(new Intent(Login.this, MainActivity.class));
-            finish();
         }
     };
 }

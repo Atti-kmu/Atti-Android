@@ -58,23 +58,130 @@
                 android:inputType="textPassword" />
         </LinearLayout>
 
+        <!--<LinearLayout-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="match_parent">-->
+
+        <!--<TextView-->
+        <!--android:id="@+id/join_nickname_text"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:text="@string/join_nickname_string"-->
+        <!--android:textSize="@dimen/join_id_text_size" />-->
+
+        <!--<EditText-->
+        <!--android:id="@+id/join_nickname_edit"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_toRightOf="@id/join_nickname_text"-->
+        <!--android:hint="@string/nickname_hint" />-->
+        <!--</LinearLayout>-->
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
             <TextView
-                android:id="@+id/join_nickname_text"
+                android:id="@+id/join_name_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/join_nickname_string"
+                android:text="@string/join_name_string"
                 android:textSize="@dimen/join_id_text_size" />
 
             <EditText
-                android:id="@+id/join_nickname_edit"
+                android:id="@+id/join_name_edit"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_toRightOf="@id/join_nickname_text"
-                android:hint="@string/nickname_hint" />
+                android:layout_toRightOf="@id/join_name_text"
+                android:hint="@string/name_hint" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:id="@+id/join_gender_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/join_gender_string"
+                android:textSize="@dimen/join_id_text_size" />
+
+            <!--<EditText-->
+            <!--android:id="@+id/join_gender_edit"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_toRightOf="@id/join_gender_text"-->
+            <!--android:hint="@string/gender_hint" />-->
+
+            <RadioGroup
+                android:id="@+id/radio_group_gender"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <RadioButton
+                    android:id="@+id/radio_button_male"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/male_string"
+                    android:textSize="@dimen/radio_size" />
+
+                <RadioButton
+                    android:id="@+id/radio_button_female"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/female_string"
+                    android:textSize="@dimen/radio_size" />
+            </RadioGroup>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:id="@+id/join_kind_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/join_kind_string"
+                android:textSize="@dimen/join_id_text_size" />
+
+            <!--<EditText-->
+            <!--android:id="@+id/join_kind_edit"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_toRightOf="@id/join_kind_text"-->
+            <!--android:hint="@string/kind_hint" />-->
+
+            <RadioGroup
+                android:id="@+id/radio_group_kind"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <RadioButton
+                    android:id="@+id/radio_button_elderly"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/friend"
+                    android:textSize="@dimen/radio_size" />
+
+                <RadioButton
+                    android:id="@+id/radio_button_family"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/family"
+                    android:textSize="@dimen/radio_size" />
+
+
+                <RadioButton
+                    android:id="@+id/radio_button_socialworker"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/social_worker"
+                    android:textSize="@dimen/radio_size" />
+            </RadioGroup>
         </LinearLayout>
     </LinearLayout>
 

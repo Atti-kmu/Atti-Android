@@ -44,6 +44,8 @@ public class MainActivity extends Activity {
         UsersDataManager.getUsersInstance().getElderly().clear();
         UsersDataManager.getUsersInstance().getSocialWorkers().clear();
         new DataGetThread().execute("family");
+        new DataGetThread().execute("friends");
+        new DataGetThread().execute("friendship");
 
         aq = new AQuery(this);
 
@@ -63,17 +65,17 @@ public class MainActivity extends Activity {
         sl = new SocialWorkerList();
         fm.beginTransaction().add(R.id.list_fragment, fl, "Family").commit();
 
-        if (users.getElderly().size() == 0) {
-            users.addData(new ElderlyPerson("김씨", "김씨"));
-            users.addData(new ElderlyPerson("이씨", "이씨"));
-            users.addData(new ElderlyPerson("박씨", "박씨"));
-        }
-
-        if (users.getSocialWorkers().size() == 0) {
-            users.addData(new SocialWorker("최씨"));
-            users.addData(new SocialWorker("남씨"));
-            users.addData(new SocialWorker("진씨"));
-        }
+//        if (users.getElderly().size() == 0) {
+//            users.addData(new ElderlyPerson("김씨", "김씨"));
+//            users.addData(new ElderlyPerson("이씨", "이씨"));
+//            users.addData(new ElderlyPerson("박씨", "박씨"));
+//        }
+//
+//        if (users.getSocialWorkers().size() == 0) {
+//            users.addData(new SocialWorker("최씨"));
+//            users.addData(new SocialWorker("남씨"));
+//            users.addData(new SocialWorker("진씨"));
+//        }
 
         getInstanceIdToken();
 //        registBroadcastReceiver();
@@ -167,12 +169,15 @@ public class MainActivity extends Activity {
             switch (v.getId()) {
                 case R.id.btn_family:
                     fm.beginTransaction().replace(R.id.list_fragment, fl, "Family").commit();
+                    fm.beginTransaction().remove(fl);
                     break;
                 case R.id.btn_friend:
                     fm.beginTransaction().replace(R.id.list_fragment, el, "Friend").commit();
+                    fm.beginTransaction().remove(el);
                     break;
                 case R.id.btn_social_worker:
                     fm.beginTransaction().replace(R.id.list_fragment, sl, "SocialWorker").commit();
+                    fm.beginTransaction().remove(sl);
                     break;
                 default:
                     break;

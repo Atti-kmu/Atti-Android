@@ -9,7 +9,7 @@ import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
-import org.apache.http.client.methods.HttpPost;
+import org.apache.http.client.methods.HttpPut;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.protocol.HTTP;
@@ -19,9 +19,9 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 /**
- * Created by BoWoon on 2016-05-11.
+ * Created by BoWoon on 2016-05-17.
  */
-public class DataPostThread extends AsyncTask<ArrayList<BasicNameValuePair>, Integer, Void> {
+public class DataPutThread extends AsyncTask<ArrayList<BasicNameValuePair>, Integer, Void> {
     @Override
     protected Void doInBackground(ArrayList<BasicNameValuePair>... params) {
 //        HttpClient httpClient = ConnectSSLClient.getHttpClient();
@@ -29,15 +29,8 @@ public class DataPostThread extends AsyncTask<ArrayList<BasicNameValuePair>, Int
         String responseString = null;
         String urlString = "http://52.79.147.144/mobile/user";
 
-        if (params[0].get(0).getName().equals("login")) {
-            Log.i("Login Pair", String.valueOf(params[0]));
-            urlString = "http://52.79.147.144/mobile/user";
-        }
-        else if (params[0].get(0).getName().equals("channel"))
-            urlString = "http://52.79.147.144/mobile/call";
-
         try {
-            HttpPost httpPost = new HttpPost(urlString);
+            HttpPut httpPut = new HttpPut(urlString);
 
             ArrayList<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>();
             Log.i("params length", String.valueOf(params[0].size()));
@@ -47,9 +40,9 @@ public class DataPostThread extends AsyncTask<ArrayList<BasicNameValuePair>, Int
                 nameValuePairs.add(new BasicNameValuePair(params[0].get(i).getName(), params[0].get(i).getValue()));
             }
 
-            httpPost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
+            httpPut.setEntity(new UrlEncodedFormEntity(nameValuePairs));
 
-            HttpResponse response = httpClient.execute(httpPost);
+            HttpResponse response = httpClient.execute(httpPut);
             responseString = EntityUtils.toString(response.getEntity(), HTTP.UTF_8);
 
             Log.i("DataPostThread", String.valueOf(params[0]));
@@ -65,7 +58,7 @@ public class DataPostThread extends AsyncTask<ArrayList<BasicNameValuePair>, Int
         return null;
     }
 
-    public DataPostThread() {
+    public DataPutThread() {
         super();
     }
 

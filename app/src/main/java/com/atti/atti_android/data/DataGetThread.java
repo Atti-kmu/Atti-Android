@@ -3,7 +3,10 @@ package com.atti.atti_android.data;
 import android.os.AsyncTask;
 import android.util.Log;
 
+import com.atti.atti_android.http.HttpServerConnection;
+import com.atti.atti_android.person.ElderlyPerson;
 import com.atti.atti_android.person.Family;
+import com.atti.atti_android.person.SocialWorker;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.client.ClientProtocolException;
@@ -23,16 +26,16 @@ import java.io.IOException;
 public class DataGetThread extends AsyncTask<String, Integer, String> {
     @Override
     protected String doInBackground(String... params) {
-        DefaultHttpClient httpClient = new DefaultHttpClient();
+        DefaultHttpClient httpClient = HttpServerConnection.getInstance();
         String responseString = null;
-        String urlString = "http://52.79.147.144/mobile/family";
+        String urlString = "http://52.79.147.144/mobile/family/1";
 
         if (params[0].equals("family"))
-            urlString = "http://52.79.147.144/mobile/family";
-        else if (params[0].equals("elderly"))
-            urlString = "http://52.79.147.144/mobile/elderly";
-        else if (params[0].equals("socialworker"))
-            urlString = "http://52.79.147.144/mobile/socialworker";
+            urlString = "http://52.79.147.144/mobile/family/1";
+        else if (params[0].equals("friends"))
+            urlString = "http://52.79.147.144/mobile/friends/1";
+        else if (params[0].equals("friendship"))
+            urlString = "http://52.79.147.144/mobile/friendship/1";
         else if (params[0].equals("mypage"))
             urlString = "http://52.79.147.144/mobile/user/mypage";
 
@@ -42,19 +45,34 @@ public class DataGetThread extends AsyncTask<String, Integer, String> {
             HttpResponse response = httpClient.execute(httpGet);
             responseString = EntityUtils.toString(response.getEntity(), HTTP.UTF_8);
 
-            Log.d("TAG", responseString);
+            Log.d("DataGetThread", responseString);
 
             JSONObject object = new JSONObject(responseString);
-            JSONArray jarray = new JSONArray(object.getString("results"));
+            JSONArray jarray = new JSONArray();
+
+            if (params[0].equals("family"))
+                jarray = new JSONArray(object.getString("family_list"));
+            else if (params[0].equals("friends"))
+                jarray = new JSONArray(object.getString("friend_list"));
+            else if (params[0].equals("friendship"))
+                jarray = new JSONArray(object.getString("friendship_list"));
+            else if (params[0].equals("mypage"))
+                jarray = new JSONArray(object.getString("mypage"));
 
             for (int i = 0; i < jarray.length(); i++) {
                 JSONObject jObject = jarray.getJSONObject(i);
 
                 String name = jObject.getString("name");
-                String nickname = jObject.getString("nickname");
-                String img = jObject.getString("profile_url");
+//                String nickname = jObject.getString("nickname");
+                String img = jObject.getString("profile_name");
 
-                UsersDataManager.getUsersInstance().addData(new Family(name, nickname, img));
+//                UsersDataManager.getUsersInstance().addData(new Family(name, nickname, img));
+                if (params[0].equals("family"))
+                    UsersDataManager.getUsersInstance().addData(new Family(name, "", img));
+                else if (params[0].equals("friends"))
+                    UsersDataManager.getUsersInstance().addData(new ElderlyPerson(name, "", img));
+                else if (params[0].equals("friendship"))
+                    UsersDataManager.getUsersInstance().addData(new SocialWorker(name, img));
             }
         } catch (ClientProtocolException e) {
             Log.e("ClientProtocolException", e.getLocalizedMessage());

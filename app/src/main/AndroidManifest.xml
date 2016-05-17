@@ -8,10 +8,7 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity
-            android:name=".join.Login"
-            android:configChanges="orientation|keyboardHidden"
-            android:screenOrientation="landscape">
+        <activity android:name=".join.Login">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -27,8 +24,12 @@
         <activity
             android:name=".mainactivity.MainActivity"
             android:configChanges="orientation|keyboardHidden"
-            android:label="@string/join_title"
+            android:label="@string/app_name"
             android:screenOrientation="landscape" />
+
+        <activity
+            android:name=".join.Join"
+            android:label="@string/join_title" />
 
         <service android:name=".call_service.CallingService" />
 
