@@ -47,7 +47,7 @@ public class DataPostThread extends AsyncTask<ArrayList<BasicNameValuePair>, Int
                 nameValuePairs.add(new BasicNameValuePair(params[0].get(i).getName(), params[0].get(i).getValue()));
             }
 
-            httpPost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
+            httpPost.setEntity(new UrlEncodedFormEntity(nameValuePairs, HTTP.UTF_8));
 
             HttpResponse response = httpClient.execute(httpPost);
             responseString = EntityUtils.toString(response.getEntity(), HTTP.UTF_8);

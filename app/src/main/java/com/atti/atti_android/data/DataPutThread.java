@@ -27,6 +27,7 @@ public class DataPutThread extends AsyncTask<ArrayList<BasicNameValuePair>, Inte
 //        HttpClient httpClient = ConnectSSLClient.getHttpClient();
         DefaultHttpClient httpClient = HttpServerConnection.getInstance();
         String responseString = null;
+//        String urlString = "http://localhost:3000/mobile/user";
         String urlString = "http://52.79.147.144/mobile/user";
 
         try {
@@ -40,7 +41,7 @@ public class DataPutThread extends AsyncTask<ArrayList<BasicNameValuePair>, Inte
                 nameValuePairs.add(new BasicNameValuePair(params[0].get(i).getName(), params[0].get(i).getValue()));
             }
 
-            httpPut.setEntity(new UrlEncodedFormEntity(nameValuePairs));
+            httpPut.setEntity(new UrlEncodedFormEntity(nameValuePairs, HTTP.UTF_8));
 
             HttpResponse response = httpClient.execute(httpPut);
             responseString = EntityUtils.toString(response.getEntity(), HTTP.UTF_8);

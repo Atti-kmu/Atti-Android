@@ -44,11 +44,9 @@ public class Join extends Activity {
         String id = aq.id(R.id.join_id_edit).getText().toString();
         String password = aq.id(R.id.join_password_edit).getText().toString();
         String name = aq.id(R.id.join_name_edit).getText().toString();
+        String pattern = "^(?=.*[0-9])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{7,15}$";
 
-        if (id.equals("") || password.equals("") || name.equals("") || gender == -1 || kind == -1)
-            return false;
-
-        return true;
+        return !(id.equals("") || password.equals("") || name.equals("") || gender == -1 || kind == -1) && password.matches(pattern);
     }
 
     Button.OnClickListener joinSubmit = new View.OnClickListener() {
@@ -68,7 +66,7 @@ public class Join extends Activity {
                         joinPair.add(new BasicNameValuePair("name", name));
                         joinPair.add(new BasicNameValuePair("gender", String.valueOf(gender)));
                         joinPair.add(new BasicNameValuePair("kind", String.valueOf(kind)));
-                        new DataPutThread().execute(joinPair);
+//                        new DataPutThread().execute(joinPair);
                     } else {
                         Toast.makeText(getApplicationContext(), "정보를 제대로 입력하세요!", Toast.LENGTH_SHORT).show();
                     }
@@ -79,7 +77,7 @@ public class Join extends Activity {
                     break;
             }
 
-            startActivity(new Intent(Join.this, MainActivity.class));
+//            startActivity(new Intent(Join.this, MainActivity.class));
             finish();
         }
     };
@@ -96,8 +94,7 @@ public class Join extends Activity {
                         gender = 1;
                         break;
                 }
-            }
-            else if (group.getId() == R.id.radio_group_kind) {
+            } else if (group.getId() == R.id.radio_group_kind) {
                 switch (checkedId) {
                     case R.id.radio_button_elderly:
                         kind = 0;

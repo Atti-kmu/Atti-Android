@@ -29,6 +29,7 @@ public class DataGetThread extends AsyncTask<String, Integer, String> {
         DefaultHttpClient httpClient = HttpServerConnection.getInstance();
         String responseString = null;
         String urlString = "http://52.79.147.144/mobile/family/1";
+        String imgUrl = "http://52.79.147.144/images/profile/";
 
         if (params[0].equals("family"))
             urlString = "http://52.79.147.144/mobile/family/1";
@@ -68,11 +69,11 @@ public class DataGetThread extends AsyncTask<String, Integer, String> {
 
 //                UsersDataManager.getUsersInstance().addData(new Family(name, nickname, img));
                 if (params[0].equals("family"))
-                    UsersDataManager.getUsersInstance().addData(new Family(name, "", img));
+                    UsersDataManager.getUsersInstance().addData(new Family(name, "", imgUrl + img));
                 else if (params[0].equals("friends"))
-                    UsersDataManager.getUsersInstance().addData(new ElderlyPerson(name, "", img));
+                    UsersDataManager.getUsersInstance().addData(new ElderlyPerson(name, "", imgUrl + img));
                 else if (params[0].equals("friendship"))
-                    UsersDataManager.getUsersInstance().addData(new SocialWorker(name, img));
+                    UsersDataManager.getUsersInstance().addData(new SocialWorker(name, imgUrl + img));
             }
         } catch (ClientProtocolException e) {
             Log.e("ClientProtocolException", e.getLocalizedMessage());
