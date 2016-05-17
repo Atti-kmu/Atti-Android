@@ -1,7 +1,9 @@
 package com.atti.atti_android.join;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.RadioGroup;
@@ -9,6 +11,10 @@ import android.widget.Toast;
 
 import com.androidquery.AQuery;
 import com.atti.atti_android.R;
+import com.atti.atti_android.constant.Constant;
+import com.atti.atti_android.gcm.RegistrationIntentService;
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.GooglePlayServicesUtil;
 
 import org.apache.http.message.BasicNameValuePair;
 
@@ -35,6 +41,8 @@ public class Join extends Activity {
         rgGender.setOnCheckedChangeListener(radioListener);
         RadioGroup rgKind = (RadioGroup) findViewById(R.id.radio_group_kind);
         rgKind.setOnCheckedChangeListener(radioListener);
+
+        getInstanceIdToken();
     }
 
     public boolean joinChecked() {
@@ -44,6 +52,35 @@ public class Join extends Activity {
         String pattern = "^(?=.*[0-9])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{7,15}$";
 
         return !(id.equals("") || password.equals("") || name.equals("") || gender == -1 || kind == -1) && password.matches(pattern);
+    }
+
+    /**
+     * Instance ID를 이용하여 디바이스 토큰을 가져오는 RegistrationIntentService를 실행한다.
+     */
+    public void getInstanceIdToken() {
+        if (checkPlayServices()) {
+            // Start IntentService to register this application with GCM.
+            Intent intent = new Intent(this, RegistrationIntentService.class);
+            startService(intent);
+        }
+    }
+
+    /**
+     * Google Play Service를 사용할 수 있는 환경이지를 체크한다.
+     */
+    private boolean checkPlayServices() {
+        int resultCode = GooglePlayServicesUtil.isGooglePlayServicesAvailable(this);
+        if (resultCode != ConnectionResult.SUCCESS) {
+            if (GooglePlayServicesUtil.isUserRecoverableError(resultCode)) {
+                GooglePlayServicesUtil.getErrorDialog(resultCode, this,
+                        Constant.PLAY_SERVICES_RESOLUTION_REQUEST).show();
+            } else {
+                Log.i(Constant.MAIN_TAG, "This device is not supported.");
+                finish();
+            }
+            return false;
+        }
+        return true;
     }
 
     Button.OnClickListener joinSubmit = new View.OnClickListener() {
@@ -63,6 +100,8 @@ public class Join extends Activity {
                         joinPair.add(new BasicNameValuePair("name", name));
                         joinPair.add(new BasicNameValuePair("gender", String.valueOf(gender)));
                         joinPair.add(new BasicNameValuePair("kind", String.valueOf(kind)));
+                        joinPair.add(new BasicNameValuePair("push_id", RegistrationIntentService.getGCMToken()));
+                        Log.i("GCMToken", RegistrationIntentService.getGCMToken());
 //                        new DataPutThread().execute(joinPair);
                     } else {
                         Toast.makeText(getApplicationContext(), "정보를 제대로 입력하세요!", Toast.LENGTH_SHORT).show();

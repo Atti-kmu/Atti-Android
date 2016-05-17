@@ -93,7 +93,7 @@ public class PlayRTCDisplay extends Activity {
                 ArrayList<BasicNameValuePair> channel = new ArrayList<BasicNameValuePair>();
                 channel.add(new BasicNameValuePair("channel", "channel"));
                 channel.add(new BasicNameValuePair("channelid", channelId));
-                new DataPostThread().execute(channel);
+                new DataPostThread(getApplicationContext()).execute(channel);
             }
 
             @Override

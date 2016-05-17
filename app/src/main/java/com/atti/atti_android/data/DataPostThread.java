@@ -1,9 +1,15 @@
 package com.atti.atti_android.data;
 
+import android.app.AlertDialog;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.os.AsyncTask;
 import android.util.Log;
+import android.widget.Toast;
 
+import com.atti.atti_android.constant.Constant;
 import com.atti.atti_android.http.HttpServerConnection;
+import com.atti.atti_android.join.Login;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
@@ -14,6 +20,8 @@ import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.protocol.HTTP;
 import org.apache.http.util.EntityUtils;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -21,9 +29,11 @@ import java.util.ArrayList;
 /**
  * Created by BoWoon on 2016-05-11.
  */
-public class DataPostThread extends AsyncTask<ArrayList<BasicNameValuePair>, Integer, Void> {
+public class DataPostThread extends AsyncTask<ArrayList<BasicNameValuePair>, Integer, Integer> {
+    private Context context;
+
     @Override
-    protected Void doInBackground(ArrayList<BasicNameValuePair>... params) {
+    protected Integer doInBackground(ArrayList<BasicNameValuePair>... params) {
 //        HttpClient httpClient = ConnectSSLClient.getHttpClient();
         DefaultHttpClient httpClient = HttpServerConnection.getInstance();
         String responseString = null;
@@ -52,6 +62,14 @@ public class DataPostThread extends AsyncTask<ArrayList<BasicNameValuePair>, Int
             HttpResponse response = httpClient.execute(httpPost);
             responseString = EntityUtils.toString(response.getEntity(), HTTP.UTF_8);
 
+            JSONObject object = new JSONObject(responseString);
+            String statusCode = object.getString("status");
+
+            if (Integer.valueOf(statusCode) == Constant.LOGIN_FAILED || Integer.valueOf(statusCode) == Constant.LOGIN_ERROR) {
+                Log.i("Login_Failed", String.valueOf(Constant.LOGIN_FAILED));
+                return Constant.LOGIN_FAILED;
+            }
+
             Log.i("DataPostThread", String.valueOf(params[0]));
             Log.i("DataPostThread String", responseString);
         } catch (ClientProtocolException e) {
@@ -60,13 +78,16 @@ public class DataPostThread extends AsyncTask<ArrayList<BasicNameValuePair>, Int
         } catch (IOException e) {
             Log.e("IOException", e.getLocalizedMessage());
             e.printStackTrace();
+        } catch (JSONException e) {
+            e.printStackTrace();
         }
 
-        return null;
+        return Constant.LOGIN_SUCCESS;
     }
 
-    public DataPostThread() {
+    public DataPostThread(Context context) {
         super();
+        this.context = context;
     }
 
     @Override
@@ -75,8 +96,17 @@ public class DataPostThread extends AsyncTask<ArrayList<BasicNameValuePair>, Int
     }
 
     @Override
-    protected void onPostExecute(Void s) {
+    protected void onPostExecute(Integer s) {
         super.onPostExecute(s);
+
+        if (s == Constant.LOGIN_FAILED || s == Constant.LOGIN_ERROR) {
+            Toast.makeText(context, "로그인 실패. 다시 입력해주세요", Toast.LENGTH_SHORT).show();
+            Login.loginResult = false;
+        }
+        else if (s == Constant.LOGIN_SUCCESS) {
+            Toast.makeText(context, "로그인 성공", Toast.LENGTH_SHORT).show();
+            Login.loginResult = true;
+        }
     }
 
     @Override
@@ -85,7 +115,7 @@ public class DataPostThread extends AsyncTask<ArrayList<BasicNameValuePair>, Int
     }
 
     @Override
-    protected void onCancelled(Void s) {
+    protected void onCancelled(Integer s) {
         super.onCancelled(s);
     }
 

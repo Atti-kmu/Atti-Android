@@ -26,8 +26,8 @@ public class MainActivity extends Activity {
     private UsersDataManager users;
     private FragmentManager fm;
 
-    private static final int PLAY_SERVICES_RESOLUTION_REQUEST = 9000;
-    private static final String TAG = "MainActivity";
+//    private static final int PLAY_SERVICES_RESOLUTION_REQUEST = 9000;
+//    private static final String TAG = "MainActivity";
 
 //    private BroadcastReceiver mRegistrationBroadcastReceiver;
     private AQuery aq;
@@ -81,20 +81,20 @@ public class MainActivity extends Activity {
 //            users.addData(new SocialWorker("진씨"));
 //        }
 
-        getInstanceIdToken();
+//        getInstanceIdToken();
 //        registBroadcastReceiver();
     }
 
-    /**
-     * Instance ID를 이용하여 디바이스 토큰을 가져오는 RegistrationIntentService를 실행한다.
-     */
-    public void getInstanceIdToken() {
-        if (checkPlayServices()) {
-            // Start IntentService to register this application with GCM.
-            Intent intent = new Intent(this, RegistrationIntentService.class);
-            startService(intent);
-        }
-    }
+//    /**
+//     * Instance ID를 이용하여 디바이스 토큰을 가져오는 RegistrationIntentService를 실행한다.
+//     */
+//    public void getInstanceIdToken() {
+//        if (checkPlayServices()) {
+//            // Start IntentService to register this application with GCM.
+//            Intent intent = new Intent(this, RegistrationIntentService.class);
+//            startService(intent);
+//        }
+//    }
 
 //    /**
 //     * LocalBroadcast 리시버를 정의한다. 토큰을 획득하기 위한 READY, GENERATING, COMPLETE 액션에 따라 UI에 변화를 준다.
@@ -149,23 +149,23 @@ public class MainActivity extends Activity {
 //    }
 
 
-    /**
-     * Google Play Service를 사용할 수 있는 환경이지를 체크한다.
-     */
-    private boolean checkPlayServices() {
-        int resultCode = GooglePlayServicesUtil.isGooglePlayServicesAvailable(this);
-        if (resultCode != ConnectionResult.SUCCESS) {
-            if (GooglePlayServicesUtil.isUserRecoverableError(resultCode)) {
-                GooglePlayServicesUtil.getErrorDialog(resultCode, this,
-                        PLAY_SERVICES_RESOLUTION_REQUEST).show();
-            } else {
-                Log.i(TAG, "This device is not supported.");
-                finish();
-            }
-            return false;
-        }
-        return true;
-    }
+//    /**
+//     * Google Play Service를 사용할 수 있는 환경이지를 체크한다.
+//     */
+//    private boolean checkPlayServices() {
+//        int resultCode = GooglePlayServicesUtil.isGooglePlayServicesAvailable(this);
+//        if (resultCode != ConnectionResult.SUCCESS) {
+//            if (GooglePlayServicesUtil.isUserRecoverableError(resultCode)) {
+//                GooglePlayServicesUtil.getErrorDialog(resultCode, this,
+//                        PLAY_SERVICES_RESOLUTION_REQUEST).show();
+//            } else {
+//                Log.i(TAG, "This device is not supported.");
+//                finish();
+//            }
+//            return false;
+//        }
+//        return true;
+//    }
 
     public void logout() {
         prefs = getSharedPreferences("login", Activity.MODE_PRIVATE);

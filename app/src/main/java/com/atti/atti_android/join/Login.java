@@ -25,6 +25,7 @@ import java.util.ArrayList;
 public class Login extends Activity {
     private AQuery aq;
     private SharedPreferences prefs;
+    public static boolean loginResult = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,10 +46,8 @@ public class Login extends Activity {
         String id = aq.id(R.id.login_id_edit).getText().toString();
         String password = aq.id(R.id.login_password_edit).getText().toString();
 
-        if (id.equals("") || password.equals(""))
-            return false;
+        return !(id.equals("") || password.equals(""));
 
-        return true;
     }
 
     private void loginDataWrite() {
@@ -73,9 +72,11 @@ public class Login extends Activity {
         loginPair.add(new BasicNameValuePair("login", "login"));
         loginPair.add(new BasicNameValuePair("id", id));
         loginPair.add(new BasicNameValuePair("password", password));
-        new DataPostThread().execute(loginPair);
-        startActivity(new Intent(Login.this, MainActivity.class));
-        finish();
+        new DataPostThread(getApplicationContext()).execute(loginPair);
+        if (loginResult) {
+            startActivity(new Intent(Login.this, MainActivity.class));
+            finish();
+        }
     }
 
     Button.OnClickListener loginSubmit = new View.OnClickListener() {
@@ -94,12 +95,14 @@ public class Login extends Activity {
                         loginPair.add(new BasicNameValuePair("id", id));
                         loginPair.add(new BasicNameValuePair("password", password));
                         loginDataWrite();
-                        new DataPostThread().execute(loginPair);
+                        new DataPostThread(getApplicationContext()).execute(loginPair);
+                        if (loginResult) {
+                            startActivity(new Intent(Login.this, MainActivity.class));
+                            finish();
+                        }
                     } else {
                         Toast.makeText(getApplicationContext(), "정보를 제대로 입력하세요!", Toast.LENGTH_SHORT).show();
                     }
-                    startActivity(new Intent(Login.this, MainActivity.class));
-                    finish();
                     break;
                 case R.id.login_reject:
 //                    startActivity(new Intent(Login.this, MainActivity.class));
