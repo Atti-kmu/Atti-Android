@@ -3,6 +3,7 @@ package com.atti.atti_android.mainactivity;
 import android.app.Activity;
 import android.app.FragmentManager;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -31,9 +32,11 @@ public class MainActivity extends Activity {
 //    private BroadcastReceiver mRegistrationBroadcastReceiver;
     private AQuery aq;
 
-    FamilyList fl;
-    ElderlyList el;
-    SocialWorkerList sl;
+    private FamilyList fl;
+    private ElderlyList el;
+    private SocialWorkerList sl;
+
+    private SharedPreferences prefs;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,6 +59,7 @@ public class MainActivity extends Activity {
         aq.id(R.id.btn_family).clicked(listener);
         aq.id(R.id.btn_friend).clicked(listener);
         aq.id(R.id.btn_social_worker).clicked(listener);
+        aq.id(R.id.btn_logout).clicked(listener);
 
         users = UsersDataManager.getUsersInstance();
         fm = getFragmentManager();
@@ -163,6 +167,16 @@ public class MainActivity extends Activity {
         return true;
     }
 
+    public void logout() {
+        prefs = getSharedPreferences("login", Activity.MODE_PRIVATE);
+        SharedPreferences.Editor editor = prefs.edit();
+
+        editor.remove("id");
+        editor.remove("password");
+        editor.remove("auto_login");
+        editor.apply();
+    }
+
     Button.OnClickListener listener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
@@ -179,6 +193,10 @@ public class MainActivity extends Activity {
                     fm.beginTransaction().replace(R.id.list_fragment, sl, "SocialWorker").commit();
                     fm.beginTransaction().remove(sl);
                     break;
+                case R.id.btn_logout:
+                    new DataGetThread().execute("login");
+                    logout();
+                    finish();
                 default:
                     break;
             }

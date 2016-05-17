@@ -1,7 +1,6 @@
 package com.atti.atti_android.join;
 
 import android.app.Activity;
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -10,8 +9,6 @@ import android.widget.Toast;
 
 import com.androidquery.AQuery;
 import com.atti.atti_android.R;
-import com.atti.atti_android.data.DataPutThread;
-import com.atti.atti_android.mainactivity.MainActivity;
 
 import org.apache.http.message.BasicNameValuePair;
 

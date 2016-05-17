@@ -39,6 +39,8 @@ public class DataGetThread extends AsyncTask<String, Integer, String> {
             urlString = "http://52.79.147.144/mobile/friendship/1";
         else if (params[0].equals("mypage"))
             urlString = "http://52.79.147.144/mobile/user/mypage";
+        else if (params[0].equals("login"))
+            urlString = "http://52.79.147.144/mobile/user";
 
         try {
             HttpGet httpGet = new HttpGet(urlString);
@@ -59,6 +61,8 @@ public class DataGetThread extends AsyncTask<String, Integer, String> {
                 jarray = new JSONArray(object.getString("friendship_list"));
             else if (params[0].equals("mypage"))
                 jarray = new JSONArray(object.getString("mypage"));
+            else if (params[0].equals("login"))
+                return "logout";
 
             for (int i = 0; i < jarray.length(); i++) {
                 JSONObject jObject = jarray.getJSONObject(i);
