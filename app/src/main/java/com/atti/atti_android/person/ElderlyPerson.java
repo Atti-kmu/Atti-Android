@@ -1,7 +1,5 @@
 package com.atti.atti_android.person;
 
-import android.graphics.Bitmap;
-
 /**
  * Created by LG on 2016-03-28.
  */

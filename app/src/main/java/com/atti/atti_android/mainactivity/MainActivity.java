@@ -3,6 +3,7 @@ package com.atti.atti_android.mainactivity;
 import android.app.Activity;
 import android.app.FragmentManager;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -25,15 +26,17 @@ public class MainActivity extends Activity {
     private UsersDataManager users;
     private FragmentManager fm;
 
-    private static final int PLAY_SERVICES_RESOLUTION_REQUEST = 9000;
-    private static final String TAG = "MainActivity";
+//    private static final int PLAY_SERVICES_RESOLUTION_REQUEST = 9000;
+//    private static final String TAG = "MainActivity";
 
 //    private BroadcastReceiver mRegistrationBroadcastReceiver;
     private AQuery aq;
 
-    FamilyList fl;
-    ElderlyList el;
-    SocialWorkerList sl;
+    private FamilyList fl;
+    private ElderlyList el;
+    private SocialWorkerList sl;
+
+    private SharedPreferences prefs;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,7 +46,9 @@ public class MainActivity extends Activity {
         UsersDataManager.getUsersInstance().getFamilies().clear();
         UsersDataManager.getUsersInstance().getElderly().clear();
         UsersDataManager.getUsersInstance().getSocialWorkers().clear();
-        new DataGetThread().execute();
+        new DataGetThread().execute("family");
+        new DataGetThread().execute("friends");
+        new DataGetThread().execute("friendship");
 
         aq = new AQuery(this);
 
@@ -54,6 +59,7 @@ public class MainActivity extends Activity {
         aq.id(R.id.btn_family).clicked(listener);
         aq.id(R.id.btn_friend).clicked(listener);
         aq.id(R.id.btn_social_worker).clicked(listener);
+        aq.id(R.id.btn_logout).clicked(listener);
 
         users = UsersDataManager.getUsersInstance();
         fm = getFragmentManager();
@@ -61,34 +67,34 @@ public class MainActivity extends Activity {
         fl = new FamilyList();
         el = new ElderlyList();
         sl = new SocialWorkerList();
-        fm.beginTransaction().add(R.id.list_fragment, fl, "DataInfo").commit();
+        fm.beginTransaction().add(R.id.list_fragment, fl, "Family").commit();
 
-        if (users.getElderly().size() == 0) {
-            users.addData(new ElderlyPerson("김씨", "김씨"));
-            users.addData(new ElderlyPerson("이씨", "이씨"));
-            users.addData(new ElderlyPerson("박씨", "박씨"));
-        }
+//        if (users.getElderly().size() == 0) {
+//            users.addData(new ElderlyPerson("김씨", "김씨"));
+//            users.addData(new ElderlyPerson("이씨", "이씨"));
+//            users.addData(new ElderlyPerson("박씨", "박씨"));
+//        }
+//
+//        if (users.getSocialWorkers().size() == 0) {
+//            users.addData(new SocialWorker("최씨"));
+//            users.addData(new SocialWorker("남씨"));
+//            users.addData(new SocialWorker("진씨"));
+//        }
 
-        if (users.getSocialWorkers().size() == 0) {
-            users.addData(new SocialWorker("최씨"));
-            users.addData(new SocialWorker("남씨"));
-            users.addData(new SocialWorker("진씨"));
-        }
-
-        getInstanceIdToken();
+//        getInstanceIdToken();
 //        registBroadcastReceiver();
     }
 
-    /**
-     * Instance ID를 이용하여 디바이스 토큰을 가져오는 RegistrationIntentService를 실행한다.
-     */
-    public void getInstanceIdToken() {
-        if (checkPlayServices()) {
-            // Start IntentService to register this application with GCM.
-            Intent intent = new Intent(this, RegistrationIntentService.class);
-            startService(intent);
-        }
-    }
+//    /**
+//     * Instance ID를 이용하여 디바이스 토큰을 가져오는 RegistrationIntentService를 실행한다.
+//     */
+//    public void getInstanceIdToken() {
+//        if (checkPlayServices()) {
+//            // Start IntentService to register this application with GCM.
+//            Intent intent = new Intent(this, RegistrationIntentService.class);
+//            startService(intent);
+//        }
+//    }
 
 //    /**
 //     * LocalBroadcast 리시버를 정의한다. 토큰을 획득하기 위한 READY, GENERATING, COMPLETE 액션에 따라 UI에 변화를 준다.
@@ -143,22 +149,32 @@ public class MainActivity extends Activity {
 //    }
 
 
-    /**
-     * Google Play Service를 사용할 수 있는 환경이지를 체크한다.
-     */
-    private boolean checkPlayServices() {
-        int resultCode = GooglePlayServicesUtil.isGooglePlayServicesAvailable(this);
-        if (resultCode != ConnectionResult.SUCCESS) {
-            if (GooglePlayServicesUtil.isUserRecoverableError(resultCode)) {
-                GooglePlayServicesUtil.getErrorDialog(resultCode, this,
-                        PLAY_SERVICES_RESOLUTION_REQUEST).show();
-            } else {
-                Log.i(TAG, "This device is not supported.");
-                finish();
-            }
-            return false;
-        }
-        return true;
+//    /**
+//     * Google Play Service를 사용할 수 있는 환경이지를 체크한다.
+//     */
+//    private boolean checkPlayServices() {
+//        int resultCode = GooglePlayServicesUtil.isGooglePlayServicesAvailable(this);
+//        if (resultCode != ConnectionResult.SUCCESS) {
+//            if (GooglePlayServicesUtil.isUserRecoverableError(resultCode)) {
+//                GooglePlayServicesUtil.getErrorDialog(resultCode, this,
+//                        PLAY_SERVICES_RESOLUTION_REQUEST).show();
+//            } else {
+//                Log.i(TAG, "This device is not supported.");
+//                finish();
+//            }
+//            return false;
+//        }
+//        return true;
+//    }
+
+    public void logout() {
+        prefs = getSharedPreferences("login", Activity.MODE_PRIVATE);
+        SharedPreferences.Editor editor = prefs.edit();
+
+        editor.remove("id");
+        editor.remove("password");
+        editor.remove("auto_login");
+        editor.apply();
     }
 
     Button.OnClickListener listener = new View.OnClickListener() {
@@ -167,13 +183,20 @@ public class MainActivity extends Activity {
             switch (v.getId()) {
                 case R.id.btn_family:
                     fm.beginTransaction().replace(R.id.list_fragment, fl, "Family").commit();
+                    fm.beginTransaction().remove(fl);
                     break;
                 case R.id.btn_friend:
                     fm.beginTransaction().replace(R.id.list_fragment, el, "Friend").commit();
+                    fm.beginTransaction().remove(el);
                     break;
                 case R.id.btn_social_worker:
                     fm.beginTransaction().replace(R.id.list_fragment, sl, "SocialWorker").commit();
+                    fm.beginTransaction().remove(sl);
                     break;
+                case R.id.btn_logout:
+                    new DataGetThread().execute("login");
+                    logout();
+                    finish();
                 default:
                     break;
             }
