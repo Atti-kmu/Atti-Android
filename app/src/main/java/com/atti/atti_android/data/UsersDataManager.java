@@ -15,6 +15,7 @@ public class UsersDataManager {
     private ArrayList<Family> families;
     private ArrayList<SocialWorker> socialWorkers;
     private static UsersDataManager users = new UsersDataManager();
+    public static boolean connection = false;
 
     public UsersDataManager() {
         elderly = new ArrayList<ElderlyPerson>();

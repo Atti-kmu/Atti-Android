@@ -5,7 +5,7 @@
 
     <string name="create_channel">CREATE CHANNEL</string>
     <string name="connect">CONNECT</string>
-    <string name="exit_text">EXIT</string>
+    <string name="exit_text">통화종료</string>
     <string name="connect_channel_id_hint">Enter the Channel ID</string>
 
     <string name="alert_title">@string/app_name</string>

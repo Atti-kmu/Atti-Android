@@ -1,8 +1,6 @@
 package com.atti.atti_android.data;
 
-import android.app.AlertDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.os.AsyncTask;
 import android.util.Log;
 import android.widget.Toast;
@@ -39,12 +37,15 @@ public class DataPostThread extends AsyncTask<ArrayList<BasicNameValuePair>, Int
         String responseString = null;
         String urlString = "http://52.79.147.144/mobile/user";
 
+        Log.i("PostParams", String.valueOf(params[0]));
         if (params[0].get(0).getName().equals("login")) {
             Log.i("Login Pair", String.valueOf(params[0]));
             urlString = "http://52.79.147.144/mobile/user";
         }
-        else if (params[0].get(0).getName().equals("channel"))
+        else if (params[0].get(0).getName().equals("channel")) {
+            Log.i("channel Post", String.valueOf(params[0]));
             urlString = "http://52.79.147.144/mobile/call";
+        }
 
         try {
             HttpPost httpPost = new HttpPost(urlString);
@@ -53,7 +54,7 @@ public class DataPostThread extends AsyncTask<ArrayList<BasicNameValuePair>, Int
             Log.i("params length", String.valueOf(params[0].size()));
             for (int i = 1; i < params[0].size(); i++) {
                 Log.i("DataPostThread getName", params[0].get(i).getName());
-                Log.i("DataPostThread getValue", params[0].get(i).getValue());
+                Log.i("DataPostThread getValue", "" + params[0].get(i).getValue());
                 nameValuePairs.add(new BasicNameValuePair(params[0].get(i).getName(), params[0].get(i).getValue()));
             }
 
@@ -62,6 +63,7 @@ public class DataPostThread extends AsyncTask<ArrayList<BasicNameValuePair>, Int
             HttpResponse response = httpClient.execute(httpPost);
             responseString = EntityUtils.toString(response.getEntity(), HTTP.UTF_8);
 
+            Log.i("responseString", responseString);
             JSONObject object = new JSONObject(responseString);
             String statusCode = object.getString("status");
 

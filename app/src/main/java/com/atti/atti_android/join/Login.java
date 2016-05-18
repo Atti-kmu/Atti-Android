@@ -13,6 +13,7 @@ import com.androidquery.AQuery;
 import com.atti.atti_android.R;
 import com.atti.atti_android.data.DataGetThread;
 import com.atti.atti_android.data.DataPostThread;
+import com.atti.atti_android.gcm.RegistrationIntentService;
 import com.atti.atti_android.mainactivity.MainActivity;
 
 import org.apache.http.message.BasicNameValuePair;

@@ -12,6 +12,7 @@ import android.widget.Toast;
 import com.androidquery.AQuery;
 import com.atti.atti_android.R;
 import com.atti.atti_android.constant.Constant;
+import com.atti.atti_android.data.DataPutThread;
 import com.atti.atti_android.gcm.RegistrationIntentService;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesUtil;
@@ -101,8 +102,8 @@ public class Join extends Activity {
                         joinPair.add(new BasicNameValuePair("gender", String.valueOf(gender)));
                         joinPair.add(new BasicNameValuePair("kind", String.valueOf(kind)));
                         joinPair.add(new BasicNameValuePair("push_id", RegistrationIntentService.getGCMToken()));
-                        Log.i("GCMToken", RegistrationIntentService.getGCMToken());
-//                        new DataPutThread().execute(joinPair);
+                        Log.i("GCMToken", "" + RegistrationIntentService.getGCMToken());
+                        new DataPutThread().execute(joinPair);
                     } else {
                         Toast.makeText(getApplicationContext(), "정보를 제대로 입력하세요!", Toast.LENGTH_SHORT).show();
                     }

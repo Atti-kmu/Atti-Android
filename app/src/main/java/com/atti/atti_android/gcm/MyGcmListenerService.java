@@ -12,6 +12,7 @@ import android.util.Log;
 
 import com.atti.atti_android.R;
 import com.atti.atti_android.call_service.CallingService;
+import com.atti.atti_android.data.UsersDataManager;
 import com.atti.atti_android.mainactivity.MainActivity;
 import com.google.android.gms.gcm.GcmListenerService;
 
@@ -28,14 +29,20 @@ public class MyGcmListenerService extends GcmListenerService {
     @Override
     public void onMessageReceived(String from, Bundle data) {
         String title = data.getString("title");
-        String message = data.getString("message");
+//        String message = data.getString("message");
+        String message = data.getString("channel");
 
         Log.d(TAG, "From: " + from);
         Log.d(TAG, "Title: " + title);
         Log.d(TAG, "Message: " + message);
 
+        Log.i(TAG, "From: " + from);
+        Log.i(TAG, "Title: " + title);
+        Log.i(TAG, "Message: " + data.get("channel"));
+
         // GCM으로 받은 메세지를 디바이스에 알려주는 sendNotification()을 호출한다.
-        sendNotification(title, message);
+        if (!UsersDataManager.connection)
+            sendNotification(title, data);
     }
 
     /**
@@ -44,7 +51,7 @@ public class MyGcmListenerService extends GcmListenerService {
      * @param title
      * @param message
      */
-    private void sendNotification(String title, String message) {
+    private void sendNotification(String title, Bundle message) {
         Intent intent = new Intent(this, MainActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         PendingIntent pendingIntent = PendingIntent.getActivity(this, 0 /* Request code */, intent,
@@ -54,7 +61,7 @@ public class MyGcmListenerService extends GcmListenerService {
         NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(this)
                 .setSmallIcon(R.mipmap.ic_launcher)
                 .setContentTitle(title)
-                .setContentText(message)
+                .setContentText(message.getString("channel"))
                 .setAutoCancel(true)
                 .setSound(defaultSoundUri)
                 .setContentIntent(pendingIntent);
@@ -65,7 +72,7 @@ public class MyGcmListenerService extends GcmListenerService {
         notificationManager.notify(0 /* ID of notification */, notificationBuilder.build());
 
         Intent serviceIntent = new Intent(getApplicationContext(), CallingService.class);
-        serviceIntent.putExtra(CallingService.EXTRA_CALL_NUMBER, message);
+        serviceIntent.putExtra("Bundle", message);
         getApplicationContext().startService(serviceIntent);
     }
 }
