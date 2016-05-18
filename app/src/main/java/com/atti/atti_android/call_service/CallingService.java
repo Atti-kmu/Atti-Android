@@ -49,7 +49,7 @@ public class CallingService extends Service {
 
         Display display = windowManager.getDefaultDisplay();
 
-        int width = (int) (display.getWidth() * 0.9); //Display 사이즈의 90%
+        int width = (int) (display.getWidth() * 0.3); //Display 사이즈의 90%
 
         params = new WindowManager.LayoutParams(
                 width,
@@ -123,7 +123,7 @@ public class CallingService extends Service {
         pushData = intent.getBundleExtra("Bundle");
 //        call_number = intent.getStringExtra("channelID");
         call_number = pushData.getString("channel");
-        call_name = pushData.getString("sender_id");
+        call_name = pushData.getString("sender_name");
         call_profile_img = pushData.getString("sender_profile");
 
         Log.i("pushData", String.valueOf(pushData));

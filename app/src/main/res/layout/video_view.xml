@@ -5,29 +5,10 @@
     android:layout_height="match_parent"
     tools:context=".mainactivity.MainActivity">
 
-    <LinearLayout
+    <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
-
-        <LinearLayout
-            android:orientation="horizontal"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <TextView
-                android:id="@+id/channel_text"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textSize="30sp" />
-
-            <Button
-                android:id="@+id/exit_button"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="right"
-                android:text="@string/exit_text" />
-        </LinearLayout>
 
         <RelativeLayout
             android:id="@+id/video_view_group"
@@ -35,5 +16,12 @@
             android:layout_height="match_parent">
 
         </RelativeLayout>
-    </LinearLayout>
+
+        <Button
+            android:id="@+id/exit_button"
+            android:layout_width="110dp"
+            android:layout_height="80dp"
+            android:layout_gravity="right"
+            android:text="@string/exit_text" />
+    </FrameLayout>
 </RelativeLayout>

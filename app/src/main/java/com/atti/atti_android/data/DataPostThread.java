@@ -101,14 +101,10 @@ public class DataPostThread extends AsyncTask<ArrayList<BasicNameValuePair>, Int
     protected void onPostExecute(Integer s) {
         super.onPostExecute(s);
 
-        if (s == Constant.LOGIN_FAILED || s == Constant.LOGIN_ERROR) {
-            Toast.makeText(context, "로그인 실패. 다시 입력해주세요", Toast.LENGTH_SHORT).show();
+        if (s == Constant.LOGIN_FAILED || s == Constant.LOGIN_ERROR)
             Login.loginResult = false;
-        }
-        else if (s == Constant.LOGIN_SUCCESS) {
-            Toast.makeText(context, "로그인 성공", Toast.LENGTH_SHORT).show();
+        else if (s == Constant.LOGIN_SUCCESS)
             Login.loginResult = true;
-        }
     }
 
     @Override

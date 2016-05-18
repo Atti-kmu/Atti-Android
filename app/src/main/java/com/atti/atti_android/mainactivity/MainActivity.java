@@ -7,6 +7,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.view.Window;
 import android.widget.Button;
 
 import com.androidquery.AQuery;
@@ -19,6 +20,7 @@ import com.atti.atti_android.list.FamilyList;
 import com.atti.atti_android.list.SocialWorkerList;
 import com.atti.atti_android.person.ElderlyPerson;
 import com.atti.atti_android.person.SocialWorker;
+import com.beardedhen.androidbootstrap.TypefaceProvider;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesUtil;
 
@@ -41,7 +43,10 @@ public class MainActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_main);
+
+        TypefaceProvider.registerDefaultIconSets();
 
         UsersDataManager.getUsersInstance().getFamilies().clear();
         UsersDataManager.getUsersInstance().getElderly().clear();

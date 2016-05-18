@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.util.Log;
 import android.view.View;
+import android.view.Window;
 import android.widget.Button;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -56,6 +57,7 @@ public class PlayRTCDisplay extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.video_view);
 
         createPlayRTCObserverInstance();
@@ -100,8 +102,6 @@ public class PlayRTCDisplay extends Activity {
                 isChannelConnected = true;
 
                 // Fill the channelId to the channel_id TextView.
-                TextView text = (TextView) findViewById(R.id.channel_text);
-                text.setText(channelId);
                 ArrayList<BasicNameValuePair> channel = new ArrayList<BasicNameValuePair>();
                 Log.i("mainCreateChannel", "" + channelId);
                 channel.add(new BasicNameValuePair("channel", "channel"));
@@ -305,7 +305,7 @@ public class PlayRTCDisplay extends Activity {
             RelativeLayout.LayoutParams param = new RelativeLayout.LayoutParams(myVideoSize.x, myVideoSize.y);
             param.addRule(RelativeLayout.ALIGN_PARENT_RIGHT);
             param.addRule(RelativeLayout.ALIGN_PARENT_TOP);
-            param.setMargins(30, 30, 30, 30);
+            param.setMargins(30, 100, 30, 30);
 
             // Create the localViews.
             localView = new PlayRTCVideoView(parentVideoViewGroup.getContext(), myVideoSize);

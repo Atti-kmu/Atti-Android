@@ -35,7 +35,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_toRightOf="@id/join_id_text"
-                android:hint="@string/id_hint" />
+                android:hint="@string/id_hint"
+                android:windowSoftInputMode="stateHidden|stateAlwaysVisible|adjustResize" />
         </LinearLayout>
 
         <LinearLayout
@@ -55,7 +56,8 @@
                 android:layout_height="wrap_content"
                 android:layout_toRightOf="@id/join_password_text"
                 android:hint="@string/password_hint"
-                android:inputType="textPassword" />
+                android:inputType="textPassword"
+                android:windowSoftInputMode="stateHidden|stateAlwaysVisible|adjustResize" />
         </LinearLayout>
 
         <!--<LinearLayout-->
@@ -93,7 +95,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_toRightOf="@id/join_name_text"
-                android:hint="@string/name_hint" />
+                android:hint="@string/name_hint"
+                android:windowSoftInputMode="stateHidden|stateAlwaysVisible|adjustResize" />
         </LinearLayout>
 
         <LinearLayout
