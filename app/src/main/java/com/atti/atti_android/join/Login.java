@@ -27,81 +27,53 @@ import java.util.ArrayList;
  */
 public class Login extends Activity {
     private AQuery aq;
-    private SharedPreferences prefs;
     public static boolean loginResult = false;
+    private SharedPreferences prefs;
+    private String id;
+    private String password;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.login_layout);
+        new AutoLogin(getApplicationContext());
+
         aq = new AQuery(this);
-        prefs = getSharedPreferences("login", Activity.MODE_PRIVATE);
+        prefs = AutoLogin.getInstance();
 
         TypefaceProvider.registerDefaultIconSets();
 
         aq.id(R.id.login_submit).clicked(loginSubmit);
-//        aq.id(R.id.login_reject).clicked(loginSubmit);
         aq.id(R.id.login_join_button).clicked(loginSubmit);
 
         if (prefs.getBoolean("auto_login", false))
-            loginDataRead();
+            AutoLogin.loginDataRead(id, password);
     }
 
     public boolean loginChecked() {
-        String id = aq.id(R.id.login_id_edit).getText().toString();
-        String password = aq.id(R.id.login_password_edit).getText().toString();
+        id = aq.id(R.id.login_id_edit).getText().toString();
+        password = aq.id(R.id.login_password_edit).getText().toString();
 
         return !(id.equals("") || password.equals(""));
 
     }
 
-    private void loginDataWrite() {
-        String id = aq.id(R.id.login_id_edit).getText().toString();
-        String password = aq.id(R.id.login_password_edit).getText().toString();
-
-        prefs = getSharedPreferences("login", Activity.MODE_PRIVATE);
-        SharedPreferences.Editor editor = prefs.edit();
-        editor.putString("id", id);
-        editor.putString("password", password);
-        editor.putBoolean("auto_login", true);
-        editor.apply();
-    }
-
-    private void loginDataRead() {
-        prefs = getSharedPreferences("login", Activity.MODE_PRIVATE);
-
-        String id = prefs.getString("id", "");
-        String password = prefs.getString("password", "");
-
-        ArrayList<BasicNameValuePair> loginPair = new ArrayList<BasicNameValuePair>();
-        loginPair.add(new BasicNameValuePair("login", "login"));
-        loginPair.add(new BasicNameValuePair("id", id));
-        loginPair.add(new BasicNameValuePair("password", password));
-        new DataPostThread(getApplicationContext()).execute(loginPair);
-        if (loginResult) {
-            startActivity(new Intent(Login.this, MainActivity.class));
-            finish();
-        }
-    }
-
     Button.OnClickListener loginSubmit = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            prefs = getSharedPreferences("login", Activity.MODE_PRIVATE);
-            Log.i("auto_login", String.valueOf(prefs.getBoolean("auto_login", false)));
             switch (v.getId()) {
                 case R.id.login_submit:
                     if (loginChecked()) {
-                        String id = aq.id(R.id.login_id_edit).getText().toString();
-                        String password = aq.id(R.id.login_password_edit).getText().toString();
+                        id = aq.id(R.id.login_id_edit).getText().toString();
+                        password = aq.id(R.id.login_password_edit).getText().toString();
 
                         ArrayList<BasicNameValuePair> loginPair = new ArrayList<BasicNameValuePair>();
                         loginPair.add(new BasicNameValuePair("login", "login"));
                         loginPair.add(new BasicNameValuePair("id", id));
                         loginPair.add(new BasicNameValuePair("password", password));
-                        loginDataWrite();
-                        new DataPostThread(getApplicationContext()).execute(loginPair);
+                        AutoLogin.loginDataWrite(id, password);
+                        new DataPostThread().execute(loginPair);
                         if (loginResult) {
                             startActivity(new Intent(Login.this, MainActivity.class));
                             finish();

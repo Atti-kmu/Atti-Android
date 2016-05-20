@@ -15,6 +15,7 @@ import com.atti.atti_android.R;
 import com.atti.atti_android.data.DataGetThread;
 import com.atti.atti_android.data.UsersDataManager;
 import com.atti.atti_android.gcm.RegistrationIntentService;
+import com.atti.atti_android.join.AutoLogin;
 import com.atti.atti_android.list.ElderlyList;
 import com.atti.atti_android.list.FamilyList;
 import com.atti.atti_android.list.SocialWorkerList;
@@ -25,7 +26,6 @@ import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesUtil;
 
 public class MainActivity extends Activity {
-    private UsersDataManager users;
     private FragmentManager fm;
 
 //    private static final int PLAY_SERVICES_RESOLUTION_REQUEST = 9000;
@@ -66,25 +66,13 @@ public class MainActivity extends Activity {
         aq.id(R.id.btn_social_worker).clicked(listener);
         aq.id(R.id.btn_logout).clicked(listener);
 
-        users = UsersDataManager.getUsersInstance();
         fm = getFragmentManager();
+        prefs = AutoLogin.getInstance();
 
         fl = new FamilyList();
         el = new ElderlyList();
         sl = new SocialWorkerList();
         fm.beginTransaction().add(R.id.list_fragment, fl, "Family").commit();
-
-//        if (users.getElderly().size() == 0) {
-//            users.addData(new ElderlyPerson("김씨", "김씨"));
-//            users.addData(new ElderlyPerson("이씨", "이씨"));
-//            users.addData(new ElderlyPerson("박씨", "박씨"));
-//        }
-//
-//        if (users.getSocialWorkers().size() == 0) {
-//            users.addData(new SocialWorker("최씨"));
-//            users.addData(new SocialWorker("남씨"));
-//            users.addData(new SocialWorker("진씨"));
-//        }
 
 //        getInstanceIdToken();
 //        registBroadcastReceiver();
@@ -173,7 +161,6 @@ public class MainActivity extends Activity {
 //    }
 
     public void logout() {
-        prefs = getSharedPreferences("login", Activity.MODE_PRIVATE);
         SharedPreferences.Editor editor = prefs.edit();
 
         editor.remove("id");

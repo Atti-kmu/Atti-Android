@@ -53,17 +53,4 @@ public class UsersDataManager {
 
         return true;
     }
-
-    public boolean removeData(CommonPerson com, int index) {
-        if (com instanceof ElderlyPerson) {
-            elderly.remove(index);
-        } else if (com instanceof Family) {
-            families.remove(index);
-        } else if (com instanceof SocialWorker) {
-            socialWorkers.remove(index);
-        } else
-            return false;
-
-        return true;
-    }
 }

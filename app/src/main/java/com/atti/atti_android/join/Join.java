@@ -28,6 +28,7 @@ import java.util.ArrayList;
 public class Join extends Activity {
     private AQuery aq;
     private int gender, kind;
+    private String id, password, name, pattern;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,10 +50,10 @@ public class Join extends Activity {
     }
 
     public boolean joinChecked() {
-        String id = aq.id(R.id.join_id_edit).getText().toString();
-        String password = aq.id(R.id.join_password_edit).getText().toString();
-        String name = aq.id(R.id.join_name_edit).getText().toString();
-        String pattern = "^(?=.*[0-9])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{7,15}$";
+        id = aq.id(R.id.join_id_edit).getText().toString();
+        password = aq.id(R.id.join_password_edit).getText().toString();
+        name = aq.id(R.id.join_name_edit).getText().toString();
+        pattern = "^(?=.*[0-9])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{7,15}$";
 
         return !(id.equals("") || password.equals("") || name.equals("") || gender == -1 || kind == -1) && password.matches(pattern);
     }
@@ -92,9 +93,9 @@ public class Join extends Activity {
             switch (v.getId()) {
                 case R.id.join_submit:
                     if (joinChecked()) {
-                        String id = aq.id(R.id.join_id_edit).getText().toString();
-                        String password = aq.id(R.id.join_password_edit).getText().toString();
-                        String name = aq.id(R.id.join_name_edit).getText().toString();
+                        id = aq.id(R.id.join_id_edit).getText().toString();
+                        password = aq.id(R.id.join_password_edit).getText().toString();
+                        name = aq.id(R.id.join_name_edit).getText().toString();
 
                         ArrayList<BasicNameValuePair> joinPair = new ArrayList<BasicNameValuePair>();
                         joinPair.add(new BasicNameValuePair("join", "join"));
@@ -105,6 +106,7 @@ public class Join extends Activity {
                         joinPair.add(new BasicNameValuePair("kind", String.valueOf(kind)));
                         joinPair.add(new BasicNameValuePair("push_id", RegistrationIntentService.getGCMToken()));
                         Log.i("GCMToken", "" + RegistrationIntentService.getGCMToken());
+                        AutoLogin.loginDataWrite(id, password);
                         new DataPutThread().execute(joinPair);
                     } else {
                         Toast.makeText(getApplicationContext(), "정보를 제대로 입력하세요!", Toast.LENGTH_SHORT).show();

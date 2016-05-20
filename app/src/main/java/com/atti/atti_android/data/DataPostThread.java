@@ -1,9 +1,7 @@
 package com.atti.atti_android.data;
 
-import android.content.Context;
 import android.os.AsyncTask;
 import android.util.Log;
-import android.widget.Toast;
 
 import com.atti.atti_android.constant.Constant;
 import com.atti.atti_android.http.HttpServerConnection;
@@ -28,8 +26,6 @@ import java.util.ArrayList;
  * Created by BoWoon on 2016-05-11.
  */
 public class DataPostThread extends AsyncTask<ArrayList<BasicNameValuePair>, Integer, Integer> {
-    private Context context;
-
     @Override
     protected Integer doInBackground(ArrayList<BasicNameValuePair>... params) {
 //        HttpClient httpClient = ConnectSSLClient.getHttpClient();
@@ -87,9 +83,8 @@ public class DataPostThread extends AsyncTask<ArrayList<BasicNameValuePair>, Int
         return Constant.LOGIN_SUCCESS;
     }
 
-    public DataPostThread(Context context) {
+    public DataPostThread() {
         super();
-        this.context = context;
     }
 
     @Override
