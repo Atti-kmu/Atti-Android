@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.view.Window;
 import android.widget.Button;
 import android.widget.RadioGroup;
 import android.widget.Toast;
@@ -12,6 +13,7 @@ import android.widget.Toast;
 import com.androidquery.AQuery;
 import com.atti.atti_android.R;
 import com.atti.atti_android.constant.Constant;
+import com.atti.atti_android.data.DataPutThread;
 import com.atti.atti_android.gcm.RegistrationIntentService;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesUtil;
@@ -26,10 +28,12 @@ import java.util.ArrayList;
 public class Join extends Activity {
     private AQuery aq;
     private int gender, kind;
+    private String id, password, name, pattern;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.join_layout);
         aq = new AQuery(this);
 
@@ -46,10 +50,10 @@ public class Join extends Activity {
     }
 
     public boolean joinChecked() {
-        String id = aq.id(R.id.join_id_edit).getText().toString();
-        String password = aq.id(R.id.join_password_edit).getText().toString();
-        String name = aq.id(R.id.join_name_edit).getText().toString();
-        String pattern = "^(?=.*[0-9])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{7,15}$";
+        id = aq.id(R.id.join_id_edit).getText().toString();
+        password = aq.id(R.id.join_password_edit).getText().toString();
+        name = aq.id(R.id.join_name_edit).getText().toString();
+        pattern = "^(?=.*[0-9])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{7,15}$";
 
         return !(id.equals("") || password.equals("") || name.equals("") || gender == -1 || kind == -1) && password.matches(pattern);
     }
@@ -75,7 +79,6 @@ public class Join extends Activity {
                 GooglePlayServicesUtil.getErrorDialog(resultCode, this,
                         Constant.PLAY_SERVICES_RESOLUTION_REQUEST).show();
             } else {
-                Log.i(Constant.MAIN_TAG, "This device is not supported.");
                 finish();
             }
             return false;
@@ -89,9 +92,9 @@ public class Join extends Activity {
             switch (v.getId()) {
                 case R.id.join_submit:
                     if (joinChecked()) {
-                        String id = aq.id(R.id.join_id_edit).getText().toString();
-                        String password = aq.id(R.id.join_password_edit).getText().toString();
-                        String name = aq.id(R.id.join_name_edit).getText().toString();
+                        id = aq.id(R.id.join_id_edit).getText().toString();
+                        password = aq.id(R.id.join_password_edit).getText().toString();
+                        name = aq.id(R.id.join_name_edit).getText().toString();
 
                         ArrayList<BasicNameValuePair> joinPair = new ArrayList<BasicNameValuePair>();
                         joinPair.add(new BasicNameValuePair("join", "join"));
@@ -101,8 +104,9 @@ public class Join extends Activity {
                         joinPair.add(new BasicNameValuePair("gender", String.valueOf(gender)));
                         joinPair.add(new BasicNameValuePair("kind", String.valueOf(kind)));
                         joinPair.add(new BasicNameValuePair("push_id", RegistrationIntentService.getGCMToken()));
-                        Log.i("GCMToken", RegistrationIntentService.getGCMToken());
-//                        new DataPutThread().execute(joinPair);
+                        Log.i("GCMToken", "" + RegistrationIntentService.getGCMToken());
+                        AutoLogin.loginDataWrite(id, password);
+                        new DataPutThread().execute(joinPair);
                     } else {
                         Toast.makeText(getApplicationContext(), "정보를 제대로 입력하세요!", Toast.LENGTH_SHORT).show();
                     }

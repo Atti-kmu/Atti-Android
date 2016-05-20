@@ -7,6 +7,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.view.Window;
 import android.widget.Button;
 
 import com.androidquery.AQuery;
@@ -14,22 +15,23 @@ import com.atti.atti_android.R;
 import com.atti.atti_android.data.DataGetThread;
 import com.atti.atti_android.data.UsersDataManager;
 import com.atti.atti_android.gcm.RegistrationIntentService;
+import com.atti.atti_android.join.AutoLogin;
 import com.atti.atti_android.list.ElderlyList;
 import com.atti.atti_android.list.FamilyList;
 import com.atti.atti_android.list.SocialWorkerList;
 import com.atti.atti_android.person.ElderlyPerson;
 import com.atti.atti_android.person.SocialWorker;
+import com.beardedhen.androidbootstrap.TypefaceProvider;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesUtil;
 
 public class MainActivity extends Activity {
-    private UsersDataManager users;
     private FragmentManager fm;
 
 //    private static final int PLAY_SERVICES_RESOLUTION_REQUEST = 9000;
 //    private static final String TAG = "MainActivity";
 
-//    private BroadcastReceiver mRegistrationBroadcastReceiver;
+    //    private BroadcastReceiver mRegistrationBroadcastReceiver;
     private AQuery aq;
 
     private FamilyList fl;
@@ -41,7 +43,10 @@ public class MainActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_main);
+
+        TypefaceProvider.registerDefaultIconSets();
 
         UsersDataManager.getUsersInstance().getFamilies().clear();
         UsersDataManager.getUsersInstance().getElderly().clear();
@@ -61,25 +66,15 @@ public class MainActivity extends Activity {
         aq.id(R.id.btn_social_worker).clicked(listener);
         aq.id(R.id.btn_logout).clicked(listener);
 
-        users = UsersDataManager.getUsersInstance();
         fm = getFragmentManager();
+        prefs = AutoLogin.getInstance();
 
         fl = new FamilyList();
         el = new ElderlyList();
         sl = new SocialWorkerList();
         fm.beginTransaction().add(R.id.list_fragment, fl, "Family").commit();
 
-//        if (users.getElderly().size() == 0) {
-//            users.addData(new ElderlyPerson("김씨", "김씨"));
-//            users.addData(new ElderlyPerson("이씨", "이씨"));
-//            users.addData(new ElderlyPerson("박씨", "박씨"));
-//        }
-//
-//        if (users.getSocialWorkers().size() == 0) {
-//            users.addData(new SocialWorker("최씨"));
-//            users.addData(new SocialWorker("남씨"));
-//            users.addData(new SocialWorker("진씨"));
-//        }
+        Log.i("GCMToken", "" + RegistrationIntentService.getGCMToken());
 
 //        getInstanceIdToken();
 //        registBroadcastReceiver();
@@ -167,16 +162,6 @@ public class MainActivity extends Activity {
 //        return true;
 //    }
 
-    public void logout() {
-        prefs = getSharedPreferences("login", Activity.MODE_PRIVATE);
-        SharedPreferences.Editor editor = prefs.edit();
-
-        editor.remove("id");
-        editor.remove("password");
-        editor.remove("auto_login");
-        editor.apply();
-    }
-
     Button.OnClickListener listener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
@@ -195,7 +180,7 @@ public class MainActivity extends Activity {
                     break;
                 case R.id.btn_logout:
                     new DataGetThread().execute("login");
-                    logout();
+                    AutoLogin.logout();
                     finish();
                 default:
                     break;

@@ -3,14 +3,17 @@ package com.atti.atti_android.call_service;
 import android.app.Service;
 import android.content.Intent;
 import android.graphics.PixelFormat;
+import android.os.Bundle;
 import android.os.IBinder;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.androidquery.AQuery;
@@ -23,11 +26,14 @@ import com.atti.atti_android.playrtc.PlayRTCDisplay;
 public class CallingService extends Service {
     public static final String EXTRA_CALL_NUMBER = "call_number";
     protected View rootView;
-    private TextView tv_call_number;
-    private String call_number;
+    private TextView callNameText;
+    private ImageView callProfileimg;
+    private String call_number, call_name, call_profile_img;
     private WindowManager.LayoutParams params;
     private WindowManager windowManager;
     private AQuery aq;
+
+    private Bundle pushData;
 
     @Override
     public IBinder onBind(Intent intent) {
@@ -43,7 +49,7 @@ public class CallingService extends Service {
 
         Display display = windowManager.getDefaultDisplay();
 
-        int width = (int) (display.getWidth() * 0.9); //Display 사이즈의 90%
+        int width = (int) (display.getWidth() * 0.3); //Display 사이즈의 90%
 
         params = new WindowManager.LayoutParams(
                 width,
@@ -97,11 +103,13 @@ public class CallingService extends Service {
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
+        String url = "http://52.79.147.144/images/profile/";
         windowManager.addView(rootView, params);
         setExtra(intent);
 
-        if (!TextUtils.isEmpty(call_number))
-            aq.id(R.id.call_who).text(call_number);
+//        if (!TextUtils.isEmpty(call_number))
+        aq.id(R.id.call_name).text(call_name);
+        aq.id(R.id.call_profile_img).image(url + call_profile_img);
 
         return START_REDELIVER_INTENT;
     }
@@ -112,7 +120,16 @@ public class CallingService extends Service {
             return;
         }
 
-        call_number = intent.getStringExtra(EXTRA_CALL_NUMBER);
+        pushData = intent.getBundleExtra("Bundle");
+//        call_number = intent.getStringExtra("channelID");
+        call_number = pushData.getString("channel");
+        call_name = pushData.getString("sender_name");
+        call_profile_img = pushData.getString("sender_profile");
+
+        Log.i("pushData", String.valueOf(pushData));
+        Log.i("call_number", "" + call_number);
+        Log.i("sender_name", "" + call_name);
+        Log.i("call_profile_img", "" + call_profile_img);
     }
 
     @Override
@@ -133,7 +150,10 @@ public class CallingService extends Service {
                 case R.id.receive:
                     removePopup();
                     Intent playRTC = new Intent(getApplicationContext(), PlayRTCDisplay.class);
+                    Log.i("callChannelID", call_number);
                     playRTC.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    playRTC.putExtra("channelID", call_number);
+                    playRTC.putExtra("connect", 1);
                     startActivity(playRTC);
                     break;
                 case R.id.reject:

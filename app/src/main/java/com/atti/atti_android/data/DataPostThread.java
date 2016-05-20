@@ -1,11 +1,7 @@
 package com.atti.atti_android.data;
 
-import android.app.AlertDialog;
-import android.content.Context;
-import android.content.DialogInterface;
 import android.os.AsyncTask;
 import android.util.Log;
-import android.widget.Toast;
 
 import com.atti.atti_android.constant.Constant;
 import com.atti.atti_android.http.HttpServerConnection;
@@ -30,8 +26,6 @@ import java.util.ArrayList;
  * Created by BoWoon on 2016-05-11.
  */
 public class DataPostThread extends AsyncTask<ArrayList<BasicNameValuePair>, Integer, Integer> {
-    private Context context;
-
     @Override
     protected Integer doInBackground(ArrayList<BasicNameValuePair>... params) {
 //        HttpClient httpClient = ConnectSSLClient.getHttpClient();
@@ -39,12 +33,15 @@ public class DataPostThread extends AsyncTask<ArrayList<BasicNameValuePair>, Int
         String responseString = null;
         String urlString = "http://52.79.147.144/mobile/user";
 
+        Log.i("PostParams", String.valueOf(params[0]));
         if (params[0].get(0).getName().equals("login")) {
             Log.i("Login Pair", String.valueOf(params[0]));
             urlString = "http://52.79.147.144/mobile/user";
         }
-        else if (params[0].get(0).getName().equals("channel"))
+        else if (params[0].get(0).getName().equals("channel")) {
+            Log.i("channel Post", String.valueOf(params[0]));
             urlString = "http://52.79.147.144/mobile/call";
+        }
 
         try {
             HttpPost httpPost = new HttpPost(urlString);
@@ -53,7 +50,7 @@ public class DataPostThread extends AsyncTask<ArrayList<BasicNameValuePair>, Int
             Log.i("params length", String.valueOf(params[0].size()));
             for (int i = 1; i < params[0].size(); i++) {
                 Log.i("DataPostThread getName", params[0].get(i).getName());
-                Log.i("DataPostThread getValue", params[0].get(i).getValue());
+                Log.i("DataPostThread getValue", "" + params[0].get(i).getValue());
                 nameValuePairs.add(new BasicNameValuePair(params[0].get(i).getName(), params[0].get(i).getValue()));
             }
 
@@ -62,6 +59,7 @@ public class DataPostThread extends AsyncTask<ArrayList<BasicNameValuePair>, Int
             HttpResponse response = httpClient.execute(httpPost);
             responseString = EntityUtils.toString(response.getEntity(), HTTP.UTF_8);
 
+            Log.i("responseString", responseString);
             JSONObject object = new JSONObject(responseString);
             String statusCode = object.getString("status");
 
@@ -85,9 +83,8 @@ public class DataPostThread extends AsyncTask<ArrayList<BasicNameValuePair>, Int
         return Constant.LOGIN_SUCCESS;
     }
 
-    public DataPostThread(Context context) {
+    public DataPostThread() {
         super();
-        this.context = context;
     }
 
     @Override
@@ -99,14 +96,10 @@ public class DataPostThread extends AsyncTask<ArrayList<BasicNameValuePair>, Int
     protected void onPostExecute(Integer s) {
         super.onPostExecute(s);
 
-        if (s == Constant.LOGIN_FAILED || s == Constant.LOGIN_ERROR) {
-            Toast.makeText(context, "로그인 실패. 다시 입력해주세요", Toast.LENGTH_SHORT).show();
+        if (s == Constant.LOGIN_FAILED || s == Constant.LOGIN_ERROR)
             Login.loginResult = false;
-        }
-        else if (s == Constant.LOGIN_SUCCESS) {
-            Toast.makeText(context, "로그인 성공", Toast.LENGTH_SHORT).show();
+        else if (s == Constant.LOGIN_SUCCESS)
             Login.loginResult = true;
-        }
     }
 
     @Override

@@ -37,8 +37,8 @@ public class FamilyList extends Fragment {
     AdapterView.OnItemClickListener itemClickListener = new AdapterView.OnItemClickListener() {
         @Override
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-            Toast.makeText(getActivity(), "Click Item : " + position, Toast.LENGTH_SHORT).show();
             Intent playRTC = new Intent(getActivity(), PlayRTCDisplay.class);
+            playRTC.putExtra("connect", 0);
             startActivity(playRTC);
         }
     };

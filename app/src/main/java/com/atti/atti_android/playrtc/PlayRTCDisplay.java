@@ -8,12 +8,14 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.util.Log;
 import android.view.View;
+import android.view.Window;
 import android.widget.Button;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.atti.atti_android.R;
 import com.atti.atti_android.data.DataPostThread;
+import com.atti.atti_android.data.UsersDataManager;
 import com.sktelecom.playrtc.PlayRTC;
 import com.sktelecom.playrtc.PlayRTCFactory;
 import com.sktelecom.playrtc.config.PlayRTCConfig;
@@ -27,14 +29,11 @@ import com.sktelecom.playrtc.stream.PlayRTCMedia;
 import com.sktelecom.playrtc.util.android.PlayRTCAudioManager;
 import com.sktelecom.playrtc.util.ui.PlayRTCVideoView;
 
-import org.apache.http.NameValuePair;
-import org.apache.http.client.methods.HttpPost;
 import org.apache.http.message.BasicNameValuePair;
 import org.json.JSONObject;
 
 import java.io.File;
 import java.util.ArrayList;
-import java.util.Collection;
 
 /**
  * Created by 보운 on 2016-03-24.
@@ -53,21 +52,36 @@ public class PlayRTCDisplay extends Activity {
     private boolean isCloseActivity = false;
     private boolean isChannelConnected = false;
 
-    private String channelId;
+    private String createChannel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.video_view);
 
         createPlayRTCObserverInstance();
         createPlayRTCInstance();
         setOnClickEventListenerToButton();
 
-        try {
-            playrtc.createChannel(new JSONObject());
-        } catch (RequiredConfigMissingException e) {
-            e.printStackTrace();
+        Log.i("Intent", String.valueOf(getIntent().getIntExtra("connect", 0)));
+        Log.i("Intent2", String.valueOf(UsersDataManager.connection));
+        if (!UsersDataManager.connection) {
+            if (getIntent().getIntExtra("connect", 0) == 0) {
+                try {
+                    playrtc.createChannel(new JSONObject());
+                } catch (RequiredConfigMissingException e) {
+                    e.printStackTrace();
+                }
+            } else {
+                UsersDataManager.connection = true;
+                String connectChannel = getIntent().getStringExtra("channelID");
+                try {
+                    playrtc.connectChannel(connectChannel, new JSONObject());
+                } catch (RequiredConfigMissingException e) {
+                    e.printStackTrace();
+                }
+            }
         }
     }
 
@@ -88,12 +102,13 @@ public class PlayRTCDisplay extends Activity {
                 isChannelConnected = true;
 
                 // Fill the channelId to the channel_id TextView.
-                TextView channelIdTextView = (TextView) findViewById(R.id.channel_id);
-                channelIdTextView.setText(channelId);
                 ArrayList<BasicNameValuePair> channel = new ArrayList<BasicNameValuePair>();
+                Log.i("mainCreateChannel", "" + channelId);
+                Log.i("mainCreateChannel", "" + getSharedPreferences("login", Activity.MODE_PRIVATE).getString("id", ""));
                 channel.add(new BasicNameValuePair("channel", "channel"));
-                channel.add(new BasicNameValuePair("channelid", channelId));
-                new DataPostThread(getApplicationContext()).execute(channel);
+                channel.add(new BasicNameValuePair("receiver", getSharedPreferences("login", Activity.MODE_PRIVATE).getString("id", "")));
+                channel.add(new BasicNameValuePair("channel", channelId));
+                new DataPostThread().execute(channel);
             }
 
             @Override
@@ -125,10 +140,6 @@ public class PlayRTCDisplay extends Activity {
                 isChannelConnected = false;
                 remoteView.hide(delayTime);
                 localView.hide(delayTime);
-
-                // Clean the channel_id TextView.
-                TextView ChannelIdTextView = (TextView) findViewById(R.id.channel_id);
-                ChannelIdTextView.setText(null);
 
                 // Create PlayRTC instance again.
                 // Because at the disconnect moment, the PlayRTC instance has removed.
@@ -172,24 +183,29 @@ public class PlayRTCDisplay extends Activity {
 //        });
 
         // Add a connect channel event listener.
-        Button connectButton = (Button) findViewById(R.id.connect_button);
-        connectButton.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                try {
-                    TextView ChannelIdInput = (TextView) findViewById(R.id.connect_channel_id);
-                    channelId = ChannelIdInput.getText().toString();
-                    playrtc.connectChannel(channelId, new JSONObject());
-                } catch (RequiredConfigMissingException e) {
-                    e.printStackTrace();
-                }
-            }
-        });
+//        Button connectButton = (Button) findViewById(R.id.connect_button);
+//        connectButton.setOnClickListener(new View.OnClickListener() {
+//            public void onClick(View v) {
+//                try {
+//                    Intent intent = getIntent();
+//                    String connectChannel = intent.getStringExtra("channelID");
+//                    TextView ChannelIdInput = (TextView) findViewById(R.id.connect_channel_id);
+//                    channelId = ChannelIdInput.getText().toString();
+//                    Log.i("qqqqqqqqqqq", channelId);
+//                    playrtc.connectChannel(connectChannel, new JSONObject());
+//                } catch (RequiredConfigMissingException e) {
+//                    e.printStackTrace();
+//                }
+//            }
+//        });
 
         // Add a exit channel event listener.
         Button exitButton = (Button) findViewById(R.id.exit_button);
         exitButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
+                UsersDataManager.connection = false;
                 playrtc.deleteChannel();
+                finish();
             }
         });
     }
@@ -290,7 +306,7 @@ public class PlayRTCDisplay extends Activity {
             RelativeLayout.LayoutParams param = new RelativeLayout.LayoutParams(myVideoSize.x, myVideoSize.y);
             param.addRule(RelativeLayout.ALIGN_PARENT_RIGHT);
             param.addRule(RelativeLayout.ALIGN_PARENT_TOP);
-            param.setMargins(30, 30, 30, 30);
+            param.setMargins(30, 100, 30, 30);
 
             // Create the localViews.
             localView = new PlayRTCVideoView(parentVideoViewGroup.getContext(), myVideoSize);

@@ -15,6 +15,7 @@ public class UsersDataManager {
     private ArrayList<Family> families;
     private ArrayList<SocialWorker> socialWorkers;
     private static UsersDataManager users = new UsersDataManager();
+    public static boolean connection = false;
 
     public UsersDataManager() {
         elderly = new ArrayList<ElderlyPerson>();
@@ -47,19 +48,6 @@ public class UsersDataManager {
             families.add((Family) com);
         } else if (com instanceof SocialWorker) {
             socialWorkers.add((SocialWorker) com);
-        } else
-            return false;
-
-        return true;
-    }
-
-    public boolean removeData(CommonPerson com, int index) {
-        if (com instanceof ElderlyPerson) {
-            elderly.remove(index);
-        } else if (com instanceof Family) {
-            families.remove(index);
-        } else if (com instanceof SocialWorker) {
-            socialWorkers.remove(index);
         } else
             return false;
 
