@@ -38,9 +38,14 @@ public class AutoLogin {
         loginPair.add(new BasicNameValuePair("id", id));
         loginPair.add(new BasicNameValuePair("password", password));
         new DataPostThread().execute(loginPair);
-//        if (loginResult) {
-//            startActivity(new Intent(Login.this, MainActivity.class));
-//            finish();
-//        }
+    }
+
+    public static void logout() {
+        SharedPreferences.Editor editor = ourInstance.edit();
+
+        editor.remove("id");
+        editor.remove("password");
+        editor.remove("auto_login");
+        editor.apply();
     }
 }

@@ -31,7 +31,7 @@ public class MainActivity extends Activity {
 //    private static final int PLAY_SERVICES_RESOLUTION_REQUEST = 9000;
 //    private static final String TAG = "MainActivity";
 
-//    private BroadcastReceiver mRegistrationBroadcastReceiver;
+    //    private BroadcastReceiver mRegistrationBroadcastReceiver;
     private AQuery aq;
 
     private FamilyList fl;
@@ -73,6 +73,8 @@ public class MainActivity extends Activity {
         el = new ElderlyList();
         sl = new SocialWorkerList();
         fm.beginTransaction().add(R.id.list_fragment, fl, "Family").commit();
+
+        Log.i("GCMToken", "" + RegistrationIntentService.getGCMToken());
 
 //        getInstanceIdToken();
 //        registBroadcastReceiver();
@@ -160,15 +162,6 @@ public class MainActivity extends Activity {
 //        return true;
 //    }
 
-    public void logout() {
-        SharedPreferences.Editor editor = prefs.edit();
-
-        editor.remove("id");
-        editor.remove("password");
-        editor.remove("auto_login");
-        editor.apply();
-    }
-
     Button.OnClickListener listener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
@@ -187,7 +180,7 @@ public class MainActivity extends Activity {
                     break;
                 case R.id.btn_logout:
                     new DataGetThread().execute("login");
-                    logout();
+                    AutoLogin.logout();
                     finish();
                 default:
                     break;

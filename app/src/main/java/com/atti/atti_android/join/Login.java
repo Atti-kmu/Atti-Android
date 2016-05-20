@@ -14,9 +14,14 @@ import android.widget.Toast;
 
 import com.androidquery.AQuery;
 import com.atti.atti_android.R;
+import com.atti.atti_android.constant.Constant;
 import com.atti.atti_android.data.DataPostThread;
+import com.atti.atti_android.data.DataPutThread;
+import com.atti.atti_android.gcm.RegistrationIntentService;
 import com.atti.atti_android.mainactivity.MainActivity;
 import com.beardedhen.androidbootstrap.TypefaceProvider;
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.GooglePlayServicesUtil;
 
 import org.apache.http.message.BasicNameValuePair;
 
@@ -47,8 +52,16 @@ public class Login extends Activity {
         aq.id(R.id.login_submit).clicked(loginSubmit);
         aq.id(R.id.login_join_button).clicked(loginSubmit);
 
-        if (prefs.getBoolean("auto_login", false))
+        if (RegistrationIntentService.getGCMToken() == null)
+            getInstanceIdToken();
+
+        if (prefs.getBoolean("auto_login", false)) {
+            id = prefs.getString("id", "");
+            password = prefs.getString("password", "");
             AutoLogin.loginDataRead(id, password);
+            startActivity(new Intent(Login.this, MainActivity.class));
+            finish();
+        }
     }
 
     public boolean loginChecked() {
@@ -57,6 +70,34 @@ public class Login extends Activity {
 
         return !(id.equals("") || password.equals(""));
 
+    }
+
+    /**
+     * Instance ID를 이용하여 디바이스 토큰을 가져오는 RegistrationIntentService를 실행한다.
+     */
+    public void getInstanceIdToken() {
+        if (checkPlayServices()) {
+            // Start IntentService to register this application with GCM.
+            Intent intent = new Intent(this, RegistrationIntentService.class);
+            startService(intent);
+        }
+    }
+
+    /**
+     * Google Play Service를 사용할 수 있는 환경이지를 체크한다.
+     */
+    private boolean checkPlayServices() {
+        int resultCode = GooglePlayServicesUtil.isGooglePlayServicesAvailable(this);
+        if (resultCode != ConnectionResult.SUCCESS) {
+            if (GooglePlayServicesUtil.isUserRecoverableError(resultCode)) {
+                GooglePlayServicesUtil.getErrorDialog(resultCode, this,
+                        Constant.PLAY_SERVICES_RESOLUTION_REQUEST).show();
+            } else {
+                finish();
+            }
+            return false;
+        }
+        return true;
     }
 
     Button.OnClickListener loginSubmit = new View.OnClickListener() {
@@ -72,11 +113,15 @@ public class Login extends Activity {
                         loginPair.add(new BasicNameValuePair("login", "login"));
                         loginPair.add(new BasicNameValuePair("id", id));
                         loginPair.add(new BasicNameValuePair("password", password));
+                        loginPair.add(new BasicNameValuePair("push_id", RegistrationIntentService.getGCMToken()));
                         AutoLogin.loginDataWrite(id, password);
                         new DataPostThread().execute(loginPair);
                         if (loginResult) {
                             startActivity(new Intent(Login.this, MainActivity.class));
                             finish();
+                        }
+                        else {
+                            Toast.makeText(getApplicationContext(), "로그인 실패", Toast.LENGTH_SHORT).show();
                         }
                     } else {
                         Toast.makeText(getApplicationContext(), "정보를 제대로 입력하세요!", Toast.LENGTH_SHORT).show();

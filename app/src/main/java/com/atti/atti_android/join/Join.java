@@ -79,7 +79,6 @@ public class Join extends Activity {
                 GooglePlayServicesUtil.getErrorDialog(resultCode, this,
                         Constant.PLAY_SERVICES_RESOLUTION_REQUEST).show();
             } else {
-                Log.i(Constant.MAIN_TAG, "This device is not supported.");
                 finish();
             }
             return false;
