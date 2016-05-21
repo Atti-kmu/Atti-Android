@@ -10,10 +10,10 @@ android:
     - build-tools-23.0.1
     
     # Library
-    - com.android.support:support-annotations:23.2.0
-    - com.android.support:support-v4:23.2.0
-    - com.google.android.gms:play-services-gcm:8.3.0
-    - com.android.support:appcompat-v7:19.1.0
+    # - com.android.support:support-annotations:23.2.0
+    # - com.android.support:support-v4:23.2.0
+    # - com.google.android.gms:play-services-gcm:8.3.0
+    # - com.android.support:appcompat-v7:19.1.0
 
     # The SDK version used to compile your project
     - android-19
@@ -26,7 +26,6 @@ before_script:
   - sudo apt-get update -y
   - sudo apt-get install gradle -y
   - sudo gradle -version
-  - sudo apt-get install -qq --force-yes libgd2-xpm ia32-libs ia32-libs-multiarch
 
 script:
   - sudo gradle build
