@@ -26,6 +26,7 @@ before_script:
   - sudo apt-get update -y
   - sudo apt-get install gradle -y
   - sudo gradle -version
+  - sudo apt-get install -qq --force-yes libgd2-xpm ia32-libs ia32-libs-multiarch
 
 script:
   - sudo gradle build
