@@ -6,25 +6,27 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <!--<ImageView-->
-    <!--android:id="@+id/profile_img"-->
-    <!--android:layout_width="100dp"-->
-    <!--android:layout_height="100dp"-->
-    <!--android:layout_alignParentLeft="true" />-->
-
     <com.beardedhen.androidbootstrap.BootstrapCircleThumbnail
         android:id="@+id/profile_img"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
-        app:bootstrapBrand="info"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        android:layout_alignParentLeft="true"
         app:hasBorder="false" />
 
     <TextView
         android:id="@+id/name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerVertical="true"
         android:layout_toRightOf="@id/profile_img"
         android:textColor="#000000"
         android:textSize="@dimen/nickname_size" />
+
+    <TextView
+        android:id="@+id/phone"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/name"
+        android:layout_toRightOf="@id/profile_img"
+        android:textColor="#000000"
+        android:textSize="@dimen/phone_size" />
 </RelativeLayout>

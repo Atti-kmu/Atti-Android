@@ -9,6 +9,7 @@ import android.os.Environment;
 import android.util.Log;
 import android.view.View;
 import android.view.Window;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -63,6 +64,10 @@ public class PlayRTCDisplay extends Activity {
         createPlayRTCObserverInstance();
         createPlayRTCInstance();
         setOnClickEventListenerToButton();
+
+        getWindow().addFlags(WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED |
+                WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON |
+                WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD);
 
         Log.i("Intent", String.valueOf(getIntent().getIntExtra("connect", 0)));
         Log.i("Intent2", String.valueOf(UsersDataManager.connection));

@@ -1,11 +1,14 @@
-package com.atti.atti_android.call_service;
+package com.atti.atti_android.service;
 
 import android.app.Service;
 import android.content.Intent;
 import android.graphics.PixelFormat;
+import android.media.AudioManager;
+import android.media.MediaPlayer;
+import android.media.RingtoneManager;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.IBinder;
-import android.text.TextUtils;
 import android.util.Log;
 import android.view.Display;
 import android.view.LayoutInflater;
@@ -20,20 +23,22 @@ import com.androidquery.AQuery;
 import com.atti.atti_android.R;
 import com.atti.atti_android.playrtc.PlayRTCDisplay;
 
+import java.io.IOException;
+import java.util.Timer;
+import java.util.TimerTask;
+
 /**
  * Created by BoWoon on 2016-05-10.
  */
 public class CallingService extends Service {
-    public static final String EXTRA_CALL_NUMBER = "call_number";
-    protected View rootView;
-    private TextView callNameText;
-    private ImageView callProfileimg;
+    private View rootView;
     private String call_number, call_name, call_profile_img;
     private WindowManager.LayoutParams params;
     private WindowManager windowManager;
     private AQuery aq;
-
     private Bundle pushData;
+    private MediaPlayer mediaPlayer;
+    private Timer timer;
 
     @Override
     public IBinder onBind(Intent intent) {
@@ -68,6 +73,21 @@ public class CallingService extends Service {
         aq = new AQuery(rootView);
         aq.id(R.id.reject).clicked(listener);
         aq.id(R.id.receive).clicked(listener);
+
+        timer = new Timer();
+        timer.schedule(new CallTimer(), 60000);
+        mediaPlayer = new MediaPlayer();
+        Uri alert = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_RINGTONE);
+
+        try {
+            mediaPlayer.setDataSource(getApplicationContext(), alert);
+            MediaPlayer.create(getApplicationContext(), R.raw.bell_sound);
+            mediaPlayer.setLooping(true);
+            mediaPlayer.prepare();
+            mediaPlayer.start();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     private void setDraggable() {
@@ -107,7 +127,6 @@ public class CallingService extends Service {
         windowManager.addView(rootView, params);
         setExtra(intent);
 
-//        if (!TextUtils.isEmpty(call_number))
         aq.id(R.id.call_name).text(call_name);
         aq.id(R.id.call_profile_img).image(url + call_profile_img);
 
@@ -121,7 +140,6 @@ public class CallingService extends Service {
         }
 
         pushData = intent.getBundleExtra("Bundle");
-//        call_number = intent.getStringExtra("channelID");
         call_number = pushData.getString("channel");
         call_name = pushData.getString("sender_name");
         call_profile_img = pushData.getString("sender_profile");
@@ -135,7 +153,7 @@ public class CallingService extends Service {
     @Override
     public void onDestroy() {
         super.onDestroy();
-        removePopup();
+//        removePopup();
     }
 
     public void removePopup() {
@@ -146,6 +164,9 @@ public class CallingService extends Service {
     Button.OnClickListener listener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
+            timer.cancel();
+            mediaPlayer.stop();
+
             switch (v.getId()) {
                 case R.id.receive:
                     removePopup();
@@ -162,6 +183,16 @@ public class CallingService extends Service {
                 default:
                     break;
             }
+
+            stopService(new Intent("com.atti.callService"));
         }
     };
+
+    private class CallTimer extends TimerTask {
+        @Override
+        public void run() {
+            mediaPlayer.stop();
+            removePopup();
+        }
+    }
 }

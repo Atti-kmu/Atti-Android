@@ -1,11 +1,13 @@
 package com.atti.atti_android.join;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.view.Window;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.RadioGroup;
 import android.widget.Toast;
@@ -41,6 +43,13 @@ public class Join extends Activity {
 
         aq.id(R.id.join_submit).clicked(joinSubmit);
         aq.id(R.id.join_reject).clicked(joinSubmit);
+        aq.id(R.id.join_main_layout).clicked(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
+            }
+        });
         RadioGroup rgGender = (RadioGroup) findViewById(R.id.radio_group_gender);
         rgGender.setOnCheckedChangeListener(radioListener);
         RadioGroup rgKind = (RadioGroup) findViewById(R.id.radio_group_kind);

@@ -2,7 +2,9 @@ package com.atti.atti_android.mainactivity;
 
 import android.app.Activity;
 import android.app.FragmentManager;
+import android.content.BroadcastReceiver;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
@@ -19,11 +21,9 @@ import com.atti.atti_android.join.AutoLogin;
 import com.atti.atti_android.list.ElderlyList;
 import com.atti.atti_android.list.FamilyList;
 import com.atti.atti_android.list.SocialWorkerList;
-import com.atti.atti_android.person.ElderlyPerson;
-import com.atti.atti_android.person.SocialWorker;
+import com.atti.atti_android.service.PersistentService;
+import com.atti.atti_android.service.RestartService;
 import com.beardedhen.androidbootstrap.TypefaceProvider;
-import com.google.android.gms.common.ConnectionResult;
-import com.google.android.gms.common.GooglePlayServicesUtil;
 
 public class MainActivity extends Activity {
     private FragmentManager fm;
@@ -39,6 +39,8 @@ public class MainActivity extends Activity {
     private SocialWorkerList sl;
 
     private SharedPreferences prefs;
+    private BroadcastReceiver receiver;
+    private Intent intentMyService;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,6 +62,12 @@ public class MainActivity extends Activity {
         init();
     }
 
+    @Override
+    protected void onDestroy() {
+        unregisterReceiver(receiver);
+        super.onDestroy();
+    }
+
     public void init() {
         aq.id(R.id.btn_family).clicked(listener);
         aq.id(R.id.btn_friend).clicked(listener);
@@ -75,6 +83,18 @@ public class MainActivity extends Activity {
         fm.beginTransaction().add(R.id.list_fragment, fl, "Family").commit();
 
         Log.i("GCMToken", "" + RegistrationIntentService.getGCMToken());
+
+        intentMyService = new Intent(this, PersistentService.class);
+        receiver = new RestartService();
+
+        try {
+            IntentFilter mainFilter = new IntentFilter("com.hamon.GPSservice.ssss");
+            registerReceiver(receiver, mainFilter);
+            startService(intentMyService);
+        } catch (Exception e) {
+            Log.d("MpMainActivity", e.getMessage() + "");
+            e.printStackTrace();
+        }
 
 //        getInstanceIdToken();
 //        registBroadcastReceiver();

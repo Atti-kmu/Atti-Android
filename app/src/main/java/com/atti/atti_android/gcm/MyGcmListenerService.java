@@ -1,12 +1,20 @@
 package com.atti.atti_android.gcm;
 
 import android.content.Intent;
+import android.media.AudioManager;
+import android.media.MediaPlayer;
+import android.media.RingtoneManager;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 
-import com.atti.atti_android.call_service.CallingService;
+import com.atti.atti_android.R;
 import com.atti.atti_android.data.UsersDataManager;
+import com.atti.atti_android.service.CallingService;
 import com.google.android.gms.gcm.GcmListenerService;
+
+import java.io.IOException;
+import java.util.TimerTask;
 
 /**
  * Created by BoWoon on 2016-04-07.
@@ -34,16 +42,15 @@ public class MyGcmListenerService extends GcmListenerService {
 
         // GCM으로 받은 메세지를 디바이스에 알려주는 sendNotification()을 호출한다.
         if (!UsersDataManager.connection)
-            sendNotification(title, data);
+            sendNotification(data);
     }
 
     /**
      * 실제 디바에스에 GCM으로부터 받은 메세지를 알려주는 함수이다. 디바이스 Notification Center에 나타난다.
      *
-     * @param title
      * @param message
      */
-    private void sendNotification(String title, Bundle message) {
+    private void sendNotification(Bundle message) {
 //        Intent intent = new Intent(this, MainActivity.class);
 //        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 //        PendingIntent pendingIntent = PendingIntent.getActivity(this, 0 /* Request code */, intent,
