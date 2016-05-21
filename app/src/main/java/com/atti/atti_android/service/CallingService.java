@@ -1,11 +1,10 @@
-package com.atti.atti_android.call_service;
+package com.atti.atti_android.service;
 
 import android.app.Service;
 import android.content.Intent;
 import android.graphics.PixelFormat;
 import android.os.Bundle;
 import android.os.IBinder;
-import android.text.TextUtils;
 import android.util.Log;
 import android.view.Display;
 import android.view.LayoutInflater;
@@ -107,7 +106,6 @@ public class CallingService extends Service {
         windowManager.addView(rootView, params);
         setExtra(intent);
 
-//        if (!TextUtils.isEmpty(call_number))
         aq.id(R.id.call_name).text(call_name);
         aq.id(R.id.call_profile_img).image(url + call_profile_img);
 
@@ -121,7 +119,6 @@ public class CallingService extends Service {
         }
 
         pushData = intent.getBundleExtra("Bundle");
-//        call_number = intent.getStringExtra("channelID");
         call_number = pushData.getString("channel");
         call_name = pushData.getString("sender_name");
         call_profile_img = pushData.getString("sender_profile");

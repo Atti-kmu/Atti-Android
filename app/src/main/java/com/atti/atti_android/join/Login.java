@@ -51,6 +51,13 @@ public class Login extends Activity {
 
         aq.id(R.id.login_submit).clicked(loginSubmit);
         aq.id(R.id.login_join_button).clicked(loginSubmit);
+        aq.id(R.id.login_main_layout).clicked(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
+            }
+        });
 
         if (RegistrationIntentService.getGCMToken() == null)
             getInstanceIdToken();

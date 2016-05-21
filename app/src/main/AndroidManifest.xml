@@ -11,8 +11,7 @@
         <activity
             android:name=".join.Login"
             android:configChanges="orientation|keyboardHidden"
-            android:screenOrientation="landscape"
-            android:windowSoftInputMode="stateHidden|stateAlwaysVisible|adjustResize|adjustPan">
+            android:screenOrientation="landscape">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -35,10 +34,9 @@
             android:name=".join.Join"
             android:configChanges="orientation|keyboardHidden"
             android:label="@string/join_title"
-            android:screenOrientation="landscape"
-            android:windowSoftInputMode="stateHidden|stateAlwaysVisible|adjustResize|adjustPan" />
+            android:screenOrientation="landscape" />
 
-        <service android:name=".call_service.CallingService" />
+        <service android:name=".service.CallingService" />
 
         <!-- [START gcm_receiver] -->
         <receiver
@@ -77,6 +75,23 @@
             android:name="com.atti.atti_android.gcm.RegistrationIntentService"
             android:exported="false" />
         <!-- [END gcm_registration_service] -->
+
+        <service
+            android:name=".service.PersistentService"
+            android:enabled="true"
+            android:process=":remote" />
+
+        <receiver
+            android:name=".service.RestartService"
+            android:enabled="true"
+            android:exported="false"
+            android:label="RestartService"
+            android:process=":remote">
+            <intent-filter>
+                <action android:name="ACTION.RESTART.PersistentService" />
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+            </intent-filter>
+        </receiver>
     </application>
 
     <!-- PlayRTC SDK permission START -->

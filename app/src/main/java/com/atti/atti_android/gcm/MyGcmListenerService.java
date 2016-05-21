@@ -4,7 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 
-import com.atti.atti_android.call_service.CallingService;
+import com.atti.atti_android.service.CallingService;
 import com.atti.atti_android.data.UsersDataManager;
 import com.google.android.gms.gcm.GcmListenerService;
 
