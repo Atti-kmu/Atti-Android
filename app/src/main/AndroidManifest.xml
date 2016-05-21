@@ -36,7 +36,11 @@
             android:label="@string/join_title"
             android:screenOrientation="landscape" />
 
-        <service android:name=".service.CallingService" />
+        <service android:name=".service.CallingService">
+            <intent-filter>
+                <action android:name="com.atti.callService" />
+            </intent-filter>
+        </service>
 
         <!-- [START gcm_receiver] -->
         <receiver
