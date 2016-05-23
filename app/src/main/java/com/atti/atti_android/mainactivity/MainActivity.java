@@ -31,7 +31,7 @@ public class MainActivity extends Activity {
 //    private static final int PLAY_SERVICES_RESOLUTION_REQUEST = 9000;
 //    private static final String TAG = "MainActivity";
 
-//    private BroadcastReceiver mRegistrationBroadcastReceiver;
+    //    private BroadcastReceiver mRegistrationBroadcastReceiver;
     private AQuery aq;
 
     private FamilyList fl;
@@ -190,18 +190,18 @@ public class MainActivity extends Activity {
             switch (v.getId()) {
                 case R.id.btn_family:
                     family = new DataGetThread("family", "http://52.79.147.144/mobile/family/1");
-                        fm.beginTransaction().replace(R.id.list_fragment, fl, "Family").commit();
+                    fm.beginTransaction().replace(R.id.list_fragment, fl, "Family").commit();
                     break;
                 case R.id.btn_friend:
                     friends = new DataGetThread("friends", "http://52.79.147.144/mobile/friends/1");
-                        fm.beginTransaction().replace(R.id.list_fragment, el, "Friend").commit();
+                    fm.beginTransaction().replace(R.id.list_fragment, el, "Friend").commit();
                     break;
                 case R.id.btn_social_worker:
                     friendship = new DataGetThread("friendship", "http://52.79.147.144/mobile/friendship/1");
-                        fm.beginTransaction().replace(R.id.list_fragment, sl, "SocialWorker").commit();
+                    fm.beginTransaction().replace(R.id.list_fragment, sl, "SocialWorker").commit();
                     break;
                 case R.id.btn_logout:
-//                    new DataGetThread(MainActivity.this).execute("login");
+                    new DataGetThread("login", "http://52.79.147.144/mobile/user");
                     AutoLogin.logout();
                     finish();
                 default:

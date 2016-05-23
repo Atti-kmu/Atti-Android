@@ -147,6 +147,7 @@ public class PlayRTCDisplay extends Activity {
                 // Create PlayRTC instance again.
                 // Because at the disconnect moment, the PlayRTC instance has removed.
                 createPlayRTCInstance();
+                finish();
             }
 
             @Override
@@ -155,6 +156,7 @@ public class PlayRTCDisplay extends Activity {
 
                 // Delete channel and call onDisconnectChannel.
                 playrtc.deleteChannel();
+                finish();
             }
         };
     }
