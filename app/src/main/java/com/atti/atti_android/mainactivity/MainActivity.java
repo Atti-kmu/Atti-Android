@@ -31,7 +31,7 @@ public class MainActivity extends Activity {
 //    private static final int PLAY_SERVICES_RESOLUTION_REQUEST = 9000;
 //    private static final String TAG = "MainActivity";
 
-    //    private BroadcastReceiver mRegistrationBroadcastReceiver;
+//    private BroadcastReceiver mRegistrationBroadcastReceiver;
     private AQuery aq;
 
     private FamilyList fl;
@@ -41,6 +41,8 @@ public class MainActivity extends Activity {
     private SharedPreferences prefs;
     private BroadcastReceiver receiver;
     private Intent intentMyService;
+
+    private DataGetThread family, friends, friendship;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,9 +55,6 @@ public class MainActivity extends Activity {
         UsersDataManager.getUsersInstance().getFamilies().clear();
         UsersDataManager.getUsersInstance().getElderly().clear();
         UsersDataManager.getUsersInstance().getSocialWorkers().clear();
-        new DataGetThread().execute("family");
-        new DataGetThread().execute("friends");
-        new DataGetThread().execute("friendship");
 
         aq = new AQuery(this);
 
@@ -96,8 +95,7 @@ public class MainActivity extends Activity {
             e.printStackTrace();
         }
 
-//        getInstanceIdToken();
-//        registBroadcastReceiver();
+        family = new DataGetThread("family", "http://52.79.147.144/mobile/family/1");
     }
 
 //    /**
@@ -185,21 +183,25 @@ public class MainActivity extends Activity {
     Button.OnClickListener listener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
+            UsersDataManager.getUsersInstance().getFamilies().clear();
+            UsersDataManager.getUsersInstance().getElderly().clear();
+            UsersDataManager.getUsersInstance().getSocialWorkers().clear();
+
             switch (v.getId()) {
                 case R.id.btn_family:
-//                    new DataGetThread().execute("family");
-                    fm.beginTransaction().replace(R.id.list_fragment, fl, "Family").commit();
+                    family = new DataGetThread("family", "http://52.79.147.144/mobile/family/1");
+                        fm.beginTransaction().replace(R.id.list_fragment, fl, "Family").commit();
                     break;
                 case R.id.btn_friend:
-//                    new DataGetThread().execute("friends");
-                    fm.beginTransaction().replace(R.id.list_fragment, el, "Friend").commit();
+                    friends = new DataGetThread("friends", "http://52.79.147.144/mobile/friends/1");
+                        fm.beginTransaction().replace(R.id.list_fragment, el, "Friend").commit();
                     break;
                 case R.id.btn_social_worker:
-//                    new DataGetThread().execute("friendship");
-                    fm.beginTransaction().replace(R.id.list_fragment, sl, "SocialWorker").commit();
+                    friendship = new DataGetThread("friendship", "http://52.79.147.144/mobile/friendship/1");
+                        fm.beginTransaction().replace(R.id.list_fragment, sl, "SocialWorker").commit();
                     break;
                 case R.id.btn_logout:
-                    new DataGetThread().execute("login");
+//                    new DataGetThread(MainActivity.this).execute("login");
                     AutoLogin.logout();
                     finish();
                 default:

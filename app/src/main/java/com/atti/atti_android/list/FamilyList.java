@@ -4,6 +4,7 @@ import android.app.Fragment;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -26,6 +27,7 @@ public class FamilyList extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.list_view_layout, container, false);
+        Log.i("ListSize", String.valueOf(UsersDataManager.getUsersInstance().getFamilies().size()));
         adapter = new UserListAdapter(getActivity(), UsersDataManager.getUsersInstance().getFamilies());
         userList = (ListView) root.findViewById(R.id.list_view_display);
         userList.setAdapter(adapter);

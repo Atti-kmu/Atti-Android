@@ -3,6 +3,7 @@ package com.atti.atti_android.data;
 import android.os.AsyncTask;
 import android.util.Log;
 
+import com.androidquery.util.Progress;
 import com.atti.atti_android.constant.Constant;
 import com.atti.atti_android.http.HttpServerConnection;
 import com.atti.atti_android.join.Login;
@@ -61,6 +62,7 @@ public class DataPostThread extends AsyncTask<ArrayList<BasicNameValuePair>, Int
 
             if (Integer.valueOf(statusCode) == Constant.LOGIN_FAILED || Integer.valueOf(statusCode) == Constant.LOGIN_ERROR) {
                 Log.i("Login_Failed", String.valueOf(Constant.LOGIN_FAILED));
+                Login.loginResult = false;
                 return Constant.LOGIN_FAILED;
             }
 
@@ -76,6 +78,7 @@ public class DataPostThread extends AsyncTask<ArrayList<BasicNameValuePair>, Int
             e.printStackTrace();
         }
 
+        Login.loginResult = true;
         return Constant.LOGIN_SUCCESS;
     }
 
