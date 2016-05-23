@@ -34,14 +34,10 @@ public class DataPostThread extends AsyncTask<ArrayList<BasicNameValuePair>, Int
         String urlString = "http://52.79.147.144/mobile/user";
 
         Log.i("PostParams", String.valueOf(params[0]));
-        if (params[0].get(0).getName().equals("login")) {
-            Log.i("Login Pair", String.valueOf(params[0]));
+        if (params[0].get(0).getName().equals("login"))
             urlString = "http://52.79.147.144/mobile/user";
-        }
-        else if (params[0].get(0).getName().equals("channel")) {
-            Log.i("channel Post", String.valueOf(params[0]));
+        else if (params[0].get(0).getName().equals("channel"))
             urlString = "http://52.79.147.144/mobile/call";
-        }
 
         try {
             HttpPost httpPost = new HttpPost(urlString);
