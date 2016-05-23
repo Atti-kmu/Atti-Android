@@ -114,7 +114,7 @@ public class Join extends Activity {
                         joinPair.add(new BasicNameValuePair("kind", String.valueOf(kind)));
                         joinPair.add(new BasicNameValuePair("push_id", RegistrationIntentService.getGCMToken()));
                         Log.i("GCMToken", "" + RegistrationIntentService.getGCMToken());
-                        AutoLogin.loginDataWrite(id, password);
+                        AutoLogin.loginDataWrite(id, password, RegistrationIntentService.getGCMToken());
                         new DataPutThread().execute(joinPair);
                     } else {
                         Toast.makeText(getApplicationContext(), "정보를 제대로 입력하세요!", Toast.LENGTH_SHORT).show();

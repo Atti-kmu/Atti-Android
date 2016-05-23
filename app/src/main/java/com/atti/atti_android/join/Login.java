@@ -34,8 +34,7 @@ public class Login extends Activity {
     private AQuery aq;
     public static boolean loginResult = false;
     private SharedPreferences prefs;
-    private String id;
-    private String password;
+    private String id, password, push_id;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,9 +62,7 @@ public class Login extends Activity {
             getInstanceIdToken();
 
         if (prefs.getBoolean("auto_login", false)) {
-            id = prefs.getString("id", "");
-            password = prefs.getString("password", "");
-            AutoLogin.loginDataRead(id, password);
+            AutoLogin.loginDataRead();
             startActivity(new Intent(Login.this, MainActivity.class));
             finish();
         }
@@ -115,13 +112,14 @@ public class Login extends Activity {
                     if (loginChecked()) {
                         id = aq.id(R.id.login_id_edit).getText().toString();
                         password = aq.id(R.id.login_password_edit).getText().toString();
+                        push_id = RegistrationIntentService.getGCMToken();
 
                         ArrayList<BasicNameValuePair> loginPair = new ArrayList<BasicNameValuePair>();
                         loginPair.add(new BasicNameValuePair("login", "login"));
                         loginPair.add(new BasicNameValuePair("id", id));
                         loginPair.add(new BasicNameValuePair("password", password));
-                        loginPair.add(new BasicNameValuePair("push_id", RegistrationIntentService.getGCMToken()));
-                        AutoLogin.loginDataWrite(id, password);
+                        loginPair.add(new BasicNameValuePair("push_id", push_id));
+                        AutoLogin.loginDataWrite(id, password, push_id);
                         new DataPostThread().execute(loginPair);
                         if (loginResult) {
                             startActivity(new Intent(Login.this, MainActivity.class));

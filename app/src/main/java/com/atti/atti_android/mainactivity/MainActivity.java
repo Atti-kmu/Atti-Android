@@ -187,16 +187,16 @@ public class MainActivity extends Activity {
         public void onClick(View v) {
             switch (v.getId()) {
                 case R.id.btn_family:
+//                    new DataGetThread().execute("family");
                     fm.beginTransaction().replace(R.id.list_fragment, fl, "Family").commit();
-                    fm.beginTransaction().remove(fl);
                     break;
                 case R.id.btn_friend:
+//                    new DataGetThread().execute("friends");
                     fm.beginTransaction().replace(R.id.list_fragment, el, "Friend").commit();
-                    fm.beginTransaction().remove(el);
                     break;
                 case R.id.btn_social_worker:
+//                    new DataGetThread().execute("friendship");
                     fm.beginTransaction().replace(R.id.list_fragment, sl, "SocialWorker").commit();
-                    fm.beginTransaction().remove(sl);
                     break;
                 case R.id.btn_logout:
                     new DataGetThread().execute("login");

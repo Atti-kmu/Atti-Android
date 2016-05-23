@@ -68,14 +68,12 @@ public class DataGetThread extends AsyncTask<String, Integer, String> {
                 JSONObject jObject = jarray.getJSONObject(i);
 
                 String name = jObject.getString("name");
-//                String nickname = jObject.getString("nickname");
                 String img = jObject.getString("profile_name");
 
-//                UsersDataManager.getUsersInstance().addData(new Family(name, nickname, img));
                 if (params[0].equals("family"))
-                    UsersDataManager.getUsersInstance().addData(new Family(name, "", imgUrl + img));
+                    UsersDataManager.getUsersInstance().addData(new Family(name, imgUrl + img));
                 else if (params[0].equals("friends"))
-                    UsersDataManager.getUsersInstance().addData(new ElderlyPerson(name, "", imgUrl + img));
+                    UsersDataManager.getUsersInstance().addData(new ElderlyPerson(name, imgUrl + img));
                 else if (params[0].equals("friendship"))
                     UsersDataManager.getUsersInstance().addData(new SocialWorker(name, imgUrl + img));
             }
