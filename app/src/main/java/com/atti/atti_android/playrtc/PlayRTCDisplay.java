@@ -111,7 +111,7 @@ public class PlayRTCDisplay extends Activity {
                 channel.add(new BasicNameValuePair("channel", "channel"));
                 channel.add(new BasicNameValuePair("receiver", getSharedPreferences("login", Activity.MODE_PRIVATE).getString("id", "")));
                 channel.add(new BasicNameValuePair("channel", channelId));
-                new DataPostThread().execute(channel);
+                new DataPostThread(PlayRTCDisplay.this).execute(channel);
             }
 
             @Override

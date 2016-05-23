@@ -1,11 +1,10 @@
-package com.atti.atti_android.join;
+package com.atti.atti_android.registration;
 
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.view.inputmethod.InputMethodManager;
@@ -16,7 +15,6 @@ import com.androidquery.AQuery;
 import com.atti.atti_android.R;
 import com.atti.atti_android.constant.Constant;
 import com.atti.atti_android.data.DataPostThread;
-import com.atti.atti_android.data.DataPutThread;
 import com.atti.atti_android.gcm.RegistrationIntentService;
 import com.atti.atti_android.mainactivity.MainActivity;
 import com.beardedhen.androidbootstrap.TypefaceProvider;
@@ -62,7 +60,8 @@ public class Login extends Activity {
             getInstanceIdToken();
 
         if (prefs.getBoolean("auto_login", false)) {
-            AutoLogin.loginDataRead();
+            ArrayList<BasicNameValuePair> loginPair = AutoLogin.loginDataRead();
+            new DataPostThread(Login.this).execute(loginPair);
             startActivity(new Intent(Login.this, MainActivity.class));
             finish();
         }
@@ -120,7 +119,7 @@ public class Login extends Activity {
                         loginPair.add(new BasicNameValuePair("password", password));
                         loginPair.add(new BasicNameValuePair("push_id", push_id));
                         AutoLogin.loginDataWrite(id, password, push_id);
-                        new DataPostThread().execute(loginPair);
+                        new DataPostThread(Login.this).execute(loginPair);
                         if (loginResult) {
                             startActivity(new Intent(Login.this, MainActivity.class));
                             finish();

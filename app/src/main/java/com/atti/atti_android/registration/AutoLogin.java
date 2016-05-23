@@ -1,11 +1,10 @@
-package com.atti.atti_android.join;
+package com.atti.atti_android.registration;
 
 import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
 
 import com.atti.atti_android.data.DataPostThread;
-import com.atti.atti_android.gcm.RegistrationIntentService;
 
 import org.apache.http.message.BasicNameValuePair;
 
@@ -27,6 +26,7 @@ public class AutoLogin {
 
     public static void loginDataWrite(String id, String password, String push_id) {
         SharedPreferences.Editor editor = ourInstance.edit();
+
         editor.putString("id", id);
         editor.putString("password", password);
         editor.putString("push_id", push_id);
@@ -34,13 +34,15 @@ public class AutoLogin {
         editor.apply();
     }
 
-    public static void loginDataRead() {
+    public static ArrayList<BasicNameValuePair> loginDataRead() {
         ArrayList<BasicNameValuePair> loginPair = new ArrayList<BasicNameValuePair>();
+
         loginPair.add(new BasicNameValuePair("login", "login"));
         loginPair.add(new BasicNameValuePair("id", ourInstance.getString("id", "")));
         loginPair.add(new BasicNameValuePair("password", ourInstance.getString("password", "")));
         loginPair.add(new BasicNameValuePair("push_id", ourInstance.getString("push_id", "")));
-        new DataPostThread().execute(loginPair);
+
+        return loginPair;
     }
 
     public static void logout() {

@@ -1,12 +1,14 @@
 package com.atti.atti_android.data;
 
+import android.app.ProgressDialog;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.os.AsyncTask;
 import android.util.Log;
 
-import com.androidquery.util.Progress;
 import com.atti.atti_android.constant.Constant;
 import com.atti.atti_android.http.HttpServerConnection;
-import com.atti.atti_android.join.Login;
+import com.atti.atti_android.registration.Login;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
@@ -27,6 +29,9 @@ import java.util.ArrayList;
  * Created by BoWoon on 2016-05-11.
  */
 public class DataPostThread extends AsyncTask<ArrayList<BasicNameValuePair>, Integer, Integer> {
+    private Context context;
+    private ProgressDialog progress;
+
     @Override
     protected Integer doInBackground(ArrayList<BasicNameValuePair>... params) {
 //        HttpClient httpClient = ConnectSSLClient.getHttpClient();
@@ -82,18 +87,33 @@ public class DataPostThread extends AsyncTask<ArrayList<BasicNameValuePair>, Int
         return Constant.LOGIN_SUCCESS;
     }
 
-    public DataPostThread() {
+    public DataPostThread(Context context) {
         super();
+        this.context = context;
     }
 
     @Override
     protected void onPreExecute() {
         super.onPreExecute();
+        progress = new ProgressDialog(context);
+        progress.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+        progress.setTitle("처리 중...");
+        progress.setMessage("잠시만 기다려주세요...");
+        progress.setCancelable(false);
+        progress.setProgress(0);
+        progress.setButton(DialogInterface.BUTTON_NEGATIVE, "취소", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                cancel(true);
+            }
+        });
+        progress.show();
     }
 
     @Override
     protected void onPostExecute(Integer s) {
         super.onPostExecute(s);
+        progress.dismiss();
 
         if (s == Constant.LOGIN_FAILED || s == Constant.LOGIN_ERROR)
             Login.loginResult = false;
@@ -104,15 +124,18 @@ public class DataPostThread extends AsyncTask<ArrayList<BasicNameValuePair>, Int
     @Override
     protected void onProgressUpdate(Integer... values) {
         super.onProgressUpdate(values);
+        progress.setProgress(values[0]);
     }
 
     @Override
     protected void onCancelled(Integer s) {
         super.onCancelled(s);
+        progress.dismiss();
     }
 
     @Override
     protected void onCancelled() {
         super.onCancelled();
+        progress.dismiss();
     }
 }

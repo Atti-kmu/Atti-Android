@@ -17,7 +17,7 @@ import com.atti.atti_android.R;
 import com.atti.atti_android.data.DataGetThread;
 import com.atti.atti_android.data.UsersDataManager;
 import com.atti.atti_android.gcm.RegistrationIntentService;
-import com.atti.atti_android.join.AutoLogin;
+import com.atti.atti_android.registration.AutoLogin;
 import com.atti.atti_android.list.ElderlyList;
 import com.atti.atti_android.list.FamilyList;
 import com.atti.atti_android.list.SocialWorkerList;

@@ -9,7 +9,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".join.Login"
+            android:name=".registration.Login"
             android:configChanges="orientation|keyboardHidden"
             android:screenOrientation="landscape">
             <intent-filter>
@@ -31,7 +31,7 @@
             android:screenOrientation="landscape" />
 
         <activity
-            android:name=".join.Join"
+            android:name=".registration.Join"
             android:configChanges="orientation|keyboardHidden"
             android:label="@string/join_title"
             android:screenOrientation="landscape" />

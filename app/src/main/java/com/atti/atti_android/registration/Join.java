@@ -1,4 +1,4 @@
-package com.atti.atti_android.join;
+package com.atti.atti_android.registration;
 
 import android.app.Activity;
 import android.content.Context;
