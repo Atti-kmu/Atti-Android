@@ -50,6 +50,8 @@ public class CallingService extends Service {
     public void onCreate() {
         super.onCreate();
 
+        Log.i("start calling", "Start Calling");
+
         windowManager = (WindowManager) getSystemService(WINDOW_SERVICE);
 
         Display display = windowManager.getDefaultDisplay();
@@ -153,6 +155,7 @@ public class CallingService extends Service {
     @Override
     public void onDestroy() {
         super.onDestroy();
+//        stopService(new Intent("com.atti.callService"));
 //        removePopup();
     }
 

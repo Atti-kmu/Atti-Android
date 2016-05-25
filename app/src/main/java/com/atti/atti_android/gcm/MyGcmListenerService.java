@@ -73,5 +73,6 @@ public class MyGcmListenerService extends GcmListenerService {
         Intent serviceIntent = new Intent(getApplicationContext(), CallingService.class);
         serviceIntent.putExtra("Bundle", message);
         getApplicationContext().startService(serviceIntent);
+//        getApplicationContext().startActivity(serviceIntent);
     }
 }

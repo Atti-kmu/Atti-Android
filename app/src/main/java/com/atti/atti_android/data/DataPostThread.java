@@ -1,13 +1,22 @@
 package com.atti.atti_android.data;
 
+import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.util.Log;
+import android.widget.EditText;
+import android.widget.Toast;
 
+import com.androidquery.AQuery;
+import com.atti.atti_android.R;
 import com.atti.atti_android.constant.Constant;
+import com.atti.atti_android.gcm.RegistrationIntentService;
 import com.atti.atti_android.http.HttpServerConnection;
+import com.atti.atti_android.mainactivity.MainActivity;
+import com.atti.atti_android.registration.AutoLogin;
 import com.atti.atti_android.registration.Login;
 
 import org.apache.http.HttpResponse;
@@ -31,6 +40,7 @@ import java.util.ArrayList;
 public class DataPostThread extends AsyncTask<ArrayList<BasicNameValuePair>, Integer, Integer> {
     private Context context;
     private ProgressDialog progress;
+    private String id, password, push_id, tag;
 
     @Override
     protected Integer doInBackground(ArrayList<BasicNameValuePair>... params) {
@@ -40,6 +50,9 @@ public class DataPostThread extends AsyncTask<ArrayList<BasicNameValuePair>, Int
         String urlString = "http://52.79.147.144/mobile/user";
 
         Log.i("PostParams", String.valueOf(params[0]));
+
+        tag = params[0].get(0).getName();
+
         if (params[0].get(0).getName().equals("login"))
             urlString = "http://52.79.147.144/mobile/user";
         else if (params[0].get(0).getName().equals("channel"))
@@ -53,6 +66,11 @@ public class DataPostThread extends AsyncTask<ArrayList<BasicNameValuePair>, Int
             for (int i = 1; i < params[0].size(); i++) {
                 Log.i("DataPostThread getName", params[0].get(i).getName());
                 Log.i("DataPostThread getValue", "" + params[0].get(i).getValue());
+                if (params[0].get(i).getName().equals("id"))
+                    id = params[0].get(i).getValue();
+                else if (params[0].get(i).getName().equals("password"))
+                    password = params[0].get(i).getValue();
+
                 nameValuePairs.add(new BasicNameValuePair(params[0].get(i).getName(), params[0].get(i).getValue()));
             }
 
@@ -67,7 +85,6 @@ public class DataPostThread extends AsyncTask<ArrayList<BasicNameValuePair>, Int
 
             if (Integer.valueOf(statusCode) == Constant.LOGIN_FAILED || Integer.valueOf(statusCode) == Constant.LOGIN_ERROR) {
                 Log.i("Login_Failed", String.valueOf(Constant.LOGIN_FAILED));
-                Login.loginResult = false;
                 return Constant.LOGIN_FAILED;
             }
 
@@ -83,7 +100,6 @@ public class DataPostThread extends AsyncTask<ArrayList<BasicNameValuePair>, Int
             e.printStackTrace();
         }
 
-        Login.loginResult = true;
         return Constant.LOGIN_SUCCESS;
     }
 
@@ -113,12 +129,29 @@ public class DataPostThread extends AsyncTask<ArrayList<BasicNameValuePair>, Int
     @Override
     protected void onPostExecute(Integer s) {
         super.onPostExecute(s);
-        progress.dismiss();
 
-        if (s == Constant.LOGIN_FAILED || s == Constant.LOGIN_ERROR)
-            Login.loginResult = false;
-        else if (s == Constant.LOGIN_SUCCESS)
-            Login.loginResult = true;
+//        EditText idEdit = (EditText) ((Activity) context).findViewById(R.id.login_id_edit);
+//        EditText passwordEdit = (EditText) ((Activity) context).findViewById(R.id.login_password_edit);
+//
+//        id = idEdit.getText().toString();
+//        password = passwordEdit.getText().toString();
+
+        if (tag.equals("login")) {
+            Log.i("PostID", "" + id);
+            Log.i("PostPassword", "" + password);
+
+            if (s == Constant.LOGIN_FAILED || s == Constant.LOGIN_ERROR) {
+                Toast.makeText(context, "정보를 제대로 입력하세요!", Toast.LENGTH_SHORT).show();
+                return;
+            } else if (s == Constant.LOGIN_SUCCESS) {
+                push_id = RegistrationIntentService.getGCMToken();
+                AutoLogin.loginDataWrite(id, password, push_id);
+                context.startActivity(new Intent(context, MainActivity.class));
+                ((Activity) context).finish();
+            }
+        }
+
+        progress.dismiss();
     }
 
     @Override

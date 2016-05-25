@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
 import android.view.Window;
@@ -61,6 +62,7 @@ public class Login extends Activity {
 
         if (prefs.getBoolean("auto_login", false)) {
             ArrayList<BasicNameValuePair> loginPair = AutoLogin.loginDataRead();
+//            new DataPostThread(Login.this).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, loginPair);
             new DataPostThread(Login.this).execute(loginPair);
             startActivity(new Intent(Login.this, MainActivity.class));
             finish();
@@ -109,8 +111,8 @@ public class Login extends Activity {
             switch (v.getId()) {
                 case R.id.login_submit:
                     if (loginChecked()) {
-                        id = aq.id(R.id.login_id_edit).getText().toString();
-                        password = aq.id(R.id.login_password_edit).getText().toString();
+//                        id = aq.id(R.id.login_id_edit).getText().toString();
+//                        password = aq.id(R.id.login_password_edit).getText().toString();
                         push_id = RegistrationIntentService.getGCMToken();
 
                         ArrayList<BasicNameValuePair> loginPair = new ArrayList<BasicNameValuePair>();
@@ -119,14 +121,15 @@ public class Login extends Activity {
                         loginPair.add(new BasicNameValuePair("password", password));
                         loginPair.add(new BasicNameValuePair("push_id", push_id));
                         AutoLogin.loginDataWrite(id, password, push_id);
+//                        new DataPostThread(Login.this).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, loginPair);
                         new DataPostThread(Login.this).execute(loginPair);
-                        if (loginResult) {
-                            startActivity(new Intent(Login.this, MainActivity.class));
-                            finish();
-                        }
-                        else {
-                            Toast.makeText(getApplicationContext(), "로그인 실패", Toast.LENGTH_SHORT).show();
-                        }
+//                        if (loginResult) {
+//                            startActivity(new Intent(Login.this, MainActivity.class));
+//                            finish();
+//                        }
+//                        else {
+//                            Toast.makeText(getApplicationContext(), "로그인 실패", Toast.LENGTH_SHORT).show();
+//                        }
                     } else {
                         Toast.makeText(getApplicationContext(), "정보를 제대로 입력하세요!", Toast.LENGTH_SHORT).show();
                     }
