@@ -40,8 +40,7 @@ import java.util.ArrayList;
 public class DataPostThread extends AsyncTask<ArrayList<BasicNameValuePair>, Integer, Integer> {
     private Context context;
     private ProgressDialog progress;
-    private String id, password, push_id;
-    private AQuery aq;
+    private String id, password, push_id, tag;
 
     @Override
     protected Integer doInBackground(ArrayList<BasicNameValuePair>... params) {
@@ -51,6 +50,9 @@ public class DataPostThread extends AsyncTask<ArrayList<BasicNameValuePair>, Int
         String urlString = "http://52.79.147.144/mobile/user";
 
         Log.i("PostParams", String.valueOf(params[0]));
+
+        tag = params[0].get(0).getName();
+
         if (params[0].get(0).getName().equals("login"))
             urlString = "http://52.79.147.144/mobile/user";
         else if (params[0].get(0).getName().equals("channel"))
@@ -64,6 +66,11 @@ public class DataPostThread extends AsyncTask<ArrayList<BasicNameValuePair>, Int
             for (int i = 1; i < params[0].size(); i++) {
                 Log.i("DataPostThread getName", params[0].get(i).getName());
                 Log.i("DataPostThread getValue", "" + params[0].get(i).getValue());
+                if (params[0].get(i).getName().equals("id"))
+                    id = params[0].get(i).getValue();
+                else if (params[0].get(i).getName().equals("password"))
+                    password = params[0].get(i).getValue();
+
                 nameValuePairs.add(new BasicNameValuePair(params[0].get(i).getName(), params[0].get(i).getValue()));
             }
 
@@ -99,7 +106,6 @@ public class DataPostThread extends AsyncTask<ArrayList<BasicNameValuePair>, Int
     public DataPostThread(Context context) {
         super();
         this.context = context;
-        aq = new AQuery(context);
     }
 
     @Override
@@ -124,23 +130,25 @@ public class DataPostThread extends AsyncTask<ArrayList<BasicNameValuePair>, Int
     protected void onPostExecute(Integer s) {
         super.onPostExecute(s);
 
-        EditText idEdit = (EditText) ((Activity) context).findViewById(R.id.login_id_edit);
-        EditText passwordEdit = (EditText) ((Activity) context).findViewById(R.id.login_password_edit);
+//        EditText idEdit = (EditText) ((Activity) context).findViewById(R.id.login_id_edit);
+//        EditText passwordEdit = (EditText) ((Activity) context).findViewById(R.id.login_password_edit);
+//
+//        id = idEdit.getText().toString();
+//        password = passwordEdit.getText().toString();
 
-        id = idEdit.getText().toString();
-        password = passwordEdit.getText().toString();
+        if (tag.equals("login")) {
+            Log.i("PostID", "" + id);
+            Log.i("PostPassword", "" + password);
 
-        Log.i("PostID", id);
-        Log.i("PostPassword", password);
-
-        if (s == Constant.LOGIN_FAILED || s == Constant.LOGIN_ERROR) {
-            Toast.makeText(context, "정보를 제대로 입력하세요!", Toast.LENGTH_SHORT).show();
-            return;
-        } else if (s == Constant.LOGIN_SUCCESS) {
-            push_id = RegistrationIntentService.getGCMToken();
-            AutoLogin.loginDataWrite(id, password, push_id);
-            context.startActivity(new Intent(context, MainActivity.class));
-            ((Activity) context).finish();
+            if (s == Constant.LOGIN_FAILED || s == Constant.LOGIN_ERROR) {
+                Toast.makeText(context, "정보를 제대로 입력하세요!", Toast.LENGTH_SHORT).show();
+                return;
+            } else if (s == Constant.LOGIN_SUCCESS) {
+                push_id = RegistrationIntentService.getGCMToken();
+                AutoLogin.loginDataWrite(id, password, push_id);
+                context.startActivity(new Intent(context, MainActivity.class));
+                ((Activity) context).finish();
+            }
         }
 
         progress.dismiss();
