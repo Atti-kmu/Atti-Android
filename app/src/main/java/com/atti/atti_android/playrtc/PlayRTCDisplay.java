@@ -17,6 +17,7 @@ import android.widget.TextView;
 import com.atti.atti_android.R;
 import com.atti.atti_android.data.DataPostThread;
 import com.atti.atti_android.data.UsersDataManager;
+import com.beardedhen.androidbootstrap.BootstrapButton;
 import com.sktelecom.playrtc.PlayRTC;
 import com.sktelecom.playrtc.PlayRTCFactory;
 import com.sktelecom.playrtc.config.PlayRTCConfig;
@@ -205,7 +206,7 @@ public class PlayRTCDisplay extends Activity {
 //        });
 
         // Add a exit channel event listener.
-        Button exitButton = (Button) findViewById(R.id.exit_button);
+        BootstrapButton exitButton = (BootstrapButton) findViewById(R.id.exit_button);
         exitButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 UsersDataManager.connection = false;
@@ -311,7 +312,7 @@ public class PlayRTCDisplay extends Activity {
             RelativeLayout.LayoutParams param = new RelativeLayout.LayoutParams(myVideoSize.x, myVideoSize.y);
             param.addRule(RelativeLayout.ALIGN_PARENT_RIGHT);
             param.addRule(RelativeLayout.ALIGN_PARENT_TOP);
-            param.setMargins(30, 100, 30, 30);
+            param.setMargins(30, 120, 30, 30);
 
             // Create the localViews.
             localView = new PlayRTCVideoView(parentVideoViewGroup.getContext(), myVideoSize);

@@ -72,9 +72,6 @@
                 android:text="@string/join_title"
                 app:bootstrapBrand="success"
                 app:bootstrapSize="xl" />
-
-
         </LinearLayout>
-
     </LinearLayout>
 </RelativeLayout>
