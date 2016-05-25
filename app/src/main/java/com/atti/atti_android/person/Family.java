@@ -12,7 +12,7 @@ public class Family extends CommonPerson {
         super(name);
     }
 
-    public Family(String name, String profileImg) {
-        super(name, profileImg);
+    public Family(String id, String name, String profileImg) {
+        super(id, name, profileImg);
     }
 }

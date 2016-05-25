@@ -12,7 +12,7 @@ public class ElderlyPerson extends CommonPerson {
         super(name);
     }
 
-    public ElderlyPerson(String name, String profileImg) {
-        super(name, profileImg);
+    public ElderlyPerson(String id, String name, String profileImg) {
+        super(id, name, profileImg);
     }
 }

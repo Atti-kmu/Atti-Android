@@ -109,7 +109,7 @@ public class PlayRTCDisplay extends Activity {
                 // Fill the channelId to the channel_id TextView.
                 ArrayList<BasicNameValuePair> channel = new ArrayList<BasicNameValuePair>();
                 channel.add(new BasicNameValuePair("channel", "channel"));
-                channel.add(new BasicNameValuePair("receiver", getSharedPreferences("login", Activity.MODE_PRIVATE).getString("id", "")));
+                channel.add(new BasicNameValuePair("receiver", getIntent().getStringExtra("connectID")));
                 channel.add(new BasicNameValuePair("channel", channelId));
                 new DataPostThread(PlayRTCDisplay.this).execute(channel);
             }

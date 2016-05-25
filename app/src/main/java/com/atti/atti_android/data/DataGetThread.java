@@ -220,13 +220,14 @@ public class DataGetThread {
 
                     String name = jObject.getString("name");
                     String img = jObject.getString("profile_name");
+                    String id = jObject.getString("id");
 
                     if (keyword.equals("family"))
-                        UsersDataManager.getUsersInstance().addData(new Family(name, imgUrl + img));
+                        UsersDataManager.getUsersInstance().addData(new Family(id, name, imgUrl + img));
                     else if (keyword.equals("friends"))
-                        UsersDataManager.getUsersInstance().addData(new ElderlyPerson(name, imgUrl + img));
+                        UsersDataManager.getUsersInstance().addData(new ElderlyPerson(id, name, imgUrl + img));
                     else if (keyword.equals("friendship"))
-                        UsersDataManager.getUsersInstance().addData(new SocialWorker(name, imgUrl + img));
+                        UsersDataManager.getUsersInstance().addData(new SocialWorker(id, name, imgUrl + img));
                 }
             } catch (Exception e) {
                 ;

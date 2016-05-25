@@ -41,6 +41,7 @@ public class ElderlyList extends Fragment {
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
             Intent playRTC = new Intent(getActivity(), PlayRTCDisplay.class);
             playRTC.putExtra("connect", 0);
+            playRTC.putExtra("connectID", UsersDataManager.getUsersInstance().getElderly().get(position).getId());
             startActivity(playRTC);
         }
     };
