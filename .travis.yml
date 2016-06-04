@@ -7,14 +7,26 @@ android:
     # use the latest revision of Android SDK Tools
 
     # The BuildTools version used by your project
-    - build-tools-23.0.2
+    - build-tools-23.0.1
+    
+    # Library
+    # - com.android.support:support-annotations:23.2.0
+    # - com.android.support:support-v4:23.2.0
+    # - com.google.android.gms:play-services-gcm:8.3.0
+    # - com.android.support:appcompat-v7:19.1.0
 
     # The SDK version used to compile your project
     - android-19
+    - android-23
 
-    # Specify at least one system image,
-    # if you need to run emulator(s) during your tests
-    - sys-img-armeabi-v7a-android-19
+env:
+  - GRADLE_HOME=gradle-2.12/bin
+
+before_script:
+  - sudo add-apt-repository ppa:cwchien/gradle -y
+  - sudo apt-get update -y
+  - sudo apt-get install gradle -y
+  - sudo gradle -version
 
 script:
-  - android list target
+  - sudo gradle build

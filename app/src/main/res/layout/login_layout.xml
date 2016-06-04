@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/login_main_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/background_white"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:orientation="vertical"
+        android:padding="10dp">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_gravity="center"
+            android:layout_marginBottom="100px"
+            android:src="@drawable/app_icon_background_false" />
+
+        <LinearLayout
+            android:id="@+id/login_from"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <com.beardedhen.androidbootstrap.BootstrapEditText
+                android:id="@+id/login_id_edit"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:hint="@string/id_hint"
+                android:padding="10dp"
+                android:textColorHint="#bbbbbb"
+                app:bootstrapBrand="info"
+                app:bootstrapSize="xl" />
+
+
+            <com.beardedhen.androidbootstrap.BootstrapEditText
+                android:id="@+id/login_password_edit"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="-2dp"
+                android:gravity="center"
+                android:hint="@string/password_hint"
+                android:inputType="textPassword"
+                android:padding="10dp"
+                android:textColorHint="#bbbbbb"
+                app:bootstrapBrand="info"
+                app:bootstrapSize="xl" />
+
+            <com.beardedhen.androidbootstrap.BootstrapButton
+                android:id="@+id/login_submit"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="4dp"
+                android:padding="10dp"
+                android:text="@string/login_string"
+                app:bootstrapBrand="primary"
+                app:bootstrapSize="xl" />
+
+            <com.beardedhen.androidbootstrap.BootstrapButton
+                android:id="@+id/login_join_button"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="4dp"
+                android:padding="10dp"
+                android:text="@string/join_title"
+                app:bootstrapBrand="success"
+                app:bootstrapSize="xl" />
+        </LinearLayout>
+    </LinearLayout>
+</RelativeLayout>
