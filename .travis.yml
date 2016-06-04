@@ -17,6 +17,7 @@ android:
 
     # The SDK version used to compile your project
     - android-19
+    - android-23
 
 env:
   - GRADLE_HOME=gradle-2.12/bin
