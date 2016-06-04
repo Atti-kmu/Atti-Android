@@ -25,9 +25,9 @@ dependencies {
     testCompile 'junit:junit:4.12'
     compile files('libs/libjingle_peerconnection.r9720.3.jar')
     compile files('libs/sktplayrtc-client.2.2.4.jar')
+    compile project(':AndroidBootstrap')
     compile 'com.googlecode.android-query:android-query:+'
     compile 'com.android.support:appcompat-v7:19.1.0'
     compile 'com.google.android.gms:play-services-gcm:8.3.0'
-    compile 'com.beardedhen:androidbootstrap:+'
     compile 'com.jakewharton:butterknife:7.0.1'
 }
